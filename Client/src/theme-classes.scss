@@ -1,0 +1,130 @@
+@import '~@angular/material/theming';
+
+// Contains classes used to apply theme based colors. All other style properties should
+// be applied within application style files:
+
+// [styles.scss]:  Contains styles common accross the application.  Assuming there is a
+// common application class named "area-action-menu",  a class would be specified below
+// within the theme-classes() mixin specifying any colors pertaining to the class.
+// Then if there are other style properties, such as boarder-width, padding, ... they
+// should be defined within the styles.scss using the same class name.
+
+// [*.component.scss]:  For component specififc application styles, the non-color based
+// style attributes can be specified within the component's scss file by defining a class
+// definition using the same name.
+
+// References:
+// https://stackoverflow.com/questions/49642098/angular-material-global-color-variables
+// https://medium.com/@aleixsuau/how-to-use-angular-material-2-sass-variables-in-your-components-76ce0203f126
+
+@mixin theme-classes($theme) {
+    // Extract the palettes you need from the theme definition.
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+
+    .portal-area-menu {
+      background-color: mat-color($accent, 200);
+    }
+
+    .portal-content {
+      background-color: mat-color($accent, 300);
+      border-color: mat-color($primary, 800);
+    }
+
+    .portal-area-table {
+      .mat-header-cell {
+        color: mat-color($primary, 800);
+      }
+    }
+
+    .portal-sidenav-container {
+      background-color: mat-color($primary, 800);
+    }
+
+    .portal-side-nav {
+      background-color: mat-color($accent, 200);
+      border-color: mat-color($primary, 800);
+
+      .nav-item {
+        color: mat-color($accent, 700);
+
+        &.selected-section {
+          color: mat-color($primary, 700);
+          background-color: mat-color($accent, 300);
+        }
+
+        &:hover {
+          color: mat-color($primary, 500);
+        }
+      }
+    }
+
+    // Define any styles affected by the theme and use mat-color to extract individual colors from a palette.
+    .portal-area-toolbar {
+      background-color: mat-color($accent, 300);
+      color: mat-color($primary, 700);
+
+      button {
+        color: mat-color($primary, 800);
+      }
+    }
+
+    .portal-content {
+      background-color: mat-color($accent, 100);
+    }
+
+    .portal-area-content {
+      background-color: mat-color($accent, 100);
+
+      .nav-link {
+        cursor: pointer;
+        &:hover {
+          color: mat-color($primary, 600)
+        }
+      }
+    }
+
+    .portal-area-listing {
+      dt {
+        color: mat-color($primary, 700);
+      }
+    }
+
+    .portal-area-message {
+      background-color: mat-color($primary, 50);
+    }
+
+    .dialog-title {
+      background-color: mat-color($primary, 800);
+    }
+
+    .portal-component {
+      border-color: mat-color($primary, 700);
+    }
+
+    .portal-value-grouping {
+
+      dt {
+        color: mat-color($primary, 700);
+      }
+    }
+
+    .portal-value-list {
+      background-color: mat-color($accent, 300);
+      border-color: mat-color($primary, 300);
+
+      dt {
+        color: #000000;
+        background-color: mat-color($primary, 300);
+      }
+    }
+
+    .portal-table {
+      mat-row {
+        mat-icon {
+          color: mat-color($primary, 800);
+        }
+      }
+    }
+  }
+

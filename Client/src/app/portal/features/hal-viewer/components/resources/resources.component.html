@@ -1,0 +1,68 @@
+<mat-toolbar class="portal-area-toolbar">
+    <mat-toolbar-row class="portal-toolbar-row">
+      <mat-form-field class="toolbar-form-input">
+        <mat-label>Connections</mat-label>
+        <mat-select (selectionChange)="onConnectionSelected($event.value)" [value]="application.selectedConnection">
+          <mat-option *ngFor="let connection of application.connections" [value]="connection">
+            {{connection.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="toolbar-form-input">
+        <mat-label>Root Resources</mat-label>
+        <mat-select (selectionChange)="onRootResourceSelected($event.value)" [value]="application.selectedRootResource">
+          <mat-option *ngFor="let rootResource of application.connectionRootResources" [value]="rootResource">
+            {{rootResource.resourceUrl}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <span class="toolbar-item-spacer"></span>
+
+      <a mat-raised-button color="primary"
+        [matBadge]="application.rootResourceErrorCount.toString()"
+        *ngIf="application.rootResourceErrorCount > 0"
+        (click)="onViewErrors()"
+        matBadgePosition="before" matBadgeColor="warn">
+        <span>Errors</span>
+        <mat-icon svgIcon="error_outline"></mat-icon>
+      </a>
+
+      <a mat-raised-button color="primary" [disabled]="isCloseDisabled" (click)="onCloseSelectedResource()">
+        <span>Close</span>
+        <mat-icon svgIcon="close"></mat-icon>
+     </a>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [disabled]="isCloseAllDisabled" (click)="onCloseAllResources()">
+          <mat-icon svgIcon="clear_all"></mat-icon>
+          <span>Close All...</span>
+        </button>
+      </mat-menu>
+
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="portal-area-message" *ngIf="application.selectedRootResource?.loadOnRestoreFailed">
+  <div>The selected resource could not longer be loaded.</div>
+  <div>{{application.selectedRootResource.loadOnRestoreMessage}}</div>
+</div>
+
+<div class="portal-area-content" fxLayout="row" *ngIf="application.selectedRootResource?.instance">
+  <div fxLayout="column" fxFlex>
+    <resource-view [resource]="application.selectedRootResource"
+                   (json-content)="setRequestContent($event)">
+    </resource-view>
+  </div>
+  <div fxLayout="column" fxFlex>
+    <link-selection [resource]="application.currentResource.instance"
+                    [content]="requestJsonBody"
+                    (linkPopulating)="onLinkPopulating($event)"
+                    (linkSelected)="onLinkSelected($event)">
+    </link-selection>
+  </div>
+</div>

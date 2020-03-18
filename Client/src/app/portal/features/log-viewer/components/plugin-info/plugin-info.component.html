@@ -1,0 +1,84 @@
+<dl class="portal-value-grouping">
+  <dt>Plugin Metadata</dt>
+  <dd>
+    <dl class="portal-value-list">
+      <dt>Plugin Name</dt>
+      <dd>{{plugin.PluginName}}</dd>
+      <dt>Plugin Id</dt>
+      <dd>{{plugin.PluginId}}</dd>
+      <dt>Description</dt>
+      <dd>{{plugin.PluginDescription}}</dd>
+      <dt>Assembly</dt>
+      <dd>{{plugin.PluginAssembly}}</dd>
+      <dt>Documentation</dt>
+      <dd>
+        <a *ngIf="plugin.PluginDocUrl; else naDoc" target="_blank" [href]="plugin.PluginDocUrl">
+          {{plugin.PluginDocUrl}}
+        </a>
+
+        <ng-template #naDoc>N/A</ng-template>
+      </dd>
+      <dt>Source</dt>
+      <dd>
+        <a *ngIf="plugin.PluginSourceUrl; else naSrc" target="_blank" [href]="plugin.PluginSourceUrl">
+          {{plugin.PluginSourceUrl}}
+        </a>
+        <ng-template #naSrc>N/A</ng-template>
+      </dd>
+    </dl>
+  </dd>
+
+  <dt>Plugin Modules</dt>
+  <dd>
+    <div>
+      <mat-form-field *ngIf="plugin.ModuleDetails?.length; else noModules">
+        <mat-label>Plugin Module</mat-label>
+        <mat-select [(value)]="selectedPluginModule">
+          <mat-option *ngFor="let module of plugin.ModuleDetails" [value]="module">
+            {{module.ModuleName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-template #noModules>
+        Plugin does not have any defined modules.
+      </ng-template>
+
+      <json-viewer [json]="selectedPluginModule"></json-viewer>
+    </div>
+  </dd>
+
+  <dt>Plugin Registered Services</dt>
+  <dd>
+    <table style="width: 100%" mat-table [dataSource]="plugin.ServiceRegistrations"
+           *ngIf="plugin.ServiceRegistrations?.length; else noServices" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="serviceType">
+        <th mat-header-cell *matHeaderCellDef> Service Type </th>
+        <td mat-cell *matCellDef="let service"> {{service.serviceType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="implementationType">
+        <th mat-header-cell *matHeaderCellDef> Implementation Type </th>
+        <td mat-cell *matCellDef="let service"> {{service.implementationType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lifeTime">
+        <th mat-header-cell *matHeaderCellDef> Lifetime </th>
+        <td mat-cell *matCellDef="let service"> {{service.lifeTime}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="serviceColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: serviceColumns;"></tr>
+    </table>
+
+    <ng-template #noServices>
+      Plugin does not have registered services.
+    </ng-template>
+  </dd>
+</dl>
+
+
+
+
+

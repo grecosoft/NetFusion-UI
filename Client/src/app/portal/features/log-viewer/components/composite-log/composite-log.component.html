@@ -1,0 +1,64 @@
+<mat-toolbar class="portal-area-toolbar">
+  <mat-toolbar-row>
+    Microservice Composite Log
+
+    <span class="toolbar-item-spacer"></span>
+
+    <mat-form-field class="toolbar-form-input">
+      <mat-label>Connections</mat-label>
+      <mat-select (selectionChange)="application.loadCompositeLog($event.value)" [value]="application.selectedConnection">
+        <mat-option *ngFor="let connection of application.connections" [value]="connection">
+          {{connection.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-tab-group *ngIf="application.hostPlugin">
+  <mat-tab label="Host Plugin">
+    <div class="portal-area-content">
+      <plugin-info [plugin]="application.hostPlugin"></plugin-info>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Application Plugins">
+    <div class="portal-area-content">
+      <mat-form-field>
+        <mat-label>Application Plugin</mat-label>
+        <mat-select [(value)]="selectedAppPlugin">
+          <mat-option *ngFor="let plugin of application.applicationPlugins" [value]="plugin">
+            {{plugin.PluginName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <plugin-info *ngIf="selectedAppPlugin" [plugin]="selectedAppPlugin"></plugin-info>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Core Plugins">
+    <div class="portal-area-content">
+      <mat-form-field>
+        <mat-label>Core Plugin</mat-label>
+        <mat-select [(value)]="selectedCorePlugin">
+          <mat-option *ngFor="let plugin of application.corePlugins" [value]="plugin">
+            {{plugin.PluginName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <plugin-info *ngIf="selectedCorePlugin" [plugin]="selectedCorePlugin"></plugin-info>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+<mat-toolbar class="portal-area-toolbar">
+    <mat-toolbar-row class="portal-toolbar-row">
+
+      <span>{{resourceCaption}}</span>
+      <span class="toolbar-item-spacer"></span>
+
+      <a mat-raised-button color="primary" (click)="onClearErrors()">
+        <span>Clear</span>
+        <mat-icon svgIcon="close"></mat-icon>
+      </a>
+
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="portal-area-content" fxLayout="row">
+  <mat-accordion fxFlex="">
+    <mat-expansion-panel *ngFor="let error of responseErrors">
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayout="row">
+          <div style="width: 100px">{{error.time | date:'mediumTime'}}</div>
+          <div style="width: 75px">{{error.httpError.status}}</div>
+          <div style="width: 100px">{{error.httpError.statusText}}</div>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{error.httpError.url}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <json-viewer *ngIf="error.httpError.error" [json]="error.httpError.error"></json-viewer>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

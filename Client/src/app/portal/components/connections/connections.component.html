@@ -1,0 +1,105 @@
+<mat-toolbar class="portal-area-toolbar">
+    <mat-toolbar-row>
+        <button mat-raised-button (click)="addConnection()" [disabled]="isEditingConnection" >
+            <mat-icon svgIcon="add_box"></mat-icon>
+            New
+        </button>
+        <button mat-raised-button (click)="testConnections()"[disabled]="isTestDisabled">
+            <mat-icon svgIcon="check_box"></mat-icon>
+            Test
+        </button>
+      </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="portal-area-content">
+    <div class="area-comment" *ngIf="showNoConnections">
+        You currently don't have any saved connections.
+        Please enter your first REST service connection.
+    </div>
+
+    <div class="connection-entry" *ngIf="isEditingConnection">
+        <form [formGroup]="connectionEntry" novalidate autocomplete="off">
+            <div fxLayout="row" *ngIf="isEditingConnection">
+                <div fxLayout="column" fxFill>
+                    <mat-form-field class="example-full-width">
+                        <input type="text" formControlName="name" matInput placeholder="API Name">
+                        <mat-error *ngIf="isInputInvalid('name')">
+                            Required and between 5 and 20 characters.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <input type="text" formControlName="address" matInput placeholder="API Address">
+                        <mat-error *ngIf="isInputInvalid('address')">
+                            Required and between 5 and 50 characters.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <input type="text" formControlName="entryPath" matInput placeholder="API Entry Path">
+                        <mat-error *ngIf="isInputInvalid('entryPath')">
+                            Required and between 5 and 50 characters.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" formControlName="logPath" matInput placeholder="API Log Path">
+                      <mat-error *ngIf="isInputInvalid('logPath')">
+                        Required and between 5 and 50 characters.
+                      </mat-error>
+                    </mat-form-field>
+                    <div>
+                      <mat-icon style="color: green;" svgIcon="check_circle" *ngIf="existingConnection?.succeeded === true"></mat-icon>
+                      <mat-icon style="color: red;" svgIcon="remove_circle" *ngIf="existingConnection?.succeeded === false"></mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div class="button-actions" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button color="primary" *ngIf="isEditingConnection"
+                    [disabled]="!connectionEntry.valid || !connectionEntry.dirty" (click)="saveConnection()">Save</button>
+                <button mat-raised-button color="warn" *ngIf="displayCancel" (click)="cancelEdit()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="connection-listing portal-table" *ngIf="showConnectionListing">
+        <mat-table class="connection-table" #table [dataSource]="connections">
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Connection Name</mat-header-cell>
+                <mat-cell *matCellDef="let conn">
+                    <a class="nav-link" (click)="navigateToEntry(conn)">{{conn.name}}</a>
+                 </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+                <mat-header-cell *matHeaderCellDef>HAL Entry Address</mat-header-cell>
+                <mat-cell *matCellDef="let conn"> {{conn.address}}/{{conn.entryPath}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let conn">
+                    <button mat-icon-button (click)="editConnection(conn)" >
+                        <mat-icon svgIcon="edit"></mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteConnection(conn)" >
+                        <mat-icon svgIcon="delete_forever"></mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let conn">
+                    <span *ngIf="conn.succeeded == null">-</span>
+                    <mat-icon style="color: green;" svgIcon="check_circle" *ngIf="conn.succeeded === true"></mat-icon>
+                    <mat-icon style="color: red;" svgIcon="remove_circle" *ngIf="conn.succeeded === false"></mat-icon>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="connectionColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: connectionColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>
+

@@ -1,0 +1,43 @@
+
+<div class="resource-view portal-component" fxLayout="column" fxFlex>
+
+  <div fxLayout="row">
+    <span fxFlex>{{resource.resourceUrl}}</span>
+    <mat-icon (click)="setAsContent(resource.instance)" class="icon-button"
+              *ngIf="resource.useJsonAsContentEnabled"
+              matTooltip="Set Resource as Request Body"
+              svgIcon="code"></mat-icon>
+
+    <mat-icon (click)="setAsCurrent()" class="icon-button"
+              *ngIf="isSetAsCurrentEnabled()"
+              matTooltip="Set as Current Resource"
+              svgIcon="menu_open"></mat-icon>
+  </div>
+
+  <div fxLayout="row">
+    <mat-form-field *ngIf="embeddedItems.length > 0">
+      <mat-label>Embedded</mat-label>
+      <mat-select [(ngModel)]="selectedEmbeddedItem" (selectionChange)="onEmbeddedItemSelected($event.value)">
+        <mat-option *ngFor="let item of embeddedItems" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="embeddedCollItems.length > 0">
+      <mat-label>Collection Item</mat-label>
+      <mat-select [(ngModel)]="selectedEmbeddedCollItem" (selectionChange)="onEmbeddedCollItemSelected($event.value)">
+        <mat-option *ngFor="let item of embeddedCollItems" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <json-viewer *ngIf="resource" [json]="resource.instance.model" fxLayout="row"></json-viewer>
+
+  <ng-container *ngIf="resource">
+    <resource-view *ngFor="let loadedChild of resource.childrenResources" fxLayout="row" fxFlex
+      [resource]="loadedChild" (json-content)="setAsContent(loadedChild.instance)"></resource-view>
+  </ng-container>
+</div>

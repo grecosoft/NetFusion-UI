@@ -1,0 +1,60 @@
+<div class="portal-container" [class.portal-is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="portal-toolbar" color="primary">
+    <mat-toolbar-row class="portal-toolbar-row">
+      <button mat-icon-button>
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      </button>
+
+      <span class="portal-name">NetFusion</span>
+      <span class="portal-logo"></span>
+
+      <span class="toolbar-item-spacer"></span>
+
+      <div class="selected-area-icon" *ngIf="selectedArea">
+        <mat-icon svgIcon="{{selectedArea.areaIcon}}"></mat-icon>
+        <span> {{selectedArea.areaName}}</span>
+      </div>
+
+      <button class="portal-area-selection" mat-icon-button
+        matTooltip="Select Application Area"
+        [matTooltipPosition]="'below'">
+        <mat-icon svgIcon="apps" [matMenuTriggerFor]="menu"></mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" class="portal-area-menu">
+        <button mat-menu-item *ngFor="let area of PortalAreas"
+          (click)="selectArea(area)">
+          <mat-icon svgIcon="{{area.areaIcon}}"></mat-icon>
+          <span>{{area.areaName}}</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="portal-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav class="portal-side-nav" #sidenav
+                 opened = "true"
+                 [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+
+      <div *ngIf="selectedArea">
+          <div class="nav-item" *ngFor="let section of selectedArea.sections"
+               (click)="selectSection(section)"
+               [ngClass]="isActiveSection(section) ? 'selected-section' : ''" >
+
+            <mat-icon svgIcon="{{section.icon}}"></mat-icon>
+            <span class="nav-item-text">{{section.title}}</span>
+
+            <mat-divider *ngIf="!isActiveSection(section)"></mat-divider>
+          </div>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="portal-content">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+
+

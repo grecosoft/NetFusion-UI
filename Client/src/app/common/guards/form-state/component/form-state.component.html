@@ -1,0 +1,11 @@
+<div class="dialog-title" mat-dialog-title color>
+  <mat-icon svgIcon="question_answer"></mat-icon>
+  <span class="caption-text">Changes Made</span>
+</div>
+<div mat-dialog-content>
+  <p>{{data.message}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-raised-button color="warn" (click)="onContinueNavigation()">{{data.continueBtnValue}}</button>
+  <button mat-button mat-raised-button color="accent" (click)="onCancelNavigation()" cdkFocusInitial>{{data.cancelBtnValue}}</button>
+</div>

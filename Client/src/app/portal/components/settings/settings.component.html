@@ -1,0 +1,23 @@
+<mat-toolbar class="portal-area-toolbar">
+  <mat-toolbar-row>
+    <span>Settings</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="portal-area-content">
+  <dl class="portal-value-grouping">
+    <dt>Themes</dt>
+    <dd>
+      <mat-button-toggle-group name="portalTheme" aria-label="Theme"
+                               [(value)]="selectedThemeClassName"
+                               (change)="onThemeSelected($event)">
+        <mat-button-toggle class="theme-indicator teal-theme-indicator" value="teal-app-theme">Teal</mat-button-toggle>
+        <mat-button-toggle class="theme-indicator blue-theme-indicator" value="blue-app-theme">Blue</mat-button-toggle>
+        <mat-button-toggle class="theme-indicator green-theme-indicator" class="theme-indicator green-theme-indicator" value="green-app-theme">Green</mat-button-toggle>
+        <mat-button-toggle class="theme-indicator orange-theme-indicator" value="orange-app-theme">Orange</mat-button-toggle>
+      </mat-button-toggle-group>
+    </dd>
+  </dl>
+</div>
+
+

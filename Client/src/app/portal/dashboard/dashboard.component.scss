@@ -1,0 +1,95 @@
+.portal-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .portal-toolbar {
+    .portal-toolbar-row {
+      padding-left: 8px;
+      padding-right: 8px;
+
+      .portal-name {
+        padding-right: 10px;
+      }
+
+      .portal-logo {
+        content:url('src/assets/icons/logo/favicon-32x32.png')
+      }
+
+      .toolbar-item-spacer {
+        flex: 1 1 auto;
+      }
+
+      .selected-area-icon {
+        margin-right: 18px;
+      }
+
+      .portal-settings {
+        margin-left: 40px;
+      }
+    }
+  }
+
+  .portal-sidenav-container {
+    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+
+    .portal-side-nav {
+      width: 220px;
+      padding: 10px;
+      border-width: 4px;
+      border-style: solid;
+      border-right-width: 2px;
+      border-radius: 10px;
+      height: 99%;
+
+        .nav-item {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          padding-top: 10px;
+          padding-left: 10px;
+
+          &.selected-section {
+            border-radius: 5px;
+          }
+
+          .nav-item-text {
+            font: 400 15px/32px Roboto, "Helvetica Neue", sans-serif;
+            position: relative;
+            top: -5px;
+            margin-left: 10px;
+          }
+        }
+    }
+  }
+
+  .portal-content {
+    border-radius: 10px;
+    border-width: 4px;
+    border-style: solid;
+    height: 98%;
+  }
+}
+
+
+::ng-deep .mat-drawer-backdrop.mat-drawer-shown  {
+  background-color: unset
+}
+
+.portal-is-mobile .portal-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+.portal-is-mobile .portal-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}

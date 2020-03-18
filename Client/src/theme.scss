@@ -1,0 +1,93 @@
+@import '~@angular/material/theming';
+@import './theme-classes.scss';
+
+// References:
+// https://material.io/design/color/the-color-system.html#tools-for-picking-colors
+// https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+// Green Theme:
+// ---------------------------------------------------------------
+$green-app-primary: mat-palette($mat-green, 800, 700, 900);
+$green-app-accent:  mat-palette($mat-gray, 300, 100, 600);
+
+// The warn palette is optional (defaults to red).
+$green-app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$green-app-theme: mat-light-theme($green-app-primary, $green-app-accent, $green-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+
+.green-app-theme {
+    @include angular-material-theme($green-app-theme);
+
+    // The following mixin adds class selector based styles containing
+    // colors based on the application's current.
+    @include theme-classes($green-app-theme);
+}
+
+.green-theme-indicator {
+  border-bottom-color: mat-color($green-app-primary, 800);
+}
+
+// Blue Theme:
+// ---------------------------------------------------------------
+$blue-app-primary: mat-palette($mat-blue, 800, 700, 900);
+$blue-app-accent:  mat-palette($mat-gray, 300, 100, 600);
+$blue-app-warn: mat-palette($mat-red);
+
+$blue-app-theme: mat-light-theme($blue-app-primary, $blue-app-accent, $blue-app-warn);
+
+.blue-app-theme {
+    @include angular-material-theme($blue-app-theme);
+    @include theme-classes($blue-app-theme);
+}
+
+.blue-theme-indicator {
+  border-bottom-color: mat-color($blue-app-primary, 800);
+}
+
+// Teal Theme:
+// ---------------------------------------------------------------
+$teal-app-primary: mat-palette($mat-teal, 800, 700, 900);
+$teal-app-accent:  mat-palette($mat-gray, 300, 100, 600);
+$teal-app-warn: mat-palette($mat-red);
+
+$teal-app-theme: mat-light-theme($teal-app-primary, $teal-app-accent, $teal-app-warn);
+
+.teal-app-theme {
+    @include angular-material-theme($teal-app-theme);
+    @include theme-classes($teal-app-theme);
+}
+
+.teal-theme-indicator {
+  border-bottom-color: mat-color($teal-app-primary, 800);
+}
+
+// Orange Theme:
+// ---------------------------------------------------------------
+$orange-app-primary: mat-palette($mat-orange, 800, 700, 900);
+$orange-app-accent:  mat-palette($mat-gray, 300, 100, 600);
+$orange-app-warn: mat-palette($mat-red);
+
+$orange-app-theme: mat-light-theme($orange-app-primary, $orange-app-accent, $orange-app-warn);
+
+.orange-app-theme {
+  @include angular-material-theme($orange-app-theme);
+  @include theme-classes($orange-app-theme);
+}
+
+.orange-theme-indicator {
+  border-bottom-color: mat-color($orange-app-primary, 800);
+}

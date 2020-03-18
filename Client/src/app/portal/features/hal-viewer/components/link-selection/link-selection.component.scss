@@ -1,0 +1,49 @@
+[name='param-entry'] {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+[name='param-entry'] button[name='execute'] {
+  margin-top: 8px;
+}
+
+[name='body-content'] {
+  textarea {
+      width: 745px;
+      height: 200px;
+  }
+}
+
+.portal-area-table {
+  width: 100%;
+
+  .mat-cell {
+    font-size: 11px;
+    button {
+      line-height: 18px;
+    }
+  }
+
+  .mat-row {
+    min-height: 25px;
+  }
+}
+
+.resource-links {
+  .column-relname {
+    font-weight: bold;
+  }
+
+  .mat-header-cell:first-child,.mat-cell:first-child{
+      flex:20%;
+      padding-right: 5px;
+    }
+    .mat-header-cell:nth-child(2),.mat-cell:nth-child(2){
+      flex:100px;
+      padding-right: 5px;
+    }
+    .mat-header-cell:nth-child(3),.mat-cell:nth-child(3){
+      flex:80%;
+      padding-right: 5px;
+    }
+}
