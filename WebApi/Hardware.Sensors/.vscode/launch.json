@@ -1,0 +1,64 @@
+{
+   // Use IntelliSense to find out which attributes exist for C# debugging
+   // Use hover for the description of the existing attributes
+   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+   "version": "0.2.0",
+   "configurations": [
+        {
+            "name": "Launch: Hardware.Sensors",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build:Hardware.Sensors",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/Hardware.Sensors.WebApi/bin/Debug/netcoreapp2.2/Hardware.Sensors.WebApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Hardware.Sensors.WebApi",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": false,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS" : "http://localhost:6400"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Docker: Hardware.Sensors",
+            "type": "coreclr",
+            "request": "launch",                   
+            "preLaunchTask": "buildForDebug",      
+            "program": "/build/src/Hardware.Sensors.WebApi/out/Hardware.Sensors.WebApi.dll",         
+            "cwd": "/build/src/Hardware.Sensors.WebApi/out",                     
+            "sourceFileMap": {
+                "/build/src": "${workspaceRoot}/src"     
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "pipeTransport": {
+                "pipeProgram": "docker",           
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "exec -i docker.dotnet.debug_1" 
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "/vsdbg/vsdbg"    
+            }
+         }
+    ]
+}

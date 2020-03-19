@@ -1,0 +1,6 @@
+version: '3'
+services:
+  sensor-api:
+    build: .
+    ports:
+      - "6400:80"

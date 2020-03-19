@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NetFusion.Common" Version="9.9.21" />
+    <PackageReference Include="NetFusion.Base" Version="9.9.21" />
+    <PackageReference Include="NetFusion.Bootstrap" Version="9.9.21" />
+    <PackageReference Include="NetFusion.Settings" Version="9.9.21" />
+    <PackageReference Include="NetFusion.Messaging.Types" Version="9.9.21" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Commands\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Management\" />
+    <Folder Include="Management\Entities\" />
+  </ItemGroup>
+</Project>
