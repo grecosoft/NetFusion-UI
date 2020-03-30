@@ -1,4 +1,5 @@
-﻿using Hardware.Sensors.WebApi.Models.EntryPoint;
+﻿using System.Threading.Tasks;
+using Hardware.Sensors.WebApi.Models.EntryPoint;
 using Microsoft.AspNetCore.Mvc;
 using NetFusion.Rest.Resources;
 using NetFusion.Rest.Resources.Hal;
@@ -34,7 +35,7 @@ namespace Hardware.Sensors.WebApi.Controllers
                 Map<EntryPointModel>()
                     .LinkMeta<SensorController>(meta =>
                     {
-                        meta.UrlTemplate<string, IActionResult>("sensor", c => c.GetSensor);
+                        meta.UrlTemplate<string, Task<IActionResult>>("sensor", c => c.GetSensor);
                     });
             }
         }

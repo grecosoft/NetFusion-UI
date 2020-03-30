@@ -9,6 +9,14 @@ export class ApiConnection {
     public entryPath: string;
     public logPath: string;
     public succeeded?: boolean;
+
+    public static AppendAddressToPath(connection: ApiConnection, path: string) {
+      if (connection.address.endsWith('/') || path.startsWith('/')) {
+        return `${connection.address}${path}`;
+      }
+
+      return `${connection.address}/${path}`;
+    }
 }
 
 export class ConnectionDeletedEvent extends EventBase {

@@ -10,6 +10,7 @@ import {LogApplication} from './services/LogApplication';
 import {LogService} from './services/LogService';
 import {PluginInfoComponent} from './components/plugin-info/plugin-info.component';
 import {MessageLogComponent} from './components/message-log/message-log.component';
+import {MessageLogService} from './services/MessageLogService';
 
 const areaRoutes: Routes = [
     { path: 'composite-log', component: CompositeLogComponent },
@@ -31,7 +32,8 @@ const areaRoutes: Routes = [
     ],
     providers: [
       LogApplication,
-      LogService
+      LogService,
+      MessageLogService
     ]
 })
 export class LogViewerModule {
