@@ -1,5 +1,17 @@
 import {ApiConnection} from '../../../../types/connection-types';
 
 export class MessageLog {
-  receivedOnConnection: ApiConnection;
+  // Header Properties:
+  correlationId: string;
+  dateOccurred: Date;
+  dateLogged: Date;
+  context: string;
+  messageType: string;
+  connectionName: string;
+  hint: string;
+
+  // Detail Properties:
+  message: any;
+  details: string[];
+  errors: string[];
 }

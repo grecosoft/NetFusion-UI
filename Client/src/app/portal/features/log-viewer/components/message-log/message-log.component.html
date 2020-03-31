@@ -3,3 +3,34 @@
     CQRS Message Log
   </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="portal-area-content" fxLayout="row">
+  <mat-accordion fxFlex="">
+    <mat-expansion-panel *ngFor="let log of application.selectedConnectionLogs">
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayout="row">
+          <div style="width: 50px"><mat-icon [svgIcon]="log.hint"></mat-icon></div>
+          <div style="width: 100px">{{log.dateOccurred | date:'mediumTime'}}</div>
+          <div style="width: 100px">{{log.connectionName}}</div>
+          <div style="width: 150px">{{log.context}}</div>
+        </mat-panel-title>
+        <mat-panel-description fxLayout="column">
+            <span> {{log.correlationId}} </span>
+            <span> {{log.messageType}} </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div style="border-top: 1px solid black; padding-bottom: 4px">
+        <div *ngFor="let detail of log.details" style="font-size: 12px">
+          {{detail}}
+        </div>
+        <div *ngFor="let error of log.errors" style="font-size: 12px">
+          {{error}}
+        </div>
+      </div>
+
+      <json-viewer [json]="log.message"></json-viewer>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

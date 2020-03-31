@@ -40,7 +40,8 @@ export class SharedIconModule {
               'message',
               'layers',
               'play_for_work',
-              'network_check'
+              'network_check',
+              'in-process'
             ]);
     }
 

@@ -1,14 +1,13 @@
 import * as signalR from '@microsoft/signalr';
-import {Observable, Subject} from 'rxjs';
 import {MessageLog} from '../types/message-log-types';
 import {ApiConnection} from '../../../../types/connection-types';
 import {ConnectionService} from '../../../../services/ConnectionService';
 import {Injectable} from '@angular/core';
+import * as _ from 'lodash';
 
 @Injectable()
 export class MessageLogService {
 
-  private messageLogSubject = new Subject<MessageLog>();
   private signalRConnections = new Map<ApiConnection, signalR.HubConnection>();
   private connectionLogs = new Map<ApiConnection, MessageLog[]>();
 
@@ -17,12 +16,12 @@ export class MessageLogService {
 
   }
 
-  public get whenMessageReceived(): Observable<MessageLog> {
-    return this.messageLogSubject.asObservable();
-  }
-
   public get connections(): ApiConnection[] {
     return this.connectionService.connections;
+  }
+
+  public get currentLogs(): MessageLog[] {
+    return _.flatten(Array.from(this.connectionLogs.values()));
   }
 
   public startReceivingOn(connection: ApiConnection) {
@@ -37,10 +36,7 @@ export class MessageLogService {
     }
 
     signalRConn.on('LogMessage', (messageLog: MessageLog) => {
-      messageLog.receivedOnConnection = connection;
-
       this.recordConnectionLog(connection, messageLog);
-      this.messageLogSubject.next(messageLog);
     });
 
     signalRConn.start().then();
@@ -51,10 +47,21 @@ export class MessageLogService {
 
     if (signalRConn !== null) {
       signalRConn.stop().then();
+      this.signalRConnections.delete(connection);
+      this.connectionLogs.delete(connection);
     }
   }
 
   private recordConnectionLog(connection: ApiConnection, messageLog: MessageLog) {
-    console.log(connection, messageLog);
+    let logs = this.connectionLogs.get(connection);
+
+    if (logs === undefined) {
+      logs = [];
+    }
+
+    messageLog.connectionName = connection.name;
+
+    logs.push(messageLog);
+    this.connectionLogs.set(connection, logs);
   }
 }

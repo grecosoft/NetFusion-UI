@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MessageLogService} from '../../services/MessageLogService';
+import {MessageLogApplication} from '../../services/MessageLogApplication';
 
 @Component({
   selector: 'message-log',
@@ -8,11 +8,10 @@ import {MessageLogService} from '../../services/MessageLogService';
 })
 export class MessageLogComponent {
 
-    constructor(private messageLogService: MessageLogService) {
+    constructor(private application: MessageLogApplication) {
 
-      const conn = this.messageLogService.connections[1];
-      this.messageLogService.startReceivingOn(conn);
+      const conn = this.application.connections[3];
+      this.application.startReceiving(conn);
 
     }
-
 }
