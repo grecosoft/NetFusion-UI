@@ -1,4 +1,5 @@
 import * as signalR from '@microsoft/signalr';
+import {HubConnectionState} from '@microsoft/signalr';
 import {MessageLog} from '../types/message-log-types';
 import {ApiConnection} from '../../../../types/connection-types';
 import {ConnectionService} from '../../../../services/ConnectionService';
@@ -24,6 +25,16 @@ export class MessageLogService {
     return _.flatten(Array.from(this.connectionLogs.values()));
   }
 
+  public startConnections(selectedConnections: ApiConnection[]) {
+    for (const conn of this.connections) {
+      if (selectedConnections.indexOf(conn) > -1) {
+        this.startReceivingOn(conn);
+      } else {
+        this.stopReceivingOn(conn);
+      }
+    }
+  }
+
   public startReceivingOn(connection: ApiConnection) {
     let signalRConn = this.signalRConnections.get(connection);
 
@@ -32,23 +43,26 @@ export class MessageLogService {
         .withUrl(ApiConnection.AppendAddressToPath(connection, '/api/message/log'))
         .build();
 
+      signalRConn.on('LogMessage', (messageLog: MessageLog) => {
+        this.recordConnectionLog(connection, messageLog);
+      });
+
+      signalRConn.start().then();
+
       this.signalRConnections.set(connection, signalRConn);
     }
-
-    signalRConn.on('LogMessage', (messageLog: MessageLog) => {
-      this.recordConnectionLog(connection, messageLog);
-    });
-
-    signalRConn.start().then();
   }
 
   public stopReceivingOn(connection: ApiConnection) {
     const signalRConn = this.signalRConnections.get(connection);
 
-    if (signalRConn !== null) {
-      signalRConn.stop().then();
+    if (signalRConn !== undefined) {
       this.signalRConnections.delete(connection);
       this.connectionLogs.delete(connection);
+
+      if (signalRConn.state === HubConnectionState.Connected) {
+        signalRConn.stop().then();
+      }
     }
   }
 

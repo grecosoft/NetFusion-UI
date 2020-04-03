@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
 import {MessageLogApplication} from '../../services/MessageLogApplication';
+import {FormControl} from '@angular/forms';
+import {ApiConnection} from '../../../../../types/connection-types';
+import {SelectionItem} from '../../../../../types/common-types';
 
 @Component({
   selector: 'message-log',
@@ -8,10 +11,30 @@ import {MessageLogApplication} from '../../services/MessageLogApplication';
 })
 export class MessageLogComponent {
 
-    constructor(private application: MessageLogApplication) {
+  public connections = new FormControl();
+  public sortOrder = new FormControl();
+  public sortOrders: SelectionItem[];
 
-      const conn = this.application.connections[3];
-      this.application.startReceiving(conn);
+  constructor(private application: MessageLogApplication) {
 
-    }
+    this.connections.valueChanges.subscribe((selectedCons: ApiConnection[]) => {
+      this.application.startReceiving(selectedCons);
+    });
+
+    this.sortOrder.valueChanges.subscribe((selected: SelectionItem) => {
+      this.application.setCurrentSort(selected);
+    });
+
+    this.defineSortOptions();
+  }
+
+  private defineSortOptions() {
+    this.sortOrders = [
+      { key: 'date-occurred', displayValue: 'Date Occurred' },
+      { key: 'correlation-id', displayValue: 'Correlation Id' }
+    ];
+
+    this.application.setCurrentSort(this.sortOrders[0]);
+    this.sortOrder.setValue(this.sortOrders[0]);
+  }
 }
