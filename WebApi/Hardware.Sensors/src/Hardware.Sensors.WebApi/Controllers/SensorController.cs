@@ -1,14 +1,12 @@
 ﻿using System.Threading.Tasks;
-using Hardware.Sensors.WebApi.Hubs;
 using Hardware.Sensors.WebApi.Models.Management;
 using Hardware.Sensors.WebApi.NetFusion.Messaging;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using NetFusion.Messaging;
 using NetFusion.Rest.Common;
 using NetFusion.Rest.Resources.Hal;
 using NetFusion.Rest.Server.Hal;
 using NetFusion.Web.Mvc.Metadata;
+#pragma warning disable 4014
 
 namespace Hardware.Sensors.WebApi.Controllers
 {

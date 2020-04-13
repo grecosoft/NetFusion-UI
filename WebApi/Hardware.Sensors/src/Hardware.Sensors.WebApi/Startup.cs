@@ -10,10 +10,8 @@ using NetFusion.Web.Mvc.Plugin;
 using Hardware.Sensors.App.Plugin;
 using Hardware.Sensors.Domain.Plugin;
 using Hardware.Sensors.Infra.Plugin;
-using Hardware.Sensors.WebApi.Hubs;
 using Hardware.Sensors.WebApi.NetFusion.Messaging;
 using Hardware.Sensors.WebApi.Plugin;
-using NetFusion.Messaging;
 
 namespace Hardware.Sensors.WebApi
 {
@@ -50,7 +48,6 @@ namespace Hardware.Sensors.WebApi
             services.AddSignalR();
 
             services.AddSingleton<IMessageLogger, MessageLogger>();
-            services.AddSingleton<IMessageLogSink, HubMessageLogSink>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -71,11 +68,6 @@ namespace Hardware.Sensors.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-            
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHub<MessageLogHub>("/api/message/log");
             });
         }
     }

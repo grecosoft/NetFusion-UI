@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NetFusion.Bootstrap.Plugins;
-using NetFusion.Web.Mvc.Composite.Models;
+﻿using NetFusion.Bootstrap.Plugins;
 
 namespace Hardware.Sensors.WebApi.Plugin
 {

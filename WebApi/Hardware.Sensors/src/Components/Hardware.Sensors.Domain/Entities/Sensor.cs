@@ -1,5 +1,4 @@
-﻿using System;
-namespace Hardware.Sensors.Domain.Management.Entities
+﻿namespace Hardware.Sensors.Domain.Entities
 {
     public class Sensor
     {
@@ -9,11 +8,5 @@ namespace Hardware.Sensors.Domain.Management.Entities
         public string Version { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
-
-
-        public Sensor()
-        {
-            
-        }
     }
 }

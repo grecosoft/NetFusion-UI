@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Hardware.Sensors.WebApi.Models.EntryPoint;
+﻿using Hardware.Sensors.WebApi.Models.EntryPoint;
 using Microsoft.AspNetCore.Mvc;
 using NetFusion.Rest.Resources;
 using NetFusion.Rest.Resources.Hal;
@@ -22,7 +21,7 @@ namespace Hardware.Sensors.WebApi.Controllers
 
             // Child entry resources can be used to better organize
             // and group API specific set of Urls:
-            rootEntryPoint.EmbedResource(new ManagmentEntryPoint().AsResource(), "management");
+            rootEntryPoint.EmbedResource(new ManagementEntryPoint().AsResource(), "management");
             rootEntryPoint.EmbedResource(new DataEntryPoint().AsResource(), "data");
 
             return Ok(rootEntryPoint);
@@ -33,9 +32,10 @@ namespace Hardware.Sensors.WebApi.Controllers
             protected override void OnBuildResourceMap()
             {
                 Map<EntryPointModel>()
-                    .LinkMeta<SensorController>(meta =>
+                    .LinkMeta<CompanyController>(meta =>
                     {
-                        meta.UrlTemplate<string, Task<IActionResult>>("sensor", c => c.GetSensor);
+                        meta.UrlTemplate<IActionResult>("all-ids", c => c.GetContactIds);
+                        meta.UrlTemplate<string, IActionResult>("companies", c => c.GetCompany);
                     });
             }
         }
