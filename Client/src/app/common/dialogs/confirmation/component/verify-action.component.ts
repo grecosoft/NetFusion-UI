@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ConfirmResponseTypes, ConfirmSettings } from '../types';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
 
@@ -17,7 +17,7 @@ import { ConfirmResponseTypes, ConfirmSettings } from '../types';
         <div mat-dialog-actions>
             <button mat-button (click)="onConfirmed()" tabindex="2">{{ data.confirmText }}</button>
             <button mat-button (click)="onCancel()" tabindex="-1">{{ data.cancelText }}</button>
-        </div>  
+        </div>
     `
 })
 export class VerifyActionComponent {
@@ -32,7 +32,7 @@ export class VerifyActionComponent {
         this.dialogRef.close(ConfirmResponseTypes.ActionConfirmed);
     }
 
-    public onCancel() 
+    public onCancel()
     {
         this.dialogRef.close(ConfirmResponseTypes.ActionCanceled);
     }

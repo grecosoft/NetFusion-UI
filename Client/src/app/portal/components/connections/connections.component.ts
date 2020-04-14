@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material/table';
 import {ComponentFormState} from 'src/app/common/guards/form-state/form-state.guard';
 import {ConnectionService} from '../../../services/ConnectionService';
 import {ApiConnection} from '../../../types/connection-types';

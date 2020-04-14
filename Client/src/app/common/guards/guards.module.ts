@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { FormStateComponent } from './form-state/component/form-state.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatButtonModule, MatIconModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     imports: [

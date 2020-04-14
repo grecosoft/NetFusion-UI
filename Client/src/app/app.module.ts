@@ -17,7 +17,7 @@ import { DashboardComponent } from './portal/dashboard/dashboard.component';
 import { GuardsModule } from './common/guards/guards.module';
 import { ServicesModule } from './services/services.module';
 import { StorageServiceModule } from 'ngx-webstorage-service';
-import { MatTooltipModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClientModule } from './common/client/client.module';
 import { CommonDialogModule } from './common/dialogs/common-dialogs.module';
 import {PortalComponentsModule} from './portal/components/portal-components.module';

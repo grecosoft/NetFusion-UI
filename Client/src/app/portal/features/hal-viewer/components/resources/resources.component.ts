@@ -21,7 +21,7 @@ export class ResourcesComponent {
   public requestJsonBody: string;
 
   public constructor(
-    private application: HalApplication,
+    public application: HalApplication,
     private confirmation: ConfirmationService) {
   }
 

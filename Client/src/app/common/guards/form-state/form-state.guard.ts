@@ -1,19 +1,19 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CanDeactivate } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormStateComponent, ConfirmationData } from './component/form-state.component';
 
 export interface ComponentFormState {
     formGroupToValidate: () => FormGroup;
 }
-   
+
 @Injectable({
     providedIn: 'root',
-}) 
+})
 export class FormStateGuard implements CanDeactivate<ComponentFormState> {
-    
+
     private _canDeactivateSubject = new Subject<boolean>();
 
     constructor(
@@ -22,16 +22,16 @@ export class FormStateGuard implements CanDeactivate<ComponentFormState> {
     }
 
     public canDeactivate(component: ComponentFormState) {
-        
+
         // Determine if the component supports the stopping of navigation
         // based on form state.
-        let componentFormGroup = component.formGroupToValidate;
+        const componentFormGroup = component.formGroupToValidate;
         if (!componentFormGroup) return true;
 
         // Get the component's form group to determine if user needs
         // to confirm navigation.
-        let formGroup = componentFormGroup();
-        
+        const formGroup = componentFormGroup();
+
         // Determine if the state of the form requires user confirmation:
         let dialogData: ConfirmationData = this.isUnsavedChanges(formGroup);
         if (!dialogData.applies) {
@@ -43,7 +43,7 @@ export class FormStateGuard implements CanDeactivate<ComponentFormState> {
             return true;
         }
 
-        // Determine how the user would like to continue based on the 
+        // Determine how the user would like to continue based on the
         // state of the form:
         const dialogRef = this.dialog.open(FormStateComponent, {
             width: '270px',

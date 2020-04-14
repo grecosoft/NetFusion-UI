@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core'; 
-import { MatDialog } from '@angular/material';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { VerifyActionComponent } from './component/verify-action.component';
 import { ConfirmResponseTypes, ConfirmSettings } from './types';
@@ -15,12 +15,12 @@ export class ConfirmationService {
     }
 
     public verifyAction(confirmation: ConfirmSettings): Observable<ConfirmResponseTypes> {
-        let result = new Subject<ConfirmResponseTypes>();
+        const result = new Subject<ConfirmResponseTypes>();
 
-        confirmation.confirmText = confirmation.confirmText || "OK"
-        confirmation.cancelText = confirmation.cancelText || "Cancel";
+        confirmation.confirmText = confirmation.confirmText || 'OK';
+        confirmation.cancelText = confirmation.cancelText || 'Cancel';
 
-        let settings = {
+        const settings = {
             width: '500px',
             disableClose: true,
             hasBackdrop: true,
@@ -29,7 +29,7 @@ export class ConfirmationService {
 
         this.dialog.open(VerifyActionComponent, settings)
             .afterClosed().subscribe(response => {
-                
+
                 result.next(response);
         });
 

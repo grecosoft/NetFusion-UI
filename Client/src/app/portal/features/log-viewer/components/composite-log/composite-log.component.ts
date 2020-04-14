@@ -10,7 +10,7 @@ import {CompositePlugin} from '../../types/log-types';
 export class CompositeLogComponent {
 
     constructor(
-        private application: LogApplication) {
+        public application: LogApplication) {
 
     }
 

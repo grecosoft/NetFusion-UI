@@ -5,15 +5,13 @@ import { VerifyActionComponent } from './confirmation/component/verify-action.co
 
 // Angular Modules:
 import { CommonModule } from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 // UI Modules:
-import { FlexLayoutModule } from "@angular/flex-layout";
-import {  
-    MatButtonModule, 
-    MatInputModule, 
-    MatDialogModule,
-    MatIconModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     providers: [

@@ -15,7 +15,8 @@ export class MessageLogComponent {
   public sortOrder = new FormControl();
   public sortOrders: SelectionItem[];
 
-  constructor(private application: MessageLogApplication) {
+  constructor(
+    public application: MessageLogApplication) {
 
     this.connections.valueChanges.subscribe((selectedCons: ApiConnection[]) => {
       this.application.startReceiving(selectedCons);

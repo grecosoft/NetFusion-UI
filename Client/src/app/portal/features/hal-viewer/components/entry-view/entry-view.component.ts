@@ -28,7 +28,7 @@ export class EntryViewComponent implements OnInit {
   public rootResource: ResourceInstance;
 
   constructor(
-      private application: HalApplication) {
+      public application: HalApplication) {
   }
 
   public ngOnInit() {
