@@ -5,6 +5,8 @@ import {ApiConnection} from 'src/app/types/connection-types';
 import {ResourceInstance} from '../../types/resource-types';
 import {PopulatedLink} from '../../types/link-types';
 import {HalApplication} from '../../services/HalApplication';
+import {ConfirmationService} from '../../../../../common/dialogs/confirmation/ConfirmationService';
+import {ConfirmResponseTypes, ConfirmSettings} from '../../../../../common/dialogs/confirmation/types';
 
 // Presents a list of entry resources associated with the selected connection.
 // A service API entry resource can also have embedded child entry resources
@@ -28,7 +30,8 @@ export class EntryViewComponent implements OnInit {
   public rootResource: ResourceInstance;
 
   constructor(
-      public application: HalApplication) {
+      public application: HalApplication,
+      private confirmation: ConfirmationService) {
   }
 
   public ngOnInit() {
@@ -77,7 +80,23 @@ export class EntryViewComponent implements OnInit {
   // Displays the root resources.
   public onLinkSelected(populatedLink: PopulatedLink) {
 
-      this.application.loadRootResource(populatedLink);
+      if (populatedLink.modifiesResourceState) {
+        const confirmation = new ConfirmSettings(
+          'Modifying Resource',
+          `Are you sure you want to execute action: ${populatedLink.method}?`);
+
+        confirmation.confirmText = populatedLink.method;
+
+        this.confirmation.verifyAction(confirmation).subscribe((answer) => {
+          if (answer === ConfirmResponseTypes.ActionConfirmed) {
+            this.application.executeLink(populatedLink);
+          }
+        });
+
+        return;
+      }
+
+      this.application.executeLink(populatedLink);
   }
 
   // Allows navigation to the resource's details allowing link

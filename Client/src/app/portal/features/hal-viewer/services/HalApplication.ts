@@ -118,11 +118,15 @@ export class HalApplication {
     this.router.navigateByUrl('/areas/hal/entry-view').then(() => {});
   }
 
+  public executeLink(populatedLink: PopulatedLink) {
+    this.loadRootResource(populatedLink);
+  }
+
   // Loads a root-resource associated with the specified link and invokes
   // whenRootResourceLoaded subject once received.
-  public loadRootResource(populatedLink: PopulatedLink) {
+  private loadRootResource(populatedLink: PopulatedLink) {
 
-    this.resourceService.readResource(this.selectedConnection, populatedLink)
+    this.resourceService.executeLink(this.selectedConnection, populatedLink)
       .pipe( take(1)) // Dispose observable.
       .subscribe(apiResponse => {
 
@@ -163,7 +167,7 @@ export class HalApplication {
     this.currentResource.useJsonAsContentEnabled = false;
 
     // Load the child resources specified by the link and associated with root resource.
-    this.resourceService.readResource(this.selectedConnection, populatedLink).subscribe(resp => {
+    this.resourceService.executeLink(this.selectedConnection, populatedLink).subscribe(resp => {
       const resource = ResourceInstance.create(populatedLink, resp.content, resp.response.url);
       this.selectedRootResource.childrenResources.push(resource);
     });

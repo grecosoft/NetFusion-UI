@@ -20,11 +20,15 @@ export class ResourceService {
   }
 
   // Reads a resources from the specified Api connection located at the specified link.
-  public readResource(connection: ApiConnection, populatedLink: PopulatedLink): Observable<ApiResponse<IHalResource>> {
+  public executeLink(connection: ApiConnection, populatedLink: PopulatedLink): Observable<ApiResponse<IHalResource>> {
     const client = this.clientFactory.getClient(connection.id);
 
     const request = ApiRequest.fromLink(populatedLink.link,
       (config) => config.withRouteValues(populatedLink.linkParams || {}));
+
+    if (populatedLink.content) {
+      request.withContent(populatedLink.content);
+    }
 
     return client.send<IHalResource>(request);
   }

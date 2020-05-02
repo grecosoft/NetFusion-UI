@@ -43,10 +43,20 @@ export class ParamValue {
 
 export class PopulatedLink {
 
-    public content: any;
+  public content: any;
 
-    public constructor(
-        public link: Link,
-        public linkParams: {[name: string]: any}) {
-    }
+  public constructor(
+      public link: Link,
+      public linkParams: {[name: string]: any}) {
+  }
+
+  public get method(): string {
+    return this.link.methods[0];
+  }
+
+  public get modifiesResourceState(): boolean {
+      const stateChangeMethods = ['POST', 'PUT', 'DELETE'];
+
+      return stateChangeMethods.findIndex( m => m === this.method) > -1;
+  }
 }
