@@ -46,7 +46,7 @@ namespace Hardware.Sensors.WebApi.Controllers
             return Ok(companyRes);
         }
 
-        [HttpPost("register")]
+        [HttpPost("register"), ActionMeta(nameof(RegisterCompany))]
         public async Task<IActionResult> RegisterCompany([FromBody]RegisterCompanyCommand command)
         {
             Company company = await _messaging.SendAsync(command);

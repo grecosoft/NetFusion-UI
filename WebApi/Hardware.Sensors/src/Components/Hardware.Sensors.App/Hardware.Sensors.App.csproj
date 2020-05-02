@@ -16,4 +16,7 @@
   <ItemGroup>
     <Folder Include="Repositories\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\.editorconfig" />
+  </ItemGroup>
 </Project>

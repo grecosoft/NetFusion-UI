@@ -1,8 +1,11 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Hardware.Sensors.App.Repositories;
+using Hardware.Sensors.Domain.Commands;
 using Hardware.Sensors.Domain.Entities;
 using Hardware.Sensors.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using NetFusion.Messaging;
 using NetFusion.Rest.Common;
 using NetFusion.Rest.Resources.Hal;
 using NetFusion.Rest.Server.Hal;
@@ -14,10 +17,14 @@ namespace Hardware.Sensors.WebApi.Controllers
      GroupMeta(nameof(LocationController))]
     public class LocationController : ControllerBase
     {
+        private readonly IMessagingService _messaging;
         private readonly ICompanyRepository _companyRepo;
         
-        public LocationController(ICompanyRepository companyRepo)
+        public LocationController(
+            IMessagingService messaging,
+            ICompanyRepository companyRepo)
         {
+            _messaging = messaging;
             _companyRepo = companyRepo;
         }
         
@@ -44,7 +51,16 @@ namespace Hardware.Sensors.WebApi.Controllers
             var rootRes = HalResource.New(i => i.EmbedResources(locationResources.ToArray(), "locations"));
             return Ok(rootRes);
         }
-        
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveLocation(string id)
+        {
+            var command = new DeleteAddressCommand(id);
+
+            await _messaging.SendAsync(command);
+            return Ok();
+        }
+
         public class LocationMappings : HalResourceMap
         {
             protected override void OnBuildResourceMap()
@@ -53,6 +69,7 @@ namespace Hardware.Sensors.WebApi.Controllers
                     .LinkMeta<LocationController>(meta =>
                     {
                         meta.Url(RelationTypes.Self, (c, m) => c.GetLocation(m.LocationId));
+                        meta.Url("remove", (c, m) => c.RemoveLocation(m.LocationId));
                     });
             }
         }

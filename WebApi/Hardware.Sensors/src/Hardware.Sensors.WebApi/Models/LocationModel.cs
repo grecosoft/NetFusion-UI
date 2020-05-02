@@ -1,8 +1,8 @@
-using Hardware.Sensors.Domain.Entities;
+    using Hardware.Sensors.Domain.Entities;
 
 namespace Hardware.Sensors.WebApi.Models
 {
-    public class LocationModel
+    public class    LocationModel
     {
         public string LocationId { get; private set; }
         public string Address { get; private set; }
