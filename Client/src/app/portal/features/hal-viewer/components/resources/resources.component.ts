@@ -35,8 +35,25 @@ export class ResourcesComponent {
 
   // A link was selected.  Navigate to the selected link.
   public onLinkSelected(populatedLink: PopulatedLink) {
+
+    if (populatedLink.modifiesResourceState) {
+      const confirmation = new ConfirmSettings(
+        'Modifying Resource',
+        `Are you sure you want to execute action: ${populatedLink.method}?`);
+
+      confirmation.confirmText = populatedLink.method;
+
+      this.confirmation.verifyAction(confirmation).subscribe((answer) => {
+        if (answer === ConfirmResponseTypes.ActionConfirmed) {
+          this.application.executeResourceLink(populatedLink);
+        }
+      });
+
+      return;
+    }
+
     this.requestJsonBody = null;
-    this.application.viewLinkedResource(populatedLink);
+    this.application.executeResourceLink(populatedLink);
   }
 
   public onLinkPopulating(link: LinkViewModel) {

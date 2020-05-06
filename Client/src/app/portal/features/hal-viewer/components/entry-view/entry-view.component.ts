@@ -89,14 +89,14 @@ export class EntryViewComponent implements OnInit {
 
         this.confirmation.verifyAction(confirmation).subscribe((answer) => {
           if (answer === ConfirmResponseTypes.ActionConfirmed) {
-            this.application.executeLink(populatedLink);
+            this.application.executeEntryLink(populatedLink);
           }
         });
 
         return;
       }
 
-      this.application.executeLink(populatedLink);
+      this.application.executeEntryLink(populatedLink);
   }
 
   // Allows navigation to the resource's details allowing link

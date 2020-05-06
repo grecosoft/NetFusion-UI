@@ -53,7 +53,7 @@
     </div>
 
     <button mat-raised-button name="execute" color="primary"
-        [disabled]="!paramValueEntry.valid || !paramValueEntry.dirty"
+        [disabled]="!paramValueEntry.valid"
         (click)="executeUrlTemplate()">
         Execute
     </button>

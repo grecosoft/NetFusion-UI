@@ -66,9 +66,7 @@
         <mat-table class="connection-table" #table [dataSource]="connections">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>Connection Name</mat-header-cell>
-                <mat-cell *matCellDef="let conn">
-                    <a class="nav-link" (click)="navigateToEntry(conn)">{{conn.name}}</a>
-                 </mat-cell>
+                <mat-cell *matCellDef="let conn">{{conn.name}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="address">

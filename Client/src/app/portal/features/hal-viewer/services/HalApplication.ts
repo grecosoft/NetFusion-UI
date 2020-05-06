@@ -48,6 +48,10 @@ export class HalApplication {
     this.resourceService.restoreOpenedResource(this.connectionRootResourceMap);
   }
 
+  // ----------------------------------------------------------------------------------
+  // --- Subscriptions:
+  // ----------------------------------------------------------------------------------
+
   private subscribeToConnectionDeletion() {
 
     // Remove the collection id from the map storing the root-resources
@@ -76,6 +80,10 @@ export class HalApplication {
     });
   }
 
+  // ----------------------------------------------------------------------------------
+  // --- Observables:
+  // ----------------------------------------------------------------------------------
+
   // Observable called when a root-resource is loaded using the
   // current connection.
   public get whenRootResourceLoaded(): Observable<ResourceInstance> {
@@ -85,6 +93,10 @@ export class HalApplication {
   public get whenConnectionEntryUpdated(): Observable<IHalEntryPointResource> {
     return this.entryResourceUpdated.asObservable();
   }
+
+  // ----------------------------------------------------------------------------------
+  // --- Application Data:
+  // ----------------------------------------------------------------------------------
 
   // The currently configured connections.
   public get connections(): ApiConnection[] {
@@ -111,21 +123,13 @@ export class HalApplication {
     return 0;
   }
 
-  // Updates the currently selected connection and navigates to the view
-  // used to display the connection's entry-resources.
-  public viewApiEntryResource(connection: ApiConnection) {
-    this.changeConnection(connection);
-    this.router.navigateByUrl('/areas/hal/entry-view').then(() => {});
-  }
+  // ----------------------------------------------------------------------------------
+  // --- Link Execution:
+  // ----------------------------------------------------------------------------------
 
-  public executeLink(populatedLink: PopulatedLink) {
-    this.loadRootResource(populatedLink);
-  }
-
-  // Loads a root-resource associated with the specified link and invokes
-  // whenRootResourceLoaded subject once received.
-  private loadRootResource(populatedLink: PopulatedLink) {
-
+  // Executes initial entry link returned from HAL based Web Api.
+  // These are the links used to start communication with the Api.
+  public executeEntryLink(populatedLink: PopulatedLink) {
     this.resourceService.executeLink(this.selectedConnection, populatedLink)
       .pipe( take(1)) // Dispose observable.
       .subscribe(apiResponse => {
@@ -138,6 +142,21 @@ export class HalApplication {
         this.rootResourceLoaded.next(rootResource);
       });
   }
+
+  // Loads child resource associated with parent as specified by the selected link.
+  public executeResourceLink(populatedLink: PopulatedLink) {
+    this.currentResource.useJsonAsContentEnabled = false;
+
+    // Load the child resources specified by the link and associated with root resource.
+    this.resourceService.executeLink(this.selectedConnection, populatedLink).subscribe(resp => {
+      const resource = ResourceInstance.create(populatedLink, resp.content, resp.response.url);
+      this.selectedRootResource.childrenResources.push(resource);
+    });
+  }
+
+  // ----------------------------------------------------------------------------------
+  // --- Root Resource Actions
+  // ----------------------------------------------------------------------------------
 
   // Associates the root-resource with the current connection and navigates
   // to the resources-view to display details.
@@ -160,43 +179,6 @@ export class HalApplication {
   public clearRootResourceErrors() {
     this.selectedRootResource.responseErrors.length = 0;
     this.router.navigateByUrl('areas/hal/resources').then(() => {});
-  }
-
-  // Loads child resource associated with parent as specified by the selected link.
-  public viewLinkedResource(populatedLink: PopulatedLink) {
-    this.currentResource.useJsonAsContentEnabled = false;
-
-    // Load the child resources specified by the link and associated with root resource.
-    this.resourceService.executeLink(this.selectedConnection, populatedLink).subscribe(resp => {
-      const resource = ResourceInstance.create(populatedLink, resp.content, resp.response.url);
-      this.selectedRootResource.childrenResources.push(resource);
-    });
-  }
-
-  // Only a singled embedded resource (or single resource within an embedded collection) can
-  // be viewed at once.  Selecting a new embedded resource clears the prior one selected.
-  public viewEmbeddedResource(resource: ResourceInstance) {
-    if (this.selectedEmbeddedResource) {
-      _.remove(this.selectedRootResource.childrenResources,
-          item => item === this.selectedEmbeddedResource);
-    }
-
-    this.selectedEmbeddedResource = resource;
-    this.selectedRootResource.childrenResources.push(resource);
-  }
-
-  // Updates the currently selected connection for which loaded root-resources should be listed.
-  public changeConnection(connection: ApiConnection) {
-
-    this.selectedConnection = connection;
-    this.connectionRootResources = this.connectionRootResourceMap.get(connection.id) || [];
-    this.selectedRootResource = null;
-
-    // Load the entry resources for the selected connection:
-    this.connectionService.getEntryResource(connection).subscribe(result => {
-      this.selectedConnEntry = result;
-      this.entryResourceUpdated.next(result);
-    });
   }
 
   // Selects a different root-resource from the currently selected connection.
@@ -223,6 +205,40 @@ export class HalApplication {
     this.connectionRootResources.length = 0;
     this.selectedRootResource = null;
     this.resourceService.saveOpenedResources(this.connectionRootResourceMap);
+  }
+
+  // ----------------------------------------------------------------------------------
+  // --- Connection Actions
+  // ----------------------------------------------------------------------------------
+
+  // Updates the currently selected connection for which loaded root-resources should be listed.
+  public changeConnection(connection: ApiConnection) {
+
+    this.selectedConnection = connection;
+    this.connectionRootResources = this.connectionRootResourceMap.get(connection.id) || [];
+    this.selectedRootResource = null;
+
+    // Load the entry resources for the selected connection:
+    this.connectionService.getEntryResource(connection).subscribe(result => {
+      this.selectedConnEntry = result;
+      this.entryResourceUpdated.next(result);
+    });
+  }
+
+  // ----------------------------------------------------------------------------------
+  // --- Related Resource Actions
+  // ----------------------------------------------------------------------------------
+
+  // Only a singled embedded resource (or single resource within an embedded collection) can
+  // be viewed at once.  Selecting a new embedded resource clears the prior one selected.
+  public viewEmbeddedResource(resource: ResourceInstance) {
+    if (this.selectedEmbeddedResource) {
+      _.remove(this.selectedRootResource.childrenResources,
+          item => item === this.selectedEmbeddedResource);
+    }
+
+    this.selectedEmbeddedResource = resource;
+    this.selectedRootResource.childrenResources.push(resource);
   }
 
   // Determines if the specified resource can be set as the current resource.

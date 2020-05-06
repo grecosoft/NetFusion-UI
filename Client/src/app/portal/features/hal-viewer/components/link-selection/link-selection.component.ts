@@ -148,7 +148,7 @@ export class LinkSelectionComponent  implements OnChanges {
         });
 
         if (resourceLink.hasContentBody) {
-            const contentControl = new FormControl(null, Validators.required);
+            const contentControl = new FormControl(null);
             group.addControl('content', contentControl);
         }
 

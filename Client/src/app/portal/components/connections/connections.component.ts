@@ -53,12 +53,6 @@ export class ConnectionsComponent implements OnInit, ComponentFormState {
     // FormGroup is determined if navigation away from the component's view is allowed.
     public formGroupToValidate = () => this.connectionEntry;
 
-    // Navigates to the view listing the connection's APIs associated entry resource.
-    public navigateToEntry(connection: ApiConnection) {
-
-       // this.application.viewApiEntryResource(connection);
-    }
-
     private resetEntryState() {
         this.existingConnection = null;
         this.isAddingNewConn = false;
