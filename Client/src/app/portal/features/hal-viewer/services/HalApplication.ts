@@ -11,7 +11,8 @@ import {PopulatedLink} from '../types/link-types';
 import {EventBusService} from '../../../../services/EventBusService';
 import {RequestClientFactory} from 'src/app/common/client/RequestClientFactory';
 import {take} from 'rxjs/operators';
-import {IHalEntryPointResource} from '../../../../common/client/Resource';
+import {IHalEntryPointResource, IHalResource} from '../../../../common/client/Resource';
+import {EmbeddedItem} from '../../../../types/common-types';
 
 // Represents the main entry-point for the hal-viewer application feature.
 // This service maintains the currently selected connection and resources
@@ -20,16 +21,22 @@ import {IHalEntryPointResource} from '../../../../common/client/Resource';
 @Injectable()
 export class HalApplication {
 
-  // The current selections:
+  // The current Api selections:
   public selectedConnection: ApiConnection;
   public selectedConnEntry: IHalEntryPointResource;
 
-  public connectionRootResources: ResourceInstance[];
-  public selectedRootResource: ResourceInstance;
-  public selectedEmbeddedResource: ResourceInstance;
-
   // Stores the root-resources opened on a specific connection.
   private connectionRootResourceMap = new Map<string, ResourceInstance[]>();
+
+  // Reference to collection of root resources associated with selected connection.
+  // And the reference to the currently selected root resource within collection.
+  public connectionRootResources: ResourceInstance[];
+  public selectedRootResource: ResourceInstance;
+
+  // The currently selected embedded resource information.
+  public selectedEmbeddedResourceName: string;
+  public selectedEmbeddedResource: ResourceInstance;
+  public parentEmbeddedItems:  EmbeddedItem[];
 
   // Subjects:
   private entryResourceUpdated = new Subject<IHalEntryPointResource>();
@@ -123,6 +130,10 @@ export class HalApplication {
     return 0;
   }
 
+  public get isRootResourceSelected(): boolean {
+    return this.selectedRootResource.instance === this.currentResource.instance;
+  }
+
   // ----------------------------------------------------------------------------------
   // --- Link Execution:
   // ----------------------------------------------------------------------------------
@@ -150,8 +161,54 @@ export class HalApplication {
     // Load the child resources specified by the link and associated with root resource.
     this.resourceService.executeLink(this.selectedConnection, populatedLink).subscribe(resp => {
       const resource = ResourceInstance.create(populatedLink, resp.content, resp.response.url);
-      this.selectedRootResource.childrenResources.push(resource);
+      this.applyLinkResponseStrategy(populatedLink, resource);
     });
+  }
+
+  private applyLinkResponseStrategy(populatedLink: PopulatedLink, resource: ResourceInstance) {
+
+    // Determine if the link meets the criteria for a link that refreshes the current resource.
+    if (populatedLink.method === 'GET' && populatedLink.relName === 'self') {
+      if (this.isRootResourceSelected) {
+        this.selectedRootResource.instance = resource.instance;
+      }
+      this.currentResource.instance = resource.instance;
+      return;
+    }
+
+    // If the currently selected resource is the root-resource and is being deleted, close it and notify the user.
+    if (populatedLink.method === 'DELETE' && this.isRootResourceSelected) {
+      this.closeSelectedResource();
+      return;
+    }
+
+    // If the currently selected resource is an embedded resource, remove it from parent's list of embedded items.
+    if (populatedLink.method === 'DELETE' && this.parentEmbeddedItems) {
+      _.remove(this.parentEmbeddedItems, ei => ei.instance === this.selectedEmbeddedResource);
+
+      this.selectedRootResource.childrenResources.pop();
+
+      // Since the embedded resource was popped off of the array, the current item will be
+      // the parent resource that contained the embedded resource.
+      const embeddedItem = this.currentResource.instance._embedded[this.selectedEmbeddedResourceName];
+      if (Array.isArray(embeddedItem)) {
+        const embeddedColl = embeddedItem as IHalResource[];
+
+        _.remove(embeddedColl, i => i === this.selectedEmbeddedResource.instance);
+        if (embeddedColl.length === 0) {
+          delete this.currentResource.instance._embedded[this.selectedEmbeddedResourceName];
+        }
+      } else {
+        delete this.currentResource.instance._embedded[this.selectedEmbeddedResourceName];
+      }
+
+      this.selectedEmbeddedResource = null;
+      return;
+    }
+
+    if (populatedLink.method === 'GET') {
+      this.selectedRootResource.childrenResources.push(resource);
+    }
   }
 
   // ----------------------------------------------------------------------------------
@@ -161,6 +218,9 @@ export class HalApplication {
   // Associates the root-resource with the current connection and navigates
   // to the resources-view to display details.
   public viewRootResource(rootResource: ResourceInstance) {
+
+    this.parentEmbeddedItems = null;
+    this.selectedEmbeddedResource = null;
 
     this.connectionRootResources.push(rootResource);
     this.selectedRootResource = rootResource;
@@ -186,6 +246,9 @@ export class HalApplication {
     this.selectedRootResource = rootResource;
     this.currentResource.useJsonAsContentEnabled = false;
 
+    this.parentEmbeddedItems = null;
+    this.selectedEmbeddedResource = null;
+
     // When new resources are loaded, their corresponding URL is saved to local storage.
     // If the user reloads the browser or starts new application session, these URLs are
     // restored but the corresponding resource is not loaded until selected.
@@ -197,6 +260,7 @@ export class HalApplication {
   // Un associates the currently selected resource with the connection.
   public closeSelectedResource() {
     _.remove(this.connectionRootResources, r => r === this.selectedRootResource);
+
     this.selectedRootResource = null;
     this.resourceService.saveOpenedResources(this.connectionRootResourceMap);
   }
@@ -231,12 +295,14 @@ export class HalApplication {
 
   // Only a singled embedded resource (or single resource within an embedded collection) can
   // be viewed at once.  Selecting a new embedded resource clears the prior one selected.
-  public viewEmbeddedResource(resource: ResourceInstance) {
+  public viewEmbeddedResource(name: string, parentEmbeddedItems: EmbeddedItem[], resource: ResourceInstance) {
     if (this.selectedEmbeddedResource) {
       _.remove(this.selectedRootResource.childrenResources,
           item => item === this.selectedEmbeddedResource);
     }
 
+    this.parentEmbeddedItems = parentEmbeddedItems;
+    this.selectedEmbeddedResourceName = name;
     this.selectedEmbeddedResource = resource;
     this.selectedRootResource.childrenResources.push(resource);
   }
@@ -256,6 +322,8 @@ export class HalApplication {
 
     return childResources.length > 0 &&
       this.selectedRootResource.instance === resource.instance;
+
+    // return childResources.length > 0 && this.isRootResourceSelected;
   }
 
   // Set the specified resource as the current.

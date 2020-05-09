@@ -98,6 +98,11 @@ export class ConnectionsComponent implements OnInit, ComponentFormState {
         this.resetEntryState();
     }
 
+    public copyConnection(connection: ApiConnection) {
+      this.isAddingNewConn = true;
+      this.connectionEntry.reset(connection);
+    }
+
     // Update existing connection being edited for the form state or
     // create new connection.
     private populateConnection(): ApiConnection {

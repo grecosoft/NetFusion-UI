@@ -116,7 +116,7 @@ export class LinkSelectionComponent  implements OnChanges {
     // Invoked when user selects a non-template URL.
     public executeUrl(resourceLink: LinkViewModel) {
         this.linkSelected.emit(
-            new PopulatedLink(resourceLink.associatedLink, null));
+            new PopulatedLink(resourceLink.relName, resourceLink.associatedLink, null));
     }
 
     // Invoked after the user has specified any URL template parameters:
@@ -125,7 +125,7 @@ export class LinkSelectionComponent  implements OnChanges {
         // Get the state of the entered parameter values from the form-group.
         const paramValues = Object.assign({}, this.paramValueEntry.value);
 
-        const selectedResourceLink = new PopulatedLink(this.selectedLink.associatedLink, paramValues);
+        const selectedResourceLink = new PopulatedLink(this.selectedLink.relName, this.selectedLink.associatedLink, paramValues);
 
         if (this.hasContentBody) {
             selectedResourceLink.content = paramValues.content;

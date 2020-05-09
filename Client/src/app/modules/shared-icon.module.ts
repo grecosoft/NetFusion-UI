@@ -30,6 +30,7 @@ export class SharedIconModule {
               'menu_open',
               'code',
               'close',
+              'file_copy',
               'error_outline',
               'settings_ethernet',
               'build',

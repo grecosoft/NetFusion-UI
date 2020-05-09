@@ -46,6 +46,7 @@ export class PopulatedLink {
   public content: any;
 
   public constructor(
+      public relName: string,
       public link: Link,
       public linkParams: {[name: string]: any}) {
   }

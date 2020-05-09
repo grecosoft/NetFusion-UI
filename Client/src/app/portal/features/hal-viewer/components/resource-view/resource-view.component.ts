@@ -3,6 +3,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ResourceInstance} from '../../types/resource-types';
 import {HalApplication} from '../../services/HalApplication';
 import {IHalResource} from 'src/app/common/client/Resource';
+import {EmbeddedItem} from '../../../../../types/common-types';
 
 // Component allowing navigation of a root resource to related
 // linked resources and embedded resources and resource collections.
@@ -97,36 +98,13 @@ export class ResourceViewComponent implements OnInit {
     // Single resource selected.
     this.embeddedCollItems = [];
     this.selectedEmbeddedCollItem = null;
-    this.application.viewEmbeddedResource(item.instance);
+    this.application.viewEmbeddedResource(item.name, this.embeddedItems, item.instance);
   }
 
   // Called when resource within collection is selected:
   public onEmbeddedCollItemSelected(item: EmbeddedItem) {
     this.selectedEmbeddedCollItem = item;
-    this.application.viewEmbeddedResource(item.instance);
-  }
-}
-
-// Adds additional information to an embedded resource.
-class EmbeddedItem {
-  public name: string;
-  public instance: ResourceInstance;
-  public isArray: boolean;
-
-  public getEmbeddedCollInstances(): EmbeddedItem[] {
-    if (!this.isArray) {
-      return [];
-    }
-
-    const embeddedColl = this.instance.instance as unknown as any[];
-
-    return embeddedColl.map((resource: IHalResource, idx: number) => {
-      const collItem = new EmbeddedItem();
-      collItem.name = `Item[${idx}]`;
-      collItem.instance =  ResourceInstance.createForEmbedded(resource);
-
-      return collItem;
-    });
+    this.application.viewEmbeddedResource(this.selectedEmbeddedItem.name, this.embeddedCollItems, item.instance);
   }
 }
 

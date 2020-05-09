@@ -77,11 +77,14 @@
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let conn">
-                    <button mat-icon-button (click)="editConnection(conn)" >
+                    <button mat-icon-button (click)="editConnection(conn)" matTooltip="Edit Connection" matTooltipPosition="after" >
                         <mat-icon svgIcon="edit"></mat-icon>
                     </button>
-                    <button mat-icon-button (click)="deleteConnection(conn)" >
+                    <button mat-icon-button (click)="deleteConnection(conn)" matTooltip="Delete Connection" matTooltipPosition="after">
                         <mat-icon svgIcon="delete_forever"></mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="copyConnection(conn)" matTooltip="Copy for New Connection" matTooltipPosition="after">
+                      <mat-icon svgIcon="file_copy"></mat-icon>
                     </button>
                 </mat-cell>
             </ng-container>
