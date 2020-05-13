@@ -126,5 +126,14 @@
         }
       }
     }
+
+  resource-view {
+    .portal-component {
+      border-color: mat-color($primary, 100);
+    }
+    .current-resource {
+      border-color: mat-color($primary, 700);
+    }
   }
+}
 

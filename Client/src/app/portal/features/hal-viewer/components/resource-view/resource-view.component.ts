@@ -79,6 +79,10 @@ export class ResourceViewComponent implements OnInit {
     this.jsonContent.next(JSON.stringify(resource.model));
   }
 
+  public get isCurrentResource(): boolean {
+    return this.application.isCurrentResource(this.resource);
+  }
+
   // Called when a selected embedded resource, loaded with the parent resource has
   // been selected.  This can be either a single resource or a collection of resources.
   public onEmbeddedItemSelected(item: EmbeddedItem) {

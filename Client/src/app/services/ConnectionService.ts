@@ -1,5 +1,5 @@
 import * as shortid from 'shortid';
-import {Observable} from 'rxjs';
+import {merge, Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService } from 'src/app/services/LocalStorageService';
@@ -8,6 +8,7 @@ import {RequestClientFactory } from 'src/app/common/client/RequestClientFactory'
 import {IHalEntryPointResource} from 'src/app/common/client/Resource';
 import {EventBusService} from './EventBusService';
 import {AlertEvent} from '../types/eventBus-types';
+import {catchError, map, take} from 'rxjs/operators';
 
 // Service responsible for managing connections to HAL based REST APIs and
 // for returning entry-point resources.
@@ -101,10 +102,23 @@ export class ConnectionService {
 
     // Checks connection by attempting to load it associated entry point resource.
     public testConnection(conn: ApiConnection) {
-      conn.succeeded = false;
-      this.httpClient.get(`${conn.address}/${conn.entryPath}`, { observe: 'response' })
-        .subscribe(resp => {
-          conn.succeeded = resp.status === 200;
-        });
+      conn.succeeded = null;
+
+      merge(...[
+        this.httpClient.get(`${conn.address}/${conn.entryPath}`, { observe: 'response' }),
+        this.httpClient.get(`${conn.address}/${conn.logPath}`, { observe: 'response' })])
+        .pipe(
+          take(1),
+          map(resp => {
+            if (conn.succeeded === null) {
+              conn.succeeded = true;
+            }
+          }),
+          catchError( () => {
+            conn.succeeded = false;
+            return of();
+          })
+        )
+        .subscribe();
     }
 }

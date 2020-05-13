@@ -24,6 +24,10 @@ export class ResourceInstance {
     return obj;
   }
 
+  public get hasDetails(): boolean {
+    return this.instance.hasOwnProperty('_links') || this.instance.hasOwnProperty('_embedded');
+  }
+
   public static createForEmbedded(instance: IHalResource): ResourceInstance {
     const obj = new ResourceInstance();
 

@@ -13,6 +13,7 @@ import {RequestClientFactory} from 'src/app/common/client/RequestClientFactory';
 import {take} from 'rxjs/operators';
 import {IHalEntryPointResource, IHalResource} from '../../../../common/client/Resource';
 import {EmbeddedItem} from '../../../../types/common-types';
+import {AlertEvent} from '../../../../types/eventBus-types';
 
 // Represents the main entry-point for the hal-viewer application feature.
 // This service maintains the currently selected connection and resources
@@ -122,6 +123,10 @@ export class HalApplication {
     return this.selectedRootResource;
   }
 
+  public isCurrentResource(resource: ResourceInstance) {
+    return resource === this.currentResource;
+  }
+
   // The number of error associated with the root resource.
   public get rootResourceErrorCount(): number {
     if (this.selectedRootResource) {
@@ -167,22 +172,41 @@ export class HalApplication {
 
   private applyLinkResponseStrategy(populatedLink: PopulatedLink, resource: ResourceInstance) {
 
-    // Determine if the link meets the criteria for a link that refreshes the current resource.
+    const handled = this.currentResourceUpdated(populatedLink, resource)
+      || this.rootResourceDeleted(populatedLink)
+      || this.embeddedResourceDeleted(populatedLink);
+
+
+    if (!handled && populatedLink.method === 'GET') {
+      this.selectedRootResource.childrenResources.push(resource);
+    }
+  }
+
+  // Determine if the link meets the criteria for a link that refreshes the current resource.
+  private currentResourceUpdated(populatedLink: PopulatedLink, resource: ResourceInstance): boolean {
     if (populatedLink.method === 'GET' && populatedLink.relName === 'self') {
       if (this.isRootResourceSelected) {
         this.selectedRootResource.instance = resource.instance;
       }
       this.currentResource.instance = resource.instance;
-      return;
+      this.publishActionAlert('Current Resource Loaded - Resource Updated');
+      return true;
     }
+    return false;
+  }
 
-    // If the currently selected resource is the root-resource and is being deleted, close it and notify the user.
+  // If the currently selected resource is the root-resource and is being deleted, close it and notify the user.
+  private rootResourceDeleted(populatedLink: PopulatedLink): boolean {
     if (populatedLink.method === 'DELETE' && this.isRootResourceSelected) {
       this.closeSelectedResource();
-      return;
+      this.publishActionAlert('Root Resource Deleted - Resource Closed');
+      return true;
     }
+    return false;
+  }
 
-    // If the currently selected resource is an embedded resource, remove it from parent's list of embedded items.
+  // If the currently selected resource is an embedded resource, remove it from parent's list of embedded items.
+  private embeddedResourceDeleted(populatedLink: PopulatedLink): boolean {
     if (populatedLink.method === 'DELETE' && this.parentEmbeddedItems) {
       _.remove(this.parentEmbeddedItems, ei => ei.instance === this.selectedEmbeddedResource);
 
@@ -203,12 +227,15 @@ export class HalApplication {
       }
 
       this.selectedEmbeddedResource = null;
-      return;
+      this.publishActionAlert('Embedded Resource Deleted - Removed from Parent');
+      return true;
     }
+    return false;
+  }
 
-    if (populatedLink.method === 'GET') {
-      this.selectedRootResource.childrenResources.push(resource);
-    }
+  private publishActionAlert(message: string) {
+    const alertEvt = AlertEvent.withMessage(message);
+    this.eventBus.publish(alertEvt);
   }
 
   // ----------------------------------------------------------------------------------

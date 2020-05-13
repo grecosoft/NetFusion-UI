@@ -1,5 +1,6 @@
 
-<div class="resource-view portal-component" fxLayout="column" fxFlex>
+<div class="resource-view portal-component" fxLayout="column"
+  [class.current-resource]="isCurrentResource" fxFlex>
 
   <div fxLayout="row">
     <span fxFlex>{{resource.resourceUrl}}</span>
@@ -34,7 +35,7 @@
     </mat-form-field>
   </div>
 
-  <json-viewer *ngIf="resource" [json]="resource.instance.model" fxLayout="row"></json-viewer>
+  <json-viewer *ngIf="resource" [json]="resource.instance.model || !resource.hasDetails && resource.instance" fxLayout="row"></json-viewer>
 
   <ng-container *ngIf="resource">
     <resource-view *ngFor="let loadedChild of resource.childrenResources" fxLayout="row" fxFlex
