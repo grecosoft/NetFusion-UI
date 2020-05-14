@@ -41,6 +41,11 @@ export class SharedIconModule {
               'message',
               'layers',
               'play_for_work',
+              'publish-rabbitmq',
+              'redis-publisher',
+              'redis-subscriber',
+              'subscribe-rabbitmq-direct',
+              'subscribe-rabbitmq-topic',
               'network_check',
               'in-process'
             ]);

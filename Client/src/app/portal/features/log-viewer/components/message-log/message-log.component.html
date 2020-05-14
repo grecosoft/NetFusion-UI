@@ -31,26 +31,26 @@
 </mat-toolbar>
 
 <div class="portal-area-content" fxLayout="row">
-  <mat-accordion fxFlex="">
+  <mat-accordion fxFlex="" class="log-entry">
     <mat-expansion-panel *ngFor="let log of application.selectedConnectionLogs">
-      <mat-expansion-panel-header>
-        <mat-panel-title fxLayout="row">
+      <mat-expansion-panel-header class="log-header">
+        <mat-panel-title fxLayout="row" class="log-title">
           <div style="width: 50px"><mat-icon [svgIcon]="log.hint"></mat-icon></div>
           <div style="width: 100px">{{log.dateOccurred | date:'mediumTime'}}</div>
           <div style="width: 100px">{{log.connectionName}}</div>
           <div style="width: 150px">{{log.context}}</div>
         </mat-panel-title>
-        <mat-panel-description fxLayout="column">
+        <mat-panel-description fxLayout="column" class="log-description">
             <span> {{log.correlationId}} </span>
             <span> {{log.messageType}} </span>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div style="border-top: 1px solid black; padding-bottom: 4px">
-        <div *ngFor="let detail of log.details" style="font-size: 12px">
+      <div style="border-top: 1px solid black; padding-bottom: 4px" class="log-details">
+        <div *ngFor="let detail of log.details">
           {{detail}}
         </div>
-        <div *ngFor="let error of log.errors" style="font-size: 12px">
+        <div *ngFor="let error of log.errors">
           {{error}}
         </div>
       </div>

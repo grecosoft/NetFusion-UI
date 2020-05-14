@@ -1,0 +1,22 @@
+.log-entry {
+
+  .log-header {
+    font-size: 12px;
+
+    .log-title {
+      font-weight: bold;
+    }
+
+    .log-description {
+      font-family: monospace;
+      font-weight: normal;
+    }
+  }
+  .log-description {
+    color: black;
+  }
+  .log-details {
+    font-family: monospace;
+    font-size: 12px;
+  }
+}
