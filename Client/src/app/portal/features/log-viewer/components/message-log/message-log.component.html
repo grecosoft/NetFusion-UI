@@ -48,10 +48,10 @@
 
       <div style="border-top: 1px solid black; padding-bottom: 4px" class="log-details">
         <div *ngFor="let detail of getNameValues(log.details)">
-          {{detail.name}}: {{detail.value}}
+          <span class="item-name">{{detail.name}}: </span><span class="item-value"> {{detail.value}}</span>
         </div>
         <div *ngFor="let error of getNameValues(log.errors)">
-          {{error.name}}: {{error.value}}
+          <span class="item-name">{{error.name}}: </span><span class="item-error"> {{error.value}}</span>
         </div>
       </div>
 

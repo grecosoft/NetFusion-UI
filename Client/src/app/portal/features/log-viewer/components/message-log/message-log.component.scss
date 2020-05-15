@@ -18,5 +18,13 @@
   .log-details {
     font-family: monospace;
     font-size: 12px;
+
+    .item-name {
+      font-weight: bold;
+    }
+
+    .item-error {
+      color: red;
+    }
   }
 }
