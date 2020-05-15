@@ -47,11 +47,11 @@
       </mat-expansion-panel-header>
 
       <div style="border-top: 1px solid black; padding-bottom: 4px" class="log-details">
-        <div *ngFor="let detail of log.details">
-          {{detail}}
+        <div *ngFor="let detail of getNameValues(log.details)">
+          {{detail.name}}: {{detail.value}}
         </div>
-        <div *ngFor="let error of log.errors">
-          {{error}}
+        <div *ngFor="let error of getNameValues(log.errors)">
+          {{error.name}}: {{error.value}}
         </div>
       </div>
 

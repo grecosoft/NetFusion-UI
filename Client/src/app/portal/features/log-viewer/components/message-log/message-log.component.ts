@@ -38,4 +38,8 @@ export class MessageLogComponent {
     this.application.setCurrentSort(this.sortOrders[0]);
     this.sortOrder.setValue(this.sortOrders[0]);
   }
+
+  public getNameValues(values: { [name: string]: string }): { name: string, value: string }[] {
+    return Object.getOwnPropertyNames(values).map(n => { return { name: n, value: values[n] } });
+  }
 }

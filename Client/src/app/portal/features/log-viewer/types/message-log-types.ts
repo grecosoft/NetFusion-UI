@@ -12,6 +12,6 @@ export class MessageLog {
 
   // Detail Properties:
   message: any;
-  details: string[];
-  errors: string[];
+  details: { [name: string]: string };
+  errors: { [name: string]: string };
 }
