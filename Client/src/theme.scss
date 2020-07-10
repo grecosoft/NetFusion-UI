@@ -91,3 +91,38 @@ $orange-app-theme: mat-light-theme($orange-app-primary, $orange-app-accent, $ora
 .orange-theme-indicator {
   border-bottom-color: mat-color($orange-app-primary, 800);
 }
+
+// Dark Theme:
+// ---------------------------------------------------------------
+$dark-app-primary: mat-palette($mat-grey, 800, 700, 900);
+$dark-app-accent:  mat-palette($mat-blue-grey, 300, 100, 600);
+$dark-app-warn: mat-palette($mat-red);
+
+$dark-app-theme: mat-light-theme($dark-app-primary, $dark-app-accent, $dark-app-warn);
+
+.dark-app-theme {
+  @include angular-material-theme($dark-app-theme);
+  @include theme-classes($dark-app-theme);
+}
+
+.dark-theme-indicator {
+  border-bottom-color: mat-color($dark-app-primary, 800);
+}
+
+
+// Red Theme:
+// ---------------------------------------------------------------
+$red-app-primary: mat-palette($mat-red, 800, 700, 900);
+$red-app-accent:  mat-palette($mat-grey, 300, 100, 600);
+$red-app-warn: mat-palette($mat-red);
+
+$red-app-theme: mat-light-theme($red-app-primary, $red-app-accent, $red-app-warn);
+
+.red-app-theme {
+  @include angular-material-theme($red-app-theme);
+  @include theme-classes($red-app-theme);
+}
+
+.red-theme-indicator {
+  border-bottom-color: mat-color($red-app-primary, 800);
+}

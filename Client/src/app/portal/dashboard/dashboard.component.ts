@@ -25,7 +25,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'blue-app-theme',
         'teal-app-theme',
         'green-app-theme',
-        'orange-app-theme'
+        'orange-app-theme',
+        'dark-app-theme',
+        'red-app-theme',
+        'brown-app-theme'
     ];
 
     constructor(

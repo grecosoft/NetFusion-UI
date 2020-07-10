@@ -8,6 +8,7 @@ import {ApiRequest, ApiResponse} from 'src/app/common/client/Request';
 import {IHalResource} from 'src/app/common/client/Resource';
 import {OpenedResourceStore, ResourceInstance} from '../types/resource-types';
 import {LocalStorageService} from '../../../../services/LocalStorageService';
+import {RequestSettings} from '../../../../common/client/Settings';
 
 // Service responsible for issuing resource requests to HAL based REST Api.
 @Injectable()
@@ -24,7 +25,12 @@ export class ResourceService {
     const client = this.clientFactory.getClient(connection.id);
 
     const request = ApiRequest.fromLink(populatedLink.link,
-      (config) => config.withRouteValues(populatedLink.linkParams || {}));
+      (config) => {
+        config.withRouteValues(populatedLink.linkParams || {});
+        config.settings = RequestSettings.create(settings => {
+          settings.headers.addHeader('include-url-for-doc-query', 'yes');
+        });
+    });
 
     if (populatedLink.content) {
       request.withContent(populatedLink.content);
