@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 // Passed an HTTP method and determines the class
 // that should be used.
 @Component({
-    selector: 'method-indicator',
+    selector: 'app-method-indicator',
     styleUrls: ['./method-indicator.component.scss'],
     templateUrl: './method-indicator.component.html'
 })

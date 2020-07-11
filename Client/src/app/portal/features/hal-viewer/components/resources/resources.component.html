@@ -54,15 +54,15 @@
 
 <div class="portal-area-content" fxLayout="row" *ngIf="application.selectedRootResource?.instance">
   <div fxLayout="column" fxFlex>
-    <resource-view [resource]="application.selectedRootResource"
+    <app-resource-view [resource]="application.selectedRootResource"
                    (json-content)="setRequestContent($event)">
-    </resource-view>
+    </app-resource-view>
   </div>
   <div fxLayout="column" fxFlex>
-    <link-selection [resource]="application.currentResource.instance"
+    <app-link-selection [resource]="application.currentResource.instance"
                     [content]="requestJsonBody"
                     (linkPopulating)="onLinkPopulating($event)"
                     (linkSelected)="onLinkSelected($event)">
-    </link-selection>
+    </app-link-selection>
   </div>
 </div>

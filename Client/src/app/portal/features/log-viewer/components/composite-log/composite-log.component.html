@@ -19,7 +19,7 @@
 <mat-tab-group *ngIf="application.hostPlugin">
   <mat-tab label="Host Plugin">
     <div class="portal-area-content">
-      <plugin-info [plugin]="application.hostPlugin"></plugin-info>
+      <app-plugin-info [plugin]="application.hostPlugin"></app-plugin-info>
     </div>
   </mat-tab>
 
@@ -34,7 +34,7 @@
         </mat-select>
       </mat-form-field>
 
-      <plugin-info *ngIf="selectedAppPlugin" [plugin]="selectedAppPlugin"></plugin-info>
+      <app-plugin-info *ngIf="selectedAppPlugin" [plugin]="selectedAppPlugin"></app-plugin-info>
     </div>
   </mat-tab>
 
@@ -49,7 +49,7 @@
         </mat-select>
       </mat-form-field>
 
-      <plugin-info *ngIf="selectedCorePlugin" [plugin]="selectedCorePlugin"></plugin-info>
+      <app-plugin-info *ngIf="selectedCorePlugin" [plugin]="selectedCorePlugin"></app-plugin-info>
     </div>
   </mat-tab>
 </mat-tab-group>

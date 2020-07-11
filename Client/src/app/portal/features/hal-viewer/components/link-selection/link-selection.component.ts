@@ -9,7 +9,7 @@ import {LinkViewModel, ParamValue, PopulatedLink} from '../../types/link-types';
 // links is a template and has parameters, an input filed is
 // showed for each parameter.
 @Component({
-    selector: 'link-selection',
+    selector: 'app-link-selection',
     templateUrl: './link-selection.component.html',
     styleUrls: ['./link-selection.component.scss']
 })

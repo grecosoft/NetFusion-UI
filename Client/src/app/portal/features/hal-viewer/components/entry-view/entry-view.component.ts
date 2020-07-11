@@ -12,7 +12,7 @@ import {ConfirmResponseTypes, ConfirmSettings} from '../../../../../common/dialo
 // A service API entry resource can also have embedded child entry resources
 // to provide better organization.
 @Component({
-    selector: 'entry-view',
+    selector: 'app-entry-view',
     templateUrl: './entry-view.component.html',
     styleUrls: ['./entry-view.component.scss']
 })

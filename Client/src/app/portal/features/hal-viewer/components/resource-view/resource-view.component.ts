@@ -4,12 +4,11 @@ import {ResourceInstance} from '../../types/resource-types';
 import {HalApplication} from '../../services/HalApplication';
 import {IHalResource} from 'src/app/common/client/Resource';
 import {EmbeddedItem} from '../../../../../types/common-types';
-import {EventBusService} from '../../../../../services/EventBusService';
 
 // Component allowing navigation of a root resource to related
 // linked resources and embedded resources and resource collections.
 @Component({
-    selector: 'resource-view',
+    selector: 'app-resource-view',
     templateUrl: './resource-view.component.html',
     styleUrls: [ './resource-view.component.scss' ]
 })

@@ -8,7 +8,7 @@ import { PortalSettingsService } from 'src/app/services/PortalSettingsService';
 import { SettingsUpdatedEvent } from '../events/SettingsUpdatedEvent';
 
 @Component({
-    selector: 'dashboard',
+    selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })

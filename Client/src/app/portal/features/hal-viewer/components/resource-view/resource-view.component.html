@@ -42,10 +42,11 @@
     </mat-form-field>
   </div>
 
-  <json-viewer *ngIf="resource" [json]="resource.instance.model || !resource.hasDetails && resource.instance" fxLayout="row"></json-viewer>
+  <app-json-viewer *ngIf="resource" [json]="resource.instance.model || !resource.hasDetails && resource.instance" fxLayout="row"></app-json-viewer>
 
   <ng-container *ngIf="resource">
-    <resource-view *ngFor="let loadedChild of resource.childrenResources" fxLayout="row" fxFlex
-      [resource]="loadedChild" (json-content)="setAsContent(loadedChild.instance)"></resource-view>
+    <app-resource-view *ngFor="let loadedChild of resource.childrenResources" fxLayout="row" fxFlex
+      [resource]="loadedChild" (json-content)="setAsContent(loadedChild.instance)">
+    </app-resource-view>
   </ng-container>
 </div>

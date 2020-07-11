@@ -5,7 +5,7 @@ import {HalApplication} from '../../services/HalApplication';
 // Displays a list of errors for the current selected
 // root resource.
 @Component({
-    selector: 'error-view',
+    selector: 'app-error-view',
     templateUrl: './errors-view.component.html',
     styleUrls: ['./errors-view.component.scss']
 })

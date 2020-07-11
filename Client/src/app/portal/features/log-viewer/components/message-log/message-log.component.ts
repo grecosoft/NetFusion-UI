@@ -5,7 +5,7 @@ import {ApiConnection} from '../../../../../types/connection-types';
 import {SelectionItem} from '../../../../../types/common-types';
 
 @Component({
-  selector: 'message-log',
+  selector: 'app-message-log',
   templateUrl: './message-log.component.html',
   styleUrls: ['./message-log.component.scss']
 })

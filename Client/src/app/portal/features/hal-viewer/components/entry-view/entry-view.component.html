@@ -27,14 +27,14 @@
         </mat-select>
       </mat-form-field>
 
-    <link-selection [resource]="selectedEntry" (linkSelected)=onLinkSelected($event)></link-selection>
+    <app-link-selection [resource]="selectedEntry" (linkSelected)=onLinkSelected($event)></app-link-selection>
   </div>
 
   <div fxLayout="column">
     <div class="portal-area-content" *ngIf="rootResource">
       <div>{{rootResource.resourceUrl}}</div>
       <button mat-raised-button color="primary" class="details-button" *ngIf="rootResource.hasDetails" (click)="onViewDetails()">Details</button>
-      <json-viewer [json]="rootResource.instance.model || rootResource.instance"></json-viewer>
+      <app-json-viewer [json]="rootResource.instance.model || rootResource.instance"></app-json-viewer>
     </div>
   </div>
 </div>

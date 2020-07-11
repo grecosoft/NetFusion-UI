@@ -8,10 +8,10 @@
         <mat-header-cell *matHeaderCellDef>Method</mat-header-cell>
         <mat-cell *matCellDef="let link">
             <button *ngIf="link.isTemplate || link.hasContentBody" mat-raised-button color="accent" (click)="populateUrl(link)">
-                <method-indicator [method]="link.method"></method-indicator>
+                <app-method-indicator [method]="link.method"></app-method-indicator>
             </button>
             <button *ngIf="!link.isTemplate && !link.hasContentBody" mat-raised-button color="accent" (click)="executeUrl(link)">
-                <method-indicator [method]="link.method"></method-indicator>
+                <app-method-indicator [method]="link.method"></app-method-indicator>
             </button>
         </mat-cell>
     </ng-container>

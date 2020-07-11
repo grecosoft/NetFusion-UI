@@ -10,7 +10,7 @@ import {ConfirmResponseTypes, ConfirmSettings} from '../../../../../common/dialo
 // of a resource that was loaded using the connection.  The selected
 // resource is displayed with its associated links
 @Component({
-    selector: 'resources',
+    selector: 'app-resources',
     templateUrl: 'resources.component.html',
     styleUrls: ['./resources.component.scss']
 })

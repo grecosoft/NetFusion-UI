@@ -13,7 +13,7 @@ interface Item {
 }
 
 @Component({
-  selector: 'json-viewer',
+  selector: 'app-json-viewer',
   templateUrl: './json-viewer.component.html',
   styleUrls: ['./json-viewer.component.scss'],
   encapsulation: ViewEncapsulation.None
