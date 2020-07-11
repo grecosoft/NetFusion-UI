@@ -4,6 +4,7 @@ import {DocApplication} from '../../services/DocApplication';
 import {Router} from '@angular/router';
 import {ApiConnection} from '../../../../../types/connection-types';
 import {PopulatedLink} from '../../../hal-viewer/types/link-types';
+import {ApiActionDoc} from '../../types/doc-types';
 
 // The main component navigated to display documentation associated
 // with a given resource.  When this component is navigated, the
@@ -20,6 +21,8 @@ export class ActionDocComponent implements OnInit {
   private readonly connection: ApiConnection;
   private readonly populatedLink: PopulatedLink;
 
+  public actionDoc: ApiActionDoc;
+
   constructor(
     private router: Router,
     private docApplication: DocApplication,
@@ -28,11 +31,13 @@ export class ActionDocComponent implements OnInit {
     const state = this.router.getCurrentNavigation().extras.state;
     this.connection = state.connection;
     this.populatedLink = state.populatedLink;
+
+    this.subscribeToActionDocLoaded();
   }
 
   private subscribeToActionDocLoaded() {
     this.docService.whenActionDocLoaded.subscribe(actionDoc => {
-      console.log(actionDoc);
+      this.actionDoc = actionDoc;
     });
   }
 

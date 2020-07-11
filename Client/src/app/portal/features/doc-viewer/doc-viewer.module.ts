@@ -7,6 +7,9 @@ import {SharedMatModule} from '../../../modules/shared-mat.module';
 import {CommonComponentsModule} from '../../../common/components/common-components.module';
 import {HttpClientModule} from '@angular/common/http';
 import {DocApplication} from './services/DocApplication';
+import {ResourceDocComponent} from './components/resource-doc/resource-doc.component';
+import {RelationDocComponent} from './components/relation-doc/relation-doc.component';
+import {ParamDocComponent} from './components/param-doc/param-doc.component';
 
 const areaRoutes: Routes = [
   { path: 'action-doc', component: ActionDocComponent }
@@ -22,7 +25,10 @@ const areaRoutes: Routes = [
   ],
 
   declarations: [
-    ActionDocComponent
+    ActionDocComponent,
+    ParamDocComponent,
+    ResourceDocComponent,
+    RelationDocComponent
   ],
   providers: [
     DocApplication,
