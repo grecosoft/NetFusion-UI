@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using NetFusion.Rest.Common;
 using NetFusion.Rest.Resources.Hal;
 using NetFusion.Rest.Server.Hal;
-using NetFusion.Web.Mvc.Metadata;
+
 #pragma warning disable 4014
 
 namespace Hardware.Sensors.WebApi.Controllers
 {
-    [ApiController, Route("api/sensors"), GroupMeta("Sensor")]
+    [ApiController, Route("api/sensors")]
     public class SensorController : ControllerBase
     {
         private readonly IMessageLogger _messageLogger;
@@ -21,7 +21,7 @@ namespace Hardware.Sensors.WebApi.Controllers
             _messageLogger = messageLogger;
         }
 
-        [HttpGet("{id}"), ActionMeta(nameof(GetSensor))]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetSensor(string id)
         {
             var sensor = new SensorModel

@@ -8,12 +8,13 @@ export class Link {
     href: string;
     methods: string[];
     templated: boolean;
-    hrefLang?: string;
     name?: string;
     title?: string;
     type?: string;
+    hrefLang?: string;
     deprecation?: Link;
     profile?: Link;
+    docQuery?: string;
 }
 
 export interface IHalResource {
@@ -26,11 +27,6 @@ export interface IHalResource {
     getEmbedded<TResource extends IHalResource>(name: string): TResource;
     getEmbeddedCollection<TResource extends IHalResource>(name: string): TResource[];
 }
-
-
-
-
-
 
 export interface IHalEntryPointResource extends IHalResource {
     version?: string;

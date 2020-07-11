@@ -31,6 +31,7 @@ const areaRoutes: Routes = [
   { path: 'portal/config/connections', component: ConnectionsComponent },
   { path: 'areas/log', loadChildren: () => import('src/app/portal/features/log-viewer/log-viewer.module').then(mod => mod.LogViewerModule)},
   { path: 'areas/hal', loadChildren: () => import('src/app/portal/features/hal-viewer/hal-viewer.module').then(mod => mod.HalViewerModule)},
+  { path: 'areas/doc', loadChildren: () => import('src/app/portal/features/doc-viewer/doc-viewer.module').then(mod => mod.DocViewerModule)},
   { path: '', redirectTo: 'areas/log/dashboard', pathMatch: 'full'}
 ];
 

@@ -6,12 +6,12 @@ using NetFusion.Builder;
 using NetFusion.Messaging.Plugin;
 using NetFusion.Rest.Server.Plugin;
 using NetFusion.Settings.Plugin;
-using NetFusion.Web.Mvc.Plugin;
 using Hardware.Sensors.App.Plugin;
 using Hardware.Sensors.Domain.Plugin;
 using Hardware.Sensors.Infra.Plugin;
 using Hardware.Sensors.WebApi.NetFusion.Messaging;
 using Hardware.Sensors.WebApi.Plugin;
+using NetFusion.Rest.Docs.Plugin;
 
 namespace Hardware.Sensors.WebApi
 {
@@ -31,11 +31,8 @@ namespace Hardware.Sensors.WebApi
             services.CompositeContainer(_configuration)
                 .AddSettings()
                 .AddMessaging()
-                .AddWebMvc(config =>
-                {
-                    config.EnableRouteMetadata = true;
-                })
                 .AddRest()
+                .AddRestDocs()
  
                 .AddPlugin<InfraPlugin>()
                 .AddPlugin<AppPlugin>()
@@ -64,6 +61,7 @@ namespace Hardware.Sensors.WebApi
             
             app.UseRouting();
             app.UseAuthorization();
+            app.UseRestDocs();
 
             app.UseEndpoints(endpoints =>
             {

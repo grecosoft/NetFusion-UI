@@ -4,17 +4,18 @@ using Hardware.Sensors.App.Repositories;
 using Hardware.Sensors.Domain.Commands;
 using Hardware.Sensors.Domain.Entities;
 using Hardware.Sensors.WebApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetFusion.Messaging;
 using NetFusion.Rest.Common;
+using NetFusion.Rest.Docs;
 using NetFusion.Rest.Resources.Hal;
 using NetFusion.Rest.Server.Hal;
-using NetFusion.Web.Mvc.Metadata;
+#pragma warning disable 4014
 
 namespace Hardware.Sensors.WebApi.Controllers
 {
-    [ApiController, Route("api/hardware/locations"), 
-     GroupMeta(nameof(LocationController))]
+    [ApiController, Route("api/hardware/locations")]
     public class LocationController : ControllerBase
     {
         private readonly IMessagingService _messaging;
@@ -28,7 +29,7 @@ namespace Hardware.Sensors.WebApi.Controllers
             _companyRepo = companyRepo;
         }
         
-        [HttpGet("{id}"), ActionMeta(nameof(GetLocation))]
+        [HttpGet("{id}")]
         public IActionResult GetLocation(string id)
         {
             Location location = _companyRepo.ReadLocation(id);
@@ -41,7 +42,14 @@ namespace Hardware.Sensors.WebApi.Controllers
             return Ok(model.AsResource());
         }
 
-        [HttpGet("company/{id}")]
+        /// <summary>
+        /// Returns all the locations registered for a company.
+        /// </summary>
+        /// <param name="id">Value identifying the company.</param>
+        /// <returns>Returns a resource containing list of associated location resources.</returns>
+        [HttpGet("company/{id}"),
+            ProducesResponseType(typeof(CompanyModel), StatusCodes.Status200OK),
+            EmbeddedResource(typeof(CompanyModel), typeof(LocationModel), "company-locations")]
         public IActionResult GetCompanyLocations(string id)
         {
             Company company = _companyRepo.ReadCompany(id);
@@ -52,6 +60,11 @@ namespace Hardware.Sensors.WebApi.Controllers
             return Ok(rootRes);
         }
 
+        /// <summary>
+        /// Removes a company related location.
+        /// </summary>
+        /// <param name="id">The value identifying the location to be removed.</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveLocation(string id)
         {

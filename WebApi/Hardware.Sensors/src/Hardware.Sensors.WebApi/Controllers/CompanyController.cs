@@ -8,12 +8,10 @@ using NetFusion.Messaging;
 using NetFusion.Rest.Common;
 using NetFusion.Rest.Resources.Hal;
 using NetFusion.Rest.Server.Hal;
-using NetFusion.Web.Mvc.Metadata;
 
 namespace Hardware.Sensors.WebApi.Controllers
 {
-    [ApiController, Route("api/hardware/companies"), 
-     GroupMeta(nameof(CompanyController))]
+    [ApiController, Route("api/hardware/companies")]
     public class CompanyController : ControllerBase
     {
         private readonly IMessagingService _messaging;
@@ -27,13 +25,13 @@ namespace Hardware.Sensors.WebApi.Controllers
             _companyRepo = companyRepo;
         }
 
-        [HttpGet("all/ids"), ActionMeta(nameof(GetContactIds))]
+        [HttpGet("all/ids")]
         public IActionResult GetContactIds()
         {
             return Ok(_companyRepo.GetAllCompanyIds());
         }
         
-        [HttpGet("{id}"), ActionMeta(nameof(GetCompany))]
+        [HttpGet("{id}")]
         public IActionResult GetCompany(string id)
         {
             Company company = _companyRepo.ReadCompany(id);
@@ -46,13 +44,19 @@ namespace Hardware.Sensors.WebApi.Controllers
             return Ok(companyRes);
         }
 
-        [HttpPost("register"), ActionMeta(nameof(RegisterCompany))]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterCompany([FromBody]RegisterCompanyCommand command)
         {
             Company company = await _messaging.SendAsync(command);
             
             HalResource<CompanyModel> companyRes = BuildCompanyResource(company);
             return Ok(companyRes);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCompany(string id)
+        {
+            return Ok();
         }
 
         private static HalResource<CompanyModel> BuildCompanyResource(Company company)
@@ -77,6 +81,7 @@ namespace Hardware.Sensors.WebApi.Controllers
                     .LinkMeta<CompanyController>(meta =>
                     {
                         meta.Url(RelationTypes.Self, (c, m) => c.GetCompany(m.CompanyId));
+                        meta.Url("remove", (c, m) => c.DeleteCompany(m.CompanyId));
                     })
                     .LinkMeta<LocationController>(meta =>
                     {
