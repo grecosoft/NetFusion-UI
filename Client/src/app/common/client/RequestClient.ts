@@ -32,7 +32,7 @@ export class RequestClient  {
                 if (this.errorCallback) {
                     this.errorCallback(error);
                 }
-                
+
                 return throwError(error);
             }),
             map((response: any) => {
@@ -44,7 +44,7 @@ export class RequestClient  {
         const options = this.buildOptions(request);
 
         return this.http.request<IHalResource>(request.method, request.requestUri, options).pipe(
-         
+
             map((response: any) => {
                 return new ApiResponse<IHalResource>(response);
               }));

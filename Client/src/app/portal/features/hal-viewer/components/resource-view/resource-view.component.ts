@@ -4,6 +4,7 @@ import {ResourceInstance} from '../../types/resource-types';
 import {HalApplication} from '../../services/HalApplication';
 import {IHalResource} from 'src/app/common/client/Resource';
 import {EmbeddedItem} from '../../../../../types/common-types';
+import {EventBusService} from '../../../../../services/EventBusService';
 
 // Component allowing navigation of a root resource to related
 // linked resources and embedded resources and resource collections.
@@ -31,9 +32,8 @@ export class ResourceViewComponent implements OnInit {
   public embeddedCollItems: EmbeddedItem[] = [];
   public selectedEmbeddedCollItem;
 
-
   constructor(
-    private application: HalApplication) {
+    public application: HalApplication) {
 
   }
 
@@ -111,4 +111,6 @@ export class ResourceViewComponent implements OnInit {
     this.application.viewEmbeddedResource(this.selectedEmbeddedItem.name, this.embeddedCollItems, item.instance);
   }
 }
+
+
 

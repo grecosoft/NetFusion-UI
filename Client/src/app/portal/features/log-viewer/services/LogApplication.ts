@@ -1,6 +1,5 @@
-import {CompositeLog, CompositePlugin, PluginModule} from '../types/log-types';
+import {CompositeLog, CompositePlugin} from '../types/log-types';
 import {LogService} from './LogService';
-import {LogConnection} from '../types/connection-types';
 import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {ApiConnection} from '../../../../types/connection-types';

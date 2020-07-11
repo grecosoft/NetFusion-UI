@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from './LocalStorageService';
 import { EventBusService } from './EventBusService';
 import { PortalSettings } from '../types/settings-types';
-import { SettingsUpdatedEvent } from '../types/eventBus-types';
+import { SettingsUpdatedEvent } from '../portal/events/SettingsUpdatedEvent';
 
 @Injectable()
 export class PortalSettingsService {

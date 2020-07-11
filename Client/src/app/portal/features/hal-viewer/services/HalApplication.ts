@@ -2,18 +2,20 @@ import * as _ from 'lodash';
 import {Observable, Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
+import {take} from 'rxjs/operators';
 
-import {ApiConnection, ConnectionDeletedEvent} from 'src/app/types/connection-types';
+import {ApiConnection} from 'src/app/types/connection-types';
 import {ConnectionService} from 'src/app/services/ConnectionService';
 import {ResourceService} from './ResourceService';
 import {ResourceInstance} from '../types/resource-types';
 import {PopulatedLink} from '../types/link-types';
 import {EventBusService} from '../../../../services/EventBusService';
 import {RequestClientFactory} from 'src/app/common/client/RequestClientFactory';
-import {take} from 'rxjs/operators';
 import {IHalEntryPointResource, IHalResource} from '../../../../common/client/Resource';
 import {EmbeddedItem} from '../../../../types/common-types';
-import {AlertEvent} from '../../../../types/eventBus-types';
+import {ConnectionDeletedEvent} from '../../../events/ConnectionDeletedEvent';
+import {AlertEvent} from '../../../events/AlertEvent';
+
 
 // Represents the main entry-point for the hal-viewer application feature.
 // This service maintains the currently selected connection and resources
@@ -236,6 +238,17 @@ export class HalApplication {
   private publishActionAlert(message: string) {
     const alertEvt = AlertEvent.withMessage(message);
     this.eventBus.publish(alertEvt);
+  }
+
+  // Navigates to the doc-viewer feature module and displays the
+  // documentation associated with the loaded root-resource.
+  public viewActionDocs() {
+
+    this.router.navigateByUrl('areas/doc/action-doc', { state: {
+      connection: this.selectedConnection,
+      populatedLink: this.selectedRootResource.link
+      }}).then();
+
   }
 
   // ----------------------------------------------------------------------------------

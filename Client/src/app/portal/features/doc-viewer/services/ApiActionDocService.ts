@@ -1,26 +1,38 @@
 import {Injectable} from '@angular/core';
 import {RequestClientFactory} from '../../../../common/client/RequestClientFactory';
-import { HttpClient } from '@angular/common/http';
+import {Observable, Subject} from 'rxjs';
+
 import {ApiRequest} from '../../../../common/client/Request';
+import {RequestSettings} from '../../../../common/client/Settings';
+import {ApiConnection} from '../../../../types/connection-types';
+import {Link} from '../../../../common/client/Resource';
+import {ApiActionDoc} from '../types/doc-types';
+
 
 @Injectable()
 export class ApiActionDocService {
 
+  private actionDocSubject = new Subject<ApiActionDoc>();
+
   constructor(
-    private httpClient: HttpClient,
     private clientFactory: RequestClientFactory) {
 
   }
 
-  public LoadApiActionDoc(actionTemplate: string) {
-
-    // const client = this.clientFactory.getClient(connection.id);
-
-
-    this.httpClient.get('http://localhost:6400/api/net-fusion/rest?doc=api/hardware/locations/company/{id}')
-      .subscribe(response => {
-        console.log(response);
-      });
+  public get whenActionDocLoaded(): Observable<ApiActionDoc>  {
+    return this.actionDocSubject.asObservable();
   }
 
+  public LoadApiActionDoc(connection: ApiConnection, link: Link) {
+
+    const client = this.clientFactory.getClient(connection.id);
+
+    const request = ApiRequest.get('api/net-fusion/rest', config => {
+      config.settings = RequestSettings.create(s => s.queryString.addParam('doc', link.docQuery));
+    });
+
+    client.send<ApiActionDoc>(request).subscribe(response => {
+      this.actionDocSubject.next(response.content);
+    });
+  }
 }

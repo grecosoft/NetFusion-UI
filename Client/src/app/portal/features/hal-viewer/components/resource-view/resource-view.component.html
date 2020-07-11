@@ -3,16 +3,23 @@
   [class.current-resource]="isCurrentResource" fxFlex>
 
   <div fxLayout="row">
+    <mat-icon class="icon-button" (click)="application.viewActionDocs()"
+      *ngIf="resource.resourceUrl !== null"
+      matTooltip="View Api Docs"
+      svgIcon="link_help">
+    </mat-icon>
     <span fxFlex>{{resource.resourceUrl}}</span>
     <mat-icon (click)="setAsContent(resource.instance)" class="icon-button"
-              *ngIf="resource.useJsonAsContentEnabled"
-              matTooltip="Set Resource as Request Body"
-              svgIcon="code"></mat-icon>
+      *ngIf="resource.useJsonAsContentEnabled"
+      matTooltip="Set Resource as Request Body"
+      svgIcon="code">
+    </mat-icon>
 
     <mat-icon (click)="setAsCurrent()" class="icon-button"
-              *ngIf="isSetAsCurrentEnabled()"
-              matTooltip="Set as Current Resource"
-              svgIcon="menu_open"></mat-icon>
+      *ngIf="isSetAsCurrentEnabled()"
+      matTooltip="Set as Current Resource"
+      svgIcon="menu_open">
+    </mat-icon>
   </div>
 
   <div fxLayout="row">

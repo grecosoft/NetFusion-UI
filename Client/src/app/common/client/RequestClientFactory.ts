@@ -54,6 +54,7 @@ export class RequestClientFactory {
 
     public getEntryPointResource(name: string, entryPath: string): Observable<IHalEntryPointResource> {
         const entryPointResource = this.entryResources[name];
+
         if (!entryPointResource) {
             return this.loadEntryPointResource(name, entryPath).pipe(
                 map((entryPoint) => {
@@ -76,7 +77,10 @@ export class RequestClientFactory {
     private loadEntryPointResource(name: string, entryPath: string): Observable<IHalEntryPointResource> {
         const client = this.getClient(name);
 
-        const request = ApiRequest.get(entryPath);
+        const request = ApiRequest.get(entryPath, config => {
+          config.settings = RequestSettings.create(
+            settings => settings.headers.addHeader('include-url-for-doc-query','yes'))
+        });
         return client.send<IHalEntryPointResource>(request).pipe(
             map( response => response.content)
         );

@@ -3,9 +3,9 @@ import { ChangeDetectorRef, Component, OnDestroy, Inject, OnInit } from '@angula
 import { PortalService } from 'src/app/services/PortalService';
 import { PortalArea, AreaSection } from 'src/app/types/navigation-types';
 import { EventBusService } from 'src/app/services/EventBusService';
-import { SettingsUpdatedEvent } from 'src/app/types/eventBus-types';
 import { DOCUMENT } from '@angular/common';
 import { PortalSettingsService } from 'src/app/services/PortalSettingsService';
+import { SettingsUpdatedEvent } from '../events/SettingsUpdatedEvent';
 
 @Component({
     selector: 'dashboard',

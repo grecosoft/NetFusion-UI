@@ -3,12 +3,13 @@ import {merge, Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService } from 'src/app/services/LocalStorageService';
-import {ApiConnection, ConnectionDeletedEvent} from '../types/connection-types';
 import {RequestClientFactory } from 'src/app/common/client/RequestClientFactory';
 import {IHalEntryPointResource} from 'src/app/common/client/Resource';
 import {EventBusService} from './EventBusService';
-import {AlertEvent} from '../types/eventBus-types';
 import {catchError, map, take} from 'rxjs/operators';
+import { ApiConnection } from '../types/connection-types';
+import {ConnectionDeletedEvent} from '../portal/events/ConnectionDeletedEvent';
+import {AlertEvent} from '../portal/events/AlertEvent';
 
 // Service responsible for managing connections to HAL based REST APIs and
 // for returning entry-point resources.

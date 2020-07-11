@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventBusService } from './EventBusService';
-import { AlertEvent } from '../types/eventBus-types';
+import {AlertEvent} from '../portal/events/AlertEvent';
+
 
 @Injectable()
 export class AlertService {

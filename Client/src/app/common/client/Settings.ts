@@ -86,11 +86,11 @@ export class QueryString {
         const mergedQuery = new QueryString();
 
         _.forOwn(this.values, (value: string, name: string) => {
-            mergedQuery[name] = value;
+            mergedQuery.values[name] = value;
         });
 
         _.forOwn(queryString.values, (value: string, name: string) => {
-            mergedQuery[name] = value;
+            mergedQuery.values[name] = value;
         });
 
         return mergedQuery;

@@ -6,6 +6,7 @@ import {SharedModule} from '../../../modules/shared.module';
 import {SharedMatModule} from '../../../modules/shared-mat.module';
 import {CommonComponentsModule} from '../../../common/components/common-components.module';
 import {HttpClientModule} from '@angular/common/http';
+import {DocApplication} from './services/DocApplication';
 
 const areaRoutes: Routes = [
   { path: 'action-doc', component: ActionDocComponent }
@@ -24,6 +25,7 @@ const areaRoutes: Routes = [
     ActionDocComponent
   ],
   providers: [
+    DocApplication,
     ApiActionDocService
   ]
 })
