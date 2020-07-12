@@ -4,6 +4,49 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
+<div class="portal-area-content">
+  <dl class="portal-value-grouping" *ngIf="actionDoc">
+    <dt>Action</dt>
+    <dd>
+      <dl class="portal-value-list">
+        <dt>Method</dt>
+        <dd>{{actionDoc.httpMethod}}</dd>
+        <dt>Relative Path</dt>
+        <dd>{{actionDoc.relativePath}}</dd>
+        <dt>Description</dt>
+        <dd>{{actionDoc.description}}</dd>
+      </dl>
+    </dd>
+
+    <dt>Route Parameters</dt>
+    <dd>
+      <app-param-doc [param-list]="actionDoc.routeParams"></app-param-doc>
+    </dd>
+
+    <dt>Query Parameters</dt>
+    <dd>
+      <app-param-doc [param-list]="actionDoc.queryParams"></app-param-doc>
+    </dd>
+
+    <dt>Header Parameters</dt>
+    <dd>
+      <app-param-doc [param-list]="actionDoc.headerParams"></app-param-doc>
+    </dd>
+
+    <dt>Responses</dt>
+    <dd style="margin-inline-start: 0">
+      <app-resource-doc [responseDoc]="actionDoc.responseDocs[0]"></app-resource-doc>
+    </dd>
+  </dl>
+</div>
+
+
+
+
+
+
+
+
 <div *ngIf="actionDoc">
   <app-json-viewer [json]="actionDoc"></app-json-viewer>
 </div>

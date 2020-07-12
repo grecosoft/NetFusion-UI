@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {ApiParameterDoc} from '../../types/doc-types';
 
 @Component({
   selector: 'app-param-doc',
@@ -7,4 +8,8 @@ import {Component} from '@angular/core';
 })
 export class ParamDocComponent {
 
+  @Input('param-list')
+  public parameters: ApiParameterDoc[];
+
+  public paramColumns = ['name', 'type', 'defaultValue', 'optional', 'description'];
 }

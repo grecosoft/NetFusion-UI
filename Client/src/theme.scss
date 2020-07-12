@@ -33,7 +33,7 @@ $green-app-theme: mat-light-theme($green-app-primary, $green-app-accent, $green-
     @include angular-material-theme($green-app-theme);
 
     // The following mixin adds class selector based styles containing
-    // colors based on the application's current.
+    // colors based on the application's current theme.
     @include theme-classes($green-app-theme);
 }
 

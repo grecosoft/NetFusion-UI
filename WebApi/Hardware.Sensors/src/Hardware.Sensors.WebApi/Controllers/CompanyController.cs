@@ -37,7 +37,8 @@ namespace Hardware.Sensors.WebApi.Controllers
         /// </summary>
         /// <param name="id">The identity value of the company resource.</param>
         /// <returns>Company resource model.</returns>
-        [HttpGet("{id}"), ProducesResponseType(typeof(CompanyModel), StatusCodes.Status200OK)]
+        [HttpGet("{id}"), 
+         ProducesResponseType(typeof(CompanyModel), StatusCodes.Status200OK)]
         public IActionResult GetCompany(string id)
         {
             Company company = _companyRepo.ReadCompany(id);

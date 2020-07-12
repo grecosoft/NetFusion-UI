@@ -21,7 +21,7 @@ body {
 }
 
 .portal-container {
-    .portal-sidenav-container {
+  .portal-sidenav-container {
         .portal-content {
 
             // The following are the common styles shared beetween all content
@@ -137,5 +137,22 @@ body {
       border-radius: 10px;
       padding:5px;
       border-style: solid;
+  }
+
+  table.portal-table {
+    .mat-header-row {
+      min-height: 20px;
+
+      .mat-header-cell {
+        font-size: 12px;
+      }
+    }
+    .mat-row {
+      min-height: 20px;
+
+      .mat-cell {
+        font-size: 11px;
+      }
+    }
   }
 }

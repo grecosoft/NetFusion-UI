@@ -127,12 +127,22 @@
       }
     }
 
-  resource-view {
+  .resource-view {
     .portal-component {
       border-color: mat-color($primary, 100);
     }
     .current-resource {
       border-color: mat-color($primary, 700);
+    }
+  }
+
+  table.portal-table {
+    .mat-header-row {
+      background-color: mat-color($primary, 300);
+
+      .mat-header-cell {
+        color: #000000;
+      }
     }
   }
 }

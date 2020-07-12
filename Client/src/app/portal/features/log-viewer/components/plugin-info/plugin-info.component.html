@@ -50,26 +50,26 @@
 
   <dt>Plugin Registered Services</dt>
   <dd>
-    <table style="width: 100%" mat-table [dataSource]="plugin.ServiceRegistrations"
-           *ngIf="plugin.ServiceRegistrations?.length; else noServices" class="mat-elevation-z8">
+    <table style="width: 100%" mat-table [dataSource]="plugin.ServiceRegistrations" class="portal-table"
+      *ngIf="plugin.ServiceRegistrations?.length; else noServices" class="registrations-table mat-elevation-z8">
 
       <ng-container matColumnDef="serviceType">
-        <th mat-header-cell *matHeaderCellDef> Service Type </th>
-        <td mat-cell *matCellDef="let service"> {{service.serviceType}} </td>
+        <mat-header-cell *matHeaderCellDef> Service Type </mat-header-cell>
+        <mat-cell *matCellDef="let service"> {{service.serviceType}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="implementationType">
-        <th mat-header-cell *matHeaderCellDef> Implementation Type </th>
-        <td mat-cell *matCellDef="let service"> {{service.implementationType}} </td>
+        <mat-header-cell *matHeaderCellDef> Implementation Type </mat-header-cell>
+        <mat-cell *matCellDef="let service"> {{service.implementationType}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="lifeTime">
-        <th mat-header-cell *matHeaderCellDef> Lifetime </th>
-        <td mat-cell *matCellDef="let service"> {{service.lifeTime}} </td>
+        <mat-header-cell *matHeaderCellDef> Lifetime </mat-header-cell>
+        <mat-cell *matCellDef="let service"> {{service.lifeTime}} </mat-cell>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="serviceColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: serviceColumns;"></tr>
+      <mat-header-row *matHeaderRowDef="serviceColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: serviceColumns;"></mat-row>
     </table>
 
     <ng-template #noServices>
