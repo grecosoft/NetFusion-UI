@@ -36,8 +36,9 @@ export class ResourceInstance {
     return obj;
   }
 
-  public static createForUrl(resourceUrl: string): ResourceInstance {
+  public static createForUrl(populatedLink: PopulatedLink, resourceUrl: string): ResourceInstance {
     const obj = new ResourceInstance();
+    obj.link = populatedLink;
     obj.resourceUrl = resourceUrl;
 
     return obj;
@@ -50,5 +51,6 @@ export class OpenedResourceStore {
 
 export class SavedResource {
   public connectionId: string;
+  public populatedLink: PopulatedLink;
   public rootResourceUrl: string;
 }

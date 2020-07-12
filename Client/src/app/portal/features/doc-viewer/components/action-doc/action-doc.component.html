@@ -1,3 +1,8 @@
+<mat-toolbar class="portal-area-toolbar">
+  <mat-toolbar-row *ngIf="actionDoc">
+    <span>{{actionDoc.httpMethod}} {{actionDoc.relativePath}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
 
 <div *ngIf="actionDoc">
   <app-json-viewer [json]="actionDoc"></app-json-viewer>

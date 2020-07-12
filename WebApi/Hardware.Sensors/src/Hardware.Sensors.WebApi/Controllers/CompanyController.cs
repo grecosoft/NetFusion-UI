@@ -3,6 +3,7 @@ using Hardware.Sensors.App.Repositories;
 using Hardware.Sensors.Domain.Commands;
 using Hardware.Sensors.Domain.Entities;
 using Hardware.Sensors.WebApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetFusion.Messaging;
 using NetFusion.Rest.Common;
@@ -31,7 +32,12 @@ namespace Hardware.Sensors.WebApi.Controllers
             return Ok(_companyRepo.GetAllCompanyIds());
         }
         
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Returns a specific registered company.
+        /// </summary>
+        /// <param name="id">The identity value of the company resource.</param>
+        /// <returns>Company resource model.</returns>
+        [HttpGet("{id}"), ProducesResponseType(typeof(CompanyModel), StatusCodes.Status200OK)]
         public IActionResult GetCompany(string id)
         {
             Company company = _companyRepo.ReadCompany(id);

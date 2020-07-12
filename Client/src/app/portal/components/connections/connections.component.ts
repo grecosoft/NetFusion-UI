@@ -41,7 +41,8 @@ export class ConnectionsComponent implements OnInit, ComponentFormState {
             name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)] ],
             address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)] ],
             entryPath: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)] ],
-            logPath: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)] ]
+            logPath: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)] ],
+            docPath: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)] ]
         });
     }
 

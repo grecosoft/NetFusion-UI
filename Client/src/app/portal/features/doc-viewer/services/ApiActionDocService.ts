@@ -27,7 +27,7 @@ export class ApiActionDocService {
 
     const client = this.clientFactory.getClient(connection.id);
 
-    const request = ApiRequest.get('api/net-fusion/rest', config => {
+    const request = ApiRequest.get(connection.docPath, config => {
       config.settings = RequestSettings.create(s => s.queryString.addParam('doc', link.docQuery));
     });
 

@@ -46,7 +46,9 @@ export class ResourceService {
 
     connResources.forEach((resources, connId) => {
       resources.forEach((r, _) => {
-        store.resources.push({ connectionId: connId, rootResourceUrl: r.resourceUrl});
+
+
+        store.resources.push({ connectionId: connId, populatedLink: r.link, rootResourceUrl: r.resourceUrl});
       });
     });
 
@@ -65,7 +67,7 @@ export class ResourceService {
 
     store.resources.forEach((sr, _) => {
       const resources = connResources.get(sr.connectionId) || [];
-      resources.push(ResourceInstance.createForUrl(sr.rootResourceUrl));
+      resources.push(ResourceInstance.createForUrl(sr.populatedLink, sr.rootResourceUrl));
       connResources.set(sr.connectionId, resources);
     });
   }

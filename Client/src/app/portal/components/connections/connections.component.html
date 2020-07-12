@@ -48,6 +48,14 @@
                         Required and between 5 and 50 characters.
                       </mat-error>
                     </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input type="text" formControlName="docPath" matInput placeholder="API Doc Path">
+                      <mat-error *ngIf="isInputInvalid('docPath')">
+                        Required and between 5 and 50 characters.
+                      </mat-error>
+                    </mat-form-field>
+
                     <div>
                       <mat-icon style="color: green;" svgIcon="check_circle" *ngIf="existingConnection?.succeeded === true"></mat-icon>
                       <mat-icon style="color: red;" svgIcon="remove_circle" *ngIf="existingConnection?.succeeded === false"></mat-icon>
