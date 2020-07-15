@@ -1,3 +1,11 @@
 .portal-area-content {
   margin-right: 50px;
 }
+::ng-deep .mat-form-field-infix {
+  width: 285px !important;
+}
+
+
+.response-list {
+  margin-left: 50px;
+}

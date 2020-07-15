@@ -18,33 +18,53 @@
       </dl>
     </dd>
 
-    <dt>Route Parameters</dt>
-    <dd>
-      <app-param-doc [param-list]="actionDoc.routeParams"></app-param-doc>
-    </dd>
+    <ng-container *ngIf="actionDoc.routeParams.length > 0">
+      <dt>Route Parameters</dt>
+      <dd>
+        <app-param-doc [param-list]="actionDoc.routeParams"></app-param-doc>
+      </dd>
+    </ng-container>
 
-    <dt>Query Parameters</dt>
-    <dd>
-      <app-param-doc [param-list]="actionDoc.queryParams"></app-param-doc>
-    </dd>
+    <ng-container *ngIf="actionDoc.queryParams.length > 0">
+      <dt>Query Parameters</dt>
+      <dd>
+        <app-param-doc [param-list]="actionDoc.queryParams"></app-param-doc>
+      </dd>
+    </ng-container>
 
-    <dt>Header Parameters</dt>
-    <dd>
-      <app-param-doc [param-list]="actionDoc.headerParams"></app-param-doc>
-    </dd>
+    <ng-container *ngIf="actionDoc.headerParams.length > 0">
+      <dt>Header Parameters</dt>
+      <dd>
+        <app-param-doc [param-list]="actionDoc.headerParams"></app-param-doc>
+      </dd>
+    </ng-container>
 
-    <dt>Responses</dt>
-    <dd style="margin-inline-start: 0">
-      <app-resource-doc [responseDoc]="actionDoc.responseDocs[0]"></app-resource-doc>
-    </dd>
+    <ng-container *ngIf="actionDoc.responseDocs.length > 0">
+      <dt>Responses</dt>
+      <dd style="margin-inline-start: 0">
+
+        <mat-form-field class="response-list">
+          <mat-select [(value)]="selectedResourceDoc" (selectionChange)="onResourceSelected()">
+            <mat-option *ngFor="let item of responseItems" [value]="item.objKey">
+              {{item.displayValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <ng-container *ngFor="let resource of visitedResourceDocs">
+            <span>&#047;</span>
+            <span><a href="javascript: void(0)" (click)="onVisitedResourceSelected(resource)">{{resource.resourceName}}</a></span>
+          </ng-container>
+        </div>
+
+        <app-resource-doc [resourceDoc]="currentResourceDoc"
+              (onChildObjSelected)="onNavToResourceDoc($event)">
+        </app-resource-doc>
+      </dd>
+    </ng-container>
   </dl>
 </div>
-
-
-
-
-
-
 
 
 <div *ngIf="actionDoc">

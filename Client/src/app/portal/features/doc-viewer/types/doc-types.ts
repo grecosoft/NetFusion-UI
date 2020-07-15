@@ -25,9 +25,9 @@ export class ApiParameterDoc {
 export class ApiPropertyDoc {
   name: string;
   description: string;
-  isObject: boolean;
   isArray: boolean;
   isRequired: boolean;
+  resourceDoc: ApiResourceDoc;
 }
 
 export class ApiRelationDoc {

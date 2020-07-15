@@ -1,90 +1,91 @@
 <div class="portal-area-content">
-  <dl class="portal-value-grouping" *ngIf="responseDoc">
+  <dl class="portal-value-grouping" *ngIf="resourceDoc">
     <dd>
       <dl class="portal-value-list">
+        <dt>Resource Name</dt>
+        <dd>{{resourceDoc.resourceName}}</dd>
         <dt>Description</dt>
-        <dd>{{responseDoc.resourceDoc.description}}</dd>
+        <dd>{{resourceDoc.description}}</dd>
       </dl>
     </dd>
 
-    <dt>Properties</dt>
-    <dd>
-      <table style="width: 100%" mat-table [dataSource]="properties"
-             *ngIf="properties.length; else noServices"
-             class="portal-table props-table mat-elevation-z8">
+    <ng-container *ngIf="resourceDoc.properties.length > 0">
+      <dt>Properties</dt>
+      <dd>
+        <table style="width: 100%" mat-table [dataSource]="resourceDoc.properties"
+               class="portal-table props-table mat-elevation-z8">
 
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-          <mat-cell *matCellDef="let prop"> {{prop.name}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let prop"> {{prop.name}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="type">
-          <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-          <mat-cell *matCellDef="let prop"> {{prop.type}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+            <mat-cell *matCellDef="let prop">
+              <span *ngIf="prop.type !== 'Object' else objLink">{{prop.type}}</span>
+              <ng-template #objLink><a href="javascript: void(0)" (click)="onObjectTypeSelected(prop)">{{prop.type}}</a></ng-template>
+            </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="array">
-          <mat-header-cell *matHeaderCellDef> Default Value </mat-header-cell>
-          <mat-cell *matCellDef="let prop"> {{prop.isArray}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="array">
+            <mat-header-cell *matHeaderCellDef> Default Value </mat-header-cell>
+            <mat-cell *matCellDef="let prop"> {{prop.isArray}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="required">
-          <mat-header-cell *matHeaderCellDef> Required </mat-header-cell>
-          <mat-cell *matCellDef="let prop"> {{prop.isRequired}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="required">
+            <mat-header-cell *matHeaderCellDef> Required </mat-header-cell>
+            <mat-cell *matCellDef="let prop"> {{prop.isRequired}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-          <mat-cell *matCellDef="let prop"> {{prop.description}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let prop"> {{prop.description}} </mat-cell>
+          </ng-container>
 
-        <mat-header-row *matHeaderRowDef="propColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: propColumns;"></mat-row>
-      </table>
+          <mat-header-row *matHeaderRowDef="propColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: propColumns;"></mat-row>
+        </table>
+      </dd>
+    </ng-container>
 
-      <ng-template #noServices>
-        No Properties
-      </ng-template>
-    </dd>
+    <ng-container *ngIf="resourceDoc.relationDocs.length > 0">
+      <dt>Relations</dt>
+      <dd>
+        <table style="width: 100%" mat-table [dataSource]="resourceDoc.relationDocs"
+               class="portal-table relations-table mat-elevation-z8">
 
-    <dt>Relations</dt>
-    <dd>
-      <table style="width: 100%" mat-table [dataSource]="relations"
-             *ngIf="relations.length; else noServices"
-             class="portal-table props-table mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let link"> {{link.name}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-          <mat-cell *matCellDef="let link"> {{link.name}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="method">
+            <mat-header-cell *matHeaderCellDef> Method </mat-header-cell>
+            <mat-cell *matCellDef="let link"> {{link.method}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="method">
-          <mat-header-cell *matHeaderCellDef> Method </mat-header-cell>
-          <mat-cell *matCellDef="let link"> {{link.method}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="href">
+            <mat-header-cell *matHeaderCellDef> HRef </mat-header-cell>
+            <mat-cell *matCellDef="let link"> {{link.hRef}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="href">
-          <mat-header-cell *matHeaderCellDef> HRef </mat-header-cell>
-          <mat-cell *matCellDef="let link"> {{link.hRef}} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let link"> {{link.description}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-          <mat-cell *matCellDef="let link"> {{link.description}} </mat-cell>
-        </ng-container>
+          <mat-header-row *matHeaderRowDef="relationColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: relationColumns;"></mat-row>
+        </table>
+      </dd>
+    </ng-container>
 
-        <mat-header-row *matHeaderRowDef="relationColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: relationColumns;"></mat-row>
-      </table>
+    <ng-container *ngIf="resourceDoc.embeddedResourceDocs.length > 0">
+      <dt>Embedded Resources</dt>
+      <dd>
 
-      <ng-template #noServices>
-        No Relations
-      </ng-template>
-    </dd>
-
-    <dt>Embedded Resources</dt>
-    <dd>
-
-    </dd>
+      </dd>
+    </ng-container>
   </dl>
 </div>

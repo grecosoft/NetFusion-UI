@@ -1,3 +1,40 @@
 .portal-area-content {
   padding-left: 0;
 }
+
+.props-table {
+  width: 80%;
+
+  .mat-header-cell:first-child,.mat-cell:first-child{
+    flex:25%;
+  }
+  .mat-header-cell:nth-child(2),.mat-cell:nth-child(2){
+    flex:20%;
+  }
+  .mat-header-cell:nth-child(3),.mat-cell:nth-child(3){
+    flex:15%;
+  }
+  .mat-header-cell:nth-child(4),.mat-cell:nth-child(4){
+    flex:10%;
+  }
+  .mat-header-cell:last-child,.mat-cell:last-child{
+    flex:30%
+  }
+}
+
+.relations-table {
+  width: 80%;
+
+  .mat-header-cell:first-child,.mat-cell:first-child{
+    flex:20%;
+  }
+  .mat-header-cell:nth-child(2),.mat-cell:nth-child(2){
+    flex:15%;
+  }
+  .mat-header-cell:nth-child(3),.mat-cell:nth-child(3){
+    flex:35%;
+  }
+  .mat-header-cell:last-child,.mat-cell:last-child{
+    flex:30%
+  }
+}

@@ -2,7 +2,8 @@ import {ResourceInstance} from '../portal/features/hal-viewer/types/resource-typ
 import {IHalResource} from '../common/client/Resource';
 
 export class SelectionItem {
-  key: string;
+  key?: string;
+  objKey?: any;
   displayValue: string;
 }
 

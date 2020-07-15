@@ -1,25 +1,28 @@
-import {Component, Input} from '@angular/core';
-import {ApiPropertyDoc, ApiRelationDoc, ApiResponseDoc} from '../../types/doc-types';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ApiPropertyDoc, ApiResourceDoc} from '../../types/doc-types';
 
 @Component({
   selector: 'app-resource-doc',
   templateUrl: './resource-doc.component.html',
   styleUrls: ['./resource-doc.component.scss']
 })
-export class ResourceDocComponent {
+export class ResourceDocComponent implements OnInit {
 
-  @Input()
-  public responseDoc: ApiResponseDoc;
+  @Input('resourceDoc')
+  public resourceDoc: ApiResourceDoc;
 
-  public get properties(): ApiPropertyDoc[] {
-    return this.responseDoc.resourceDoc.properties;
-  }
-
-  public get relations(): ApiRelationDoc[] {
-    return this.responseDoc.resourceDoc.relationDocs;
-  }
+  @Output('onChildObjSelected')
+  public onChildObjSelected = new EventEmitter<ApiResourceDoc>();
 
   public propColumns = ['name', 'type', 'array', 'required', 'description'];
   public relationColumns = ['name', 'method', 'href', 'description'];
 
+  public onObjectTypeSelected(propDoc: ApiPropertyDoc) {
+    console.log(propDoc);
+    this.onChildObjSelected.emit(propDoc.resourceDoc);
+  }
+
+  ngOnInit(): void {
+
+  }
 }
