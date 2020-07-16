@@ -59,7 +59,7 @@
                 <!-- Response Resource Selection -->
                 <div fxLayout="row">
                   <mat-form-field class="response-list">
-                    <mat-select [(value)]="selectedResourceDoc" (selectionChange)="onResourceSelected()">
+                    <mat-select [(value)]="selectedResponseDoc" (selectionChange)="onResourceSelected()">
                       <mat-option *ngFor="let item of responseItems" [value]="item.objKey">
                         {{item.displayValue}}
                       </mat-option>
@@ -81,8 +81,8 @@
             <div fxLayout="row" fxFill>
               <div fxLayout="column" fxFill>
                 <app-resource-doc [resourceDoc]="currentResourceDoc"
-                                  (onChildResourceSelected)="onNavToResourceDoc($event)"
-                                  (onRelationSelected)="onNavToActionDoc($event)">
+                      (onChildResourceSelected)="onNavToResourceDoc($event)"
+                      (onRelationSelected)="onNavToActionDoc($event)">
                 </app-resource-doc>
               </div>
             </div>
