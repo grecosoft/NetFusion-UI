@@ -29,6 +29,7 @@ import {ConnectionsComponent} from './portal/components/connections/connections.
 const areaRoutes: Routes = [
   { path: 'portal/config/settings', component: SettingsComponent },
   { path: 'portal/config/connections', component: ConnectionsComponent },
+  { path: 'areas/hal/docs', redirectTo: 'areas/doc/action-doc'},
   { path: 'areas/log', loadChildren: () => import('src/app/portal/features/log-viewer/log-viewer.module').then(mod => mod.LogViewerModule)},
   { path: 'areas/hal', loadChildren: () => import('src/app/portal/features/hal-viewer/hal-viewer.module').then(mod => mod.HalViewerModule)},
   { path: 'areas/doc', loadChildren: () => import('src/app/portal/features/doc-viewer/doc-viewer.module').then(mod => mod.DocViewerModule)},

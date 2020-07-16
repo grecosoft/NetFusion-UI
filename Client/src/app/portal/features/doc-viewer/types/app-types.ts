@@ -2,6 +2,7 @@ import {ApiConnection} from '../../../../types/connection-types';
 import {PopulatedLink} from '../../hal-viewer/types/link-types';
 import {ApiActionDoc, ApiResourceDoc, ApiResponseDoc} from './doc-types';
 import {SelectionItem} from '../../../../types/common-types';
+import {Link} from '../../../../common/client/Resource';
 
 // Records the current state of the user's navigations within
 // a given ApiActionDoc.  This is used so the user can navigate
@@ -13,7 +14,7 @@ export class ActionDocState {
     // The link for which documentation is to be retrieved and the
     // connection of the corresponding WebApi.
     public connection: ApiConnection,
-    public populatedLink: PopulatedLink) {
+    public link: Link) {
   }
 
   // The documentation associated with WebApi action to which the
@@ -22,7 +23,7 @@ export class ActionDocState {
 
   // Listing of the possible Api responses for selection.
   public responseItems: SelectionItem[] = [];
-  public selectedResponseDoc: ApiResponseDoc;
+  public currentResponseDoc: ApiResponseDoc;
 
   // As the user navigates between resource documentation,
   // the following records the hierarchy transversed.
@@ -33,27 +34,39 @@ export class ActionDocState {
     this.responseItems = responseItems;
 
     if (actionDoc.responseDocs.length > 0) {
-      this.selectedResponseDoc = actionDoc.responseDocs[0];
+      this.currentResponseDoc = actionDoc.responseDocs[0];
+      this.recordVisitedResourceDoc(this.currentResponseDoc.resourceDoc);
     }
   }
 
-  public setSelectedResponseDoc(responseDoc: ApiResponseDoc) {
+  // Set the current Api Response Document that is being viewed.  Any child
+  // navigated to Resource Documents are cleared and the Resource Document
+  // of the select response becomes the current.
+  public setCurrentResponseDoc(responseDoc: ApiResponseDoc) {
     this.visitedResourceDocs.length = 0;
-    this.selectedResponseDoc = responseDoc;
+    this.currentResponseDoc = responseDoc;
+    this.recordVisitedResourceDoc(responseDoc.resourceDoc);
   }
 
+  // Adds a child Resource Document of the current parent to the list
+  // of visited resources.  This is used so the user can navigate back
+  // to a specific parent resource.
   public recordVisitedResourceDoc(resourceDoc: ApiResourceDoc) {
     this.visitedResourceDocs.push(resourceDoc);
   }
 
+  // Makes the specified Resource Document the current by removing
+  // all Resource Documents that were loaded afterwards.
   public setCurrentVisitedResourceDoc(resourceDoc: ApiResourceDoc) {
     this.visitedResourceDocs.length = this.visitedResourceDocs.indexOf(resourceDoc) + 1;
   }
 
   public get currentResourceDoc(): ApiResourceDoc {
-    if (this.visitedResourceDocs.length === 0) {
-      return this.selectedResponseDoc.resourceDoc;
-    }
     return this.visitedResourceDocs[this.visitedResourceDocs.length-1];
   }
+}
+
+export class ActionDocNavInfo {
+  connection: ApiConnection;
+  populatedLink: PopulatedLink;
 }

@@ -1,9 +1,14 @@
 .portal-area-content {
-  margin-right: 50px;
+  margin-left: 50px;
 }
 ::ng-deep .action-doc .mat-form-field-infix {
   width: 285px !important;
   border-top-width: 0;
+}
+
+.doc-path {
+  font-size: smaller;
+  padding-right: 15px;
 }
 
 .action-doc {

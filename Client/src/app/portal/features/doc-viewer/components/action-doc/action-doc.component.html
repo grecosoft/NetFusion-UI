@@ -1,6 +1,32 @@
 <mat-toolbar class="portal-area-toolbar">
-  <mat-toolbar-row *ngIf="actionDoc">
-    <span>{{actionDoc.httpMethod}} {{actionDoc.relativePath}}</span>
+  <mat-toolbar-row>
+
+    <mat-form-field class="toolbar-form-input">
+      <mat-label>Connections</mat-label>
+      <mat-select (selectionChange)="onConnectionSelected($event.value)" [value]="application.selectedConnection">
+        <mat-option *ngFor="let connection of application.connections" [value]="connection">
+          {{connection.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="toolbar-form-input">
+      <mat-label>Action Documents</mat-label>
+      <mat-select (selectionChange)="onActionLinkSelected($event.value)" [value]="currentActionDocState?.link">
+        <mat-option *ngFor="let actionDocLink of application.connectionActionDocLinks" [value]="actionDocLink">
+          {{actionDocLink.docQuery}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <a mat-raised-button color="primary" [disabled]="isCloseDisabled" (click)="onCloseSelectedActionDoc()">
+      <span>Close</span>
+      <mat-icon svgIcon="close"></mat-icon>
+    </a>
+
+    <span class="toolbar-item-spacer"></span>
+    <span class="doc-path" *ngIf="actionDoc">{{actionDoc.httpMethod}} {{actionDoc.relativePath}}</span>
+
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -59,8 +85,8 @@
                 <!-- Response Resource Selection -->
                 <div fxLayout="row">
                   <mat-form-field class="response-list">
-                    <mat-select [(value)]="selectedResponseDoc" (selectionChange)="onResourceSelected()">
-                      <mat-option *ngFor="let item of responseItems" [value]="item.objKey">
+                    <mat-select [(value)]="selectedResponseDoc" (selectionChange)="onActionResponseSelected()">
+                      <mat-option *ngFor="let item of currentActionDocState.responseItems" [value]="item.objKey">
                         {{item.displayValue}}
                       </mat-option>
                     </mat-select>
@@ -69,7 +95,7 @@
 
                 <!-- Selected Resource Path -->
                 <div fxLayout="row" class="resource-path">
-                  <ng-container *ngFor="let resource of visitedResourceDocs">
+                  <ng-container *ngFor="let resource of currentActionDocState.visitedResourceDocs">
                     <span>&#047;</span>
                     <span><a href="javascript: void(0)" (click)="onVisitedResourceSelected(resource)">{{resource.resourceName}}</a></span>
                   </ng-container>
@@ -80,8 +106,8 @@
             <!--Resource Details-->
             <div fxLayout="row" fxFill>
               <div fxLayout="column" fxFill>
-                <app-resource-doc [resourceDoc]="currentResourceDoc"
-                      (onChildResourceSelected)="onNavToResourceDoc($event)"
+                <app-resource-doc [resourceDoc]="currentActionDocState.currentResourceDoc"
+                      (onChildResourceSelected)="onChildResourceSelected($event)"
                       (onRelationSelected)="onNavToActionDoc($event)">
                 </app-resource-doc>
               </div>

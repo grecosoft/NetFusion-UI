@@ -109,7 +109,8 @@ export class PortalService {
       portal.addArea(
         new PortalArea('Hal Viewer', 'areas/hal', 'find_in_page'), [
           new AreaSection('Api Entries', 'entries', 'play_for_work'),
-          new AreaSection('Resources', 'resources', 'layers')
+          new AreaSection('Resources', 'resources', 'layers'),
+          new AreaSection('Documentation', 'docs', 'api_docs')
       ]);
     }
 }

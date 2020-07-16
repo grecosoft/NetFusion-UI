@@ -14,6 +14,7 @@ export class SharedIconModule {
 
             this.registerIcons([
               'add_box',
+              'api_docs',
               'apps',
               'check_box',
               'check_circle',
