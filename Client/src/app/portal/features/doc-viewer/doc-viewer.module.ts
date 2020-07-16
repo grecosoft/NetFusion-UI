@@ -8,7 +8,6 @@ import {CommonComponentsModule} from '../../../common/components/common-componen
 import {HttpClientModule} from '@angular/common/http';
 import {DocApplication} from './services/DocApplication';
 import {ResourceDocComponent} from './components/resource-doc/resource-doc.component';
-import {RelationDocComponent} from './components/relation-doc/relation-doc.component';
 import {ParamDocComponent} from './components/param-doc/param-doc.component';
 
 const areaRoutes: Routes = [
@@ -27,8 +26,7 @@ const areaRoutes: Routes = [
   declarations: [
     ActionDocComponent,
     ParamDocComponent,
-    ResourceDocComponent,
-    RelationDocComponent
+    ResourceDocComponent
   ],
   providers: [
     DocApplication,

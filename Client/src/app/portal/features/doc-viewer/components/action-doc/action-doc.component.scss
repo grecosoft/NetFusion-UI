@@ -1,11 +1,35 @@
 .portal-area-content {
   margin-right: 50px;
 }
-::ng-deep .mat-form-field-infix {
+::ng-deep .action-doc .mat-form-field-infix {
   width: 285px !important;
+  border-top-width: 0;
 }
 
+.action-doc {
+  .divider {
+    margin-top: 30px;
+  }
+  .response-docs {
+    padding-top: 25px;
+  }
+}
 
 .response-list {
   margin-left: 50px;
+}
+
+.resource-path {
+  margin-left: 50px;
+  a {
+    color: black;
+    text-decoration: none;
+    :visited {
+      text-decoration: none;
+    }
+    :link {
+      text-decoration: none;
+      color: black;
+    }
+  }
 }

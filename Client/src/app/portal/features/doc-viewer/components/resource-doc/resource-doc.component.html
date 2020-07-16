@@ -1,4 +1,6 @@
 <div class="portal-area-content">
+
+  <!-- Resource Info -->
   <dl class="portal-value-grouping" *ngIf="resourceDoc">
     <dd>
       <dl class="portal-value-list">
@@ -9,6 +11,7 @@
       </dl>
     </dd>
 
+    <!-- Properties -->
     <ng-container *ngIf="resourceDoc.properties.length > 0">
       <dt>Properties</dt>
       <dd>
@@ -24,7 +27,11 @@
             <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
             <mat-cell *matCellDef="let prop">
               <span *ngIf="prop.type !== 'Object' else objLink">{{prop.type}}</span>
-              <ng-template #objLink><a href="javascript: void(0)" (click)="onObjectTypeSelected(prop)">{{prop.type}}</a></ng-template>
+              <ng-template #objLink>
+                <a href="javascript: void(0)" (click)="onResourceSelected(prop.resourceDoc)">
+                    {{prop.resourceDoc.resourceName}}
+                </a>
+              </ng-template>
             </mat-cell>
           </ng-container>
 
@@ -49,6 +56,7 @@
       </dd>
     </ng-container>
 
+    <!-- Relations -->
     <ng-container *ngIf="resourceDoc.relationDocs.length > 0">
       <dt>Relations</dt>
       <dd>
@@ -67,7 +75,11 @@
 
           <ng-container matColumnDef="href">
             <mat-header-cell *matHeaderCellDef> HRef </mat-header-cell>
-            <mat-cell *matCellDef="let link"> {{link.hRef}} </mat-cell>
+            <mat-cell *matCellDef="let link">
+              <a href="javascript: void(0)" (click)="onRelationSelected(link)">
+                {{link.hRef}}
+              </a>
+            </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="description">
@@ -81,10 +93,35 @@
       </dd>
     </ng-container>
 
+    <!-- Embedded Resources -->
     <ng-container *ngIf="resourceDoc.embeddedResourceDocs.length > 0">
       <dt>Embedded Resources</dt>
       <dd>
+        <table style="width: 100%" mat-table [dataSource]="resourceDoc.embeddedResourceDocs"
+               class="portal-table relations-table mat-elevation-z8">
 
+          <ng-container matColumnDef="embeddedName">
+            <mat-header-cell *matHeaderCellDef> Embedded name </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{item.embeddedName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="isCollection">
+            <mat-header-cell *matHeaderCellDef> Collection </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{item.isCollection}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="resourceDoc">
+            <mat-header-cell *matHeaderCellDef> Resource </mat-header-cell>
+            <mat-cell *matCellDef="let item">
+              <a href="javascript: void(0)" (click)="onResourceSelected(item.resourceDoc)">
+                {{item.resourceDoc.resourceName}}
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="embeddedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: embeddedColumns;"></mat-row>
+        </table>
       </dd>
     </ng-container>
   </dl>

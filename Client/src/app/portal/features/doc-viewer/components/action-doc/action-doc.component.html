@@ -4,9 +4,11 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div class="portal-area-content">
+<div class="action-doc portal-area-content">
   <dl class="portal-value-grouping" *ngIf="actionDoc">
     <dt>Action</dt>
+
+    <!-- Resource Information -->
     <dd>
       <dl class="portal-value-list">
         <dt>Method</dt>
@@ -18,6 +20,7 @@
       </dl>
     </dd>
 
+    <!-- Request Parameters -->
     <ng-container *ngIf="actionDoc.routeParams.length > 0">
       <dt>Route Parameters</dt>
       <dd>
@@ -39,34 +42,53 @@
       </dd>
     </ng-container>
 
+    <mat-divider class="divider"></mat-divider>
+
     <ng-container *ngIf="actionDoc.responseDocs.length > 0">
-      <dt>Responses</dt>
+      <dt class="response-docs">Responses</dt>
       <dd style="margin-inline-start: 0">
 
-        <mat-form-field class="response-list">
-          <mat-select [(value)]="selectedResourceDoc" (selectionChange)="onResourceSelected()">
-            <mat-option *ngFor="let item of responseItems" [value]="item.objKey">
-              {{item.displayValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div fxLayout="row" fxFill>
+          <div fxLayout="column" fxFill>
 
-        <div>
-          <ng-container *ngFor="let resource of visitedResourceDocs">
-            <span>&#047;</span>
-            <span><a href="javascript: void(0)" (click)="onVisitedResourceSelected(resource)">{{resource.resourceName}}</a></span>
-          </ng-container>
+            <!--  Navigation-->
+            <div fxLayout="row" fxFill>
+
+              <div fxLayout="column" fxFlex>
+
+                <!-- Response Resource Selection -->
+                <div fxLayout="row">
+                  <mat-form-field class="response-list">
+                    <mat-select [(value)]="selectedResourceDoc" (selectionChange)="onResourceSelected()">
+                      <mat-option *ngFor="let item of responseItems" [value]="item.objKey">
+                        {{item.displayValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <!-- Selected Resource Path -->
+                <div fxLayout="row" class="resource-path">
+                  <ng-container *ngFor="let resource of visitedResourceDocs">
+                    <span>&#047;</span>
+                    <span><a href="javascript: void(0)" (click)="onVisitedResourceSelected(resource)">{{resource.resourceName}}</a></span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <!--Resource Details-->
+            <div fxLayout="row" fxFill>
+              <div fxLayout="column" fxFill>
+                <app-resource-doc [resourceDoc]="currentResourceDoc"
+                                  (onChildResourceSelected)="onNavToResourceDoc($event)"
+                                  (onRelationSelected)="onNavToActionDoc($event)">
+                </app-resource-doc>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <app-resource-doc [resourceDoc]="currentResourceDoc"
-              (onChildObjSelected)="onNavToResourceDoc($event)">
-        </app-resource-doc>
       </dd>
     </ng-container>
   </dl>
-</div>
-
-
-<div *ngIf="actionDoc">
-  <app-json-viewer [json]="actionDoc"></app-json-viewer>
 </div>

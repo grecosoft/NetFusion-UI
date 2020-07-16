@@ -8,7 +8,7 @@ import {PopulatedLink} from 'src/app/portal/features/hal-viewer/types/link-types
 
 import {ApiActionDocService} from '../../services/ApiActionDocService';
 import {DocApplication} from '../../services/DocApplication';
-import {ApiActionDoc, ApiResourceDoc} from '../../types/doc-types';
+import {ApiActionDoc, ApiRelationDoc, ApiResourceDoc} from '../../types/doc-types';
 
 
 // The main component navigated to display documentation associated
@@ -23,12 +23,18 @@ import {ApiActionDoc, ApiResourceDoc} from '../../types/doc-types';
 })
 export class ActionDocComponent implements OnInit {
 
+  // The link for which documentation is to be retrieved and the
+  // connection of the corresponding WebApi.
   private readonly connection: ApiConnection;
   private readonly populatedLink: PopulatedLink;
 
+  // The documentation associated with WebApi action to which the
+  // the link corresponds.
   public actionDoc: ApiActionDoc;
   public responseItems: SelectionItem[] = [];
 
+  // As the user navigates between resource documentation,
+  // the following records the hierarchy transversed.
   public visitedResourceDocs: ApiResourceDoc[] = [];
   public selectedResourceDoc: ApiResourceDoc;
 
@@ -51,6 +57,7 @@ export class ActionDocComponent implements OnInit {
 
       if (this.actionDoc.responseDocs.length > 0) {
         this.selectedResourceDoc = this.actionDoc.responseDocs[0].resourceDoc;
+        this.onNavToResourceDoc(this.selectedResourceDoc);
       }
     });
   }
@@ -74,14 +81,19 @@ export class ActionDocComponent implements OnInit {
   public onResourceSelected()
   {
     this.visitedResourceDocs.length = 0;
+    this.onNavToResourceDoc(this.selectedResourceDoc)
   }
 
   public onNavToResourceDoc(resourceDoc: ApiResourceDoc) {
     this.visitedResourceDocs.push(resourceDoc);
   }
 
+  public onNavToActionDoc(relationDoc: ApiRelationDoc) {
+    console.log(relationDoc);
+  }
+
   public onVisitedResourceSelected(resourceDoc: ApiResourceDoc) {
-    this.visitedResourceDocs.length = this.visitedResourceDocs.indexOf(resourceDoc);
+    this.visitedResourceDocs.length = this.visitedResourceDocs.indexOf(resourceDoc) + 1;
   }
 
   public get currentResourceDoc(): ApiResourceDoc {
