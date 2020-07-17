@@ -79,14 +79,16 @@ export class ActionDocComponent implements OnInit, OnDestroy{
     this.currentActionDocState.recordVisitedResourceDoc(resourceDoc);
   }
 
-  public onCloseSelectedActionDoc() {
-
-  }
-
   public get isCloseDisabled(): boolean {
     return this.application.selectedActionDocState === null;
   }
 
+  public onCloseSelectedActionDoc() {
+    this.application.closeCurrentActionDoc();
+  }
+
+  // Called when a document is to be loaded for a selected link
+  // associated when a resource of the current document.
   public onNavToActionDoc(relationDoc: ApiRelationDoc) {
 
     const link: Link = {
@@ -100,6 +102,7 @@ export class ActionDocComponent implements OnInit, OnDestroy{
     this.application.loadRelatedActionDoc(link);
   }
 
+  // Called when the user moves back to a parent loaded resource document.
   public onVisitedResourceSelected(resourceDoc: ApiResourceDoc) {
     this.currentActionDocState.setCurrentVisitedResourceDoc(resourceDoc);
   }

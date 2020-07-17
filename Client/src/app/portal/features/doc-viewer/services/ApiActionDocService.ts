@@ -23,7 +23,10 @@ export class ApiActionDocService {
     const client = this.clientFactory.getClient(connection.id);
 
     const request = ApiRequest.get(connection.docPath, config => {
-      config.settings = RequestSettings.create(s => s.queryString.addParam('doc', link.docQuery));
+      config.settings = RequestSettings.create(s => {
+          s.queryString.addParam('method', link.methods[0]);
+          s.queryString.addParam('doc', link.docQuery);
+      });
     });
 
     return client.send<ApiActionDoc>(request).pipe(

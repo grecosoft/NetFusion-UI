@@ -27,7 +27,10 @@
         </mat-select>
       </mat-form-field>
 
-    <app-link-selection [resource]="selectedEntry" (linkSelected)=onLinkSelected($event)></app-link-selection>
+    <app-link-selection [resource]="selectedEntry"
+        (linkSelected)="onLinkSelected($event)"
+        (displayLinkDocs)="application.viewLinkActionDocs($event)">
+    </app-link-selection>
   </div>
 
   <div fxLayout="column">

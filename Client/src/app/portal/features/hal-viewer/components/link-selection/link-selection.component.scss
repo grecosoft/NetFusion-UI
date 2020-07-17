@@ -43,6 +43,10 @@
       padding-right: 5px;
     }
     .mat-header-cell:nth-child(3),.mat-cell:nth-child(3){
+       flex:10%;
+       padding-right: 5px;
+    }
+    .mat-header-cell:nth-child(4),.mat-cell:nth-child(4){
       flex:80%;
       padding-right: 5px;
     }

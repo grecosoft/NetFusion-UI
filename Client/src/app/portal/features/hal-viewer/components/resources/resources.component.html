@@ -60,9 +60,10 @@
   </div>
   <div fxLayout="column" fxFlex>
     <app-link-selection [resource]="application.currentResource.instance"
-                    [content]="requestJsonBody"
-                    (linkPopulating)="onLinkPopulating($event)"
-                    (linkSelected)="onLinkSelected($event)">
+        [content]="requestJsonBody"
+        (linkPopulating)="onLinkPopulating($event)"
+        (linkSelected)="onLinkSelected($event)"
+        (displayLinkDocs)="application.viewLinkActionDocs($event)">
     </app-link-selection>
   </div>
 </div>

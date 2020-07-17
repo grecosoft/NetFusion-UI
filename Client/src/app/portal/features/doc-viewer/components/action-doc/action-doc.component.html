@@ -14,23 +14,25 @@
       <mat-label>Action Documents</mat-label>
       <mat-select (selectionChange)="onActionLinkSelected($event.value)" [value]="currentActionDocState?.link">
         <mat-option *ngFor="let actionDocLink of application.connectionActionDocLinks" [value]="actionDocLink">
-          {{actionDocLink.docQuery}}
+          ({{actionDocLink.methods[0]}}) {{actionDocLink.docQuery}}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <span class="toolbar-item-spacer"></span>
 
     <a mat-raised-button color="primary" [disabled]="isCloseDisabled" (click)="onCloseSelectedActionDoc()">
       <span>Close</span>
       <mat-icon svgIcon="close"></mat-icon>
     </a>
 
-    <span class="toolbar-item-spacer"></span>
-    <span class="doc-path" *ngIf="actionDoc">{{actionDoc.httpMethod}} {{actionDoc.relativePath}}</span>
-
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div class="action-doc portal-area-content">
+<div *ngIf="actionDoc else docNotSelected" class="action-doc portal-area-content">
+
+  <span class="doc-path" *ngIf="actionDoc">{{actionDoc.httpMethod}} {{actionDoc.relativePath}}</span>
+
   <dl class="portal-value-grouping" *ngIf="actionDoc">
     <dt>Action</dt>
 
@@ -118,3 +120,6 @@
     </ng-container>
   </dl>
 </div>
+<ng-template #docNotSelected>
+  <div class="portal-area-message">REST Api Action Document has not been selected.</div>
+</ng-template>

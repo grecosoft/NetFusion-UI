@@ -16,6 +16,16 @@
         </mat-cell>
     </ng-container>
 
+   <ng-container matColumnDef="documentation">
+     <mat-header-cell *matHeaderCellDef>Docs</mat-header-cell>s
+     <mat-cell *matCellDef="let link">
+       <mat-icon class="icon-button" (click)="onViewActionDoc(link)"
+           matTooltip="View Api Docs"
+           svgIcon="link_help">
+       </mat-icon>
+     </mat-cell>
+   </ng-container>
+
    <ng-container matColumnDef="resourceUrl">
      <mat-header-cell *matHeaderCellDef>Resource Url</mat-header-cell>
      <mat-cell *matCellDef="let link"> {{link.resourceUrl}} </mat-cell>

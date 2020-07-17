@@ -11,7 +11,7 @@ import {ResourceInstance} from '../types/resource-types';
 import {PopulatedLink} from '../types/link-types';
 import {EventBusService} from '../../../../services/EventBusService';
 import {RequestClientFactory} from 'src/app/common/client/RequestClientFactory';
-import {IHalEntryPointResource, IHalResource} from '../../../../common/client/Resource';
+import {IHalEntryPointResource, IHalResource, Link} from '../../../../common/client/Resource';
 import {EmbeddedItem} from '../../../../types/common-types';
 import {ConnectionDeletedEvent} from '../../../events/ConnectionDeletedEvent';
 import {AlertEvent} from '../../../events/AlertEvent';
@@ -249,6 +249,13 @@ export class HalApplication {
       populatedLink: this.selectedRootResource.link
       }}).then();
 
+  }
+
+  public viewLinkActionDocs(link: PopulatedLink) {
+    this.router.navigateByUrl('areas/doc/action-doc', { state: {
+        connection: this.selectedConnection,
+        populatedLink: link
+      }}).then();
   }
 
   // ----------------------------------------------------------------------------------

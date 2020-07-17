@@ -32,6 +32,8 @@ export class DocApplication {
     private connectionService: ConnectionService) {
   }
 
+  // Observable used to notify subscribers of when an action
+  // document is to be displayed.
   public get whenActionDocReady(): Observable<ActionDocState> {
     return this.actionDocSubject.asObservable();
   }
@@ -41,10 +43,15 @@ export class DocApplication {
     return this.connectionService.connections;
   }
 
+  // The links associated with all action-documents loaded on a given
+  // Api connection.  This allows moving between the different loaded
+  // action-documents for the current connections.
   public get connectionActionDocLinks(): Link[] {
     return _.map(this.connectionActionDocs, ad => ad.link);
   }
 
+  // Called to change the currently selected connection and update
+  // the list of action-documents associated when the connection.
   public setCurrentConn(connection: ApiConnection) {
 
     // If no change in collection no state change required.
@@ -53,16 +60,22 @@ export class DocApplication {
     }
 
     this.selectedConnection = connection;
+    this.selectedActionDocState = null;
 
+    // Create an entry for the connection's loaded document if not present.
     if (!this.connectionDocs.has(connection.id)) {
       this.connectionDocs.set(connection.id, []);
     }
 
+    // Update the list of action documents corresponding to selected connection.
     this.connectionActionDocs = this.connectionDocs.get(connection.id);
 
+    // Notify subscriber of newly selected action document.
     if (this.connectionActionDocs.length > 0) {
-      this.actionDocSubject.next(this.connectionActionDocs[this.connectionActionDocs.length-1]);
+      this.selectedActionDocState = this.connectionActionDocs[this.connectionActionDocs.length-1];
     }
+
+    this.actionDocSubject.next(this.selectedActionDocState);
   }
 
   // Loads a related link's Action Doc on the current connection.
@@ -70,33 +83,13 @@ export class DocApplication {
     this.loadActionDoc(this.selectedConnection, link);
   }
 
-  // Determines if there was a prior selected action document.  If not, the next
-  // best match is determined.
-  public loadLastActionDoc() {
-
-    // There was a prior selected action document.
-    if (this.selectedActionDocState !== null) {
-      this.actionDocSubject.next(this.selectedActionDocState);
-      return;
-    }
-
-    //  No selected action document, but there is a selected connection, so notify
-    // subscriber of the last document loaded on the selected connection.
-    if (this.selectedConnection !== null && this.connectionDocs.has(this.selectedConnection.id)) {
-       this.connectionActionDocs = this.connectionDocs.get(this.selectedConnection.id);
-
-       this.selectedActionDocState = this.connectionActionDocs.length > 0 ?
-         this.connectionActionDocs[this.connectionActionDocs.length-1] : null;
-    }
-  }
-
-  // Loads a new Action Document on the
+  // Loads a new Action Document on selected connection.
   public loadActionDoc(connection: ApiConnection, link: Link) {
 
     this.setCurrentConn(connection);
 
     this.selectedActionDocState = _.find(this.connectionActionDocs,
-        ads => ads.link.docQuery === link.docQuery);
+        ads => ads.link.methods[0] === link.methods[0] && ads.link.docQuery === link.docQuery);
 
     // If the action document has already been loaded, notify subscribes.
     if (this.selectedActionDocState) {
@@ -115,6 +108,43 @@ export class DocApplication {
         this.actionDocSubject.next(this.selectedActionDocState);
       })
     ).subscribe();
+  }
+
+  // Determines if there was a prior selected action document.  If not, the next
+  // best match is determined.
+  public loadLastActionDoc() {
+
+    // There was a prior selected action document.
+    if (this.selectedActionDocState !== null) {
+      this.actionDocSubject.next(this.selectedActionDocState);
+      return;
+    }
+
+    //  No selected action document, but there is a selected connection, so notify
+    // subscriber of the last document loaded on the selected connection.
+    if (this.selectedConnection !== null && this.connectionDocs.has(this.selectedConnection.id)) {
+      this.connectionActionDocs = this.connectionDocs.get(this.selectedConnection.id);
+
+      this.selectedActionDocState = this.connectionActionDocs.length > 0 ?
+        this.connectionActionDocs[this.connectionActionDocs.length-1] : null;
+
+      this.actionDocSubject.next(this.selectedActionDocState);
+    }
+  }
+
+  public closeCurrentActionDoc() {
+    if (!this.selectedActionDocState) {
+      return;
+    }
+
+    // Removed the current action document from the list of connection loaded documents.
+    const idx = this.connectionActionDocs.indexOf(this.selectedActionDocState);
+    this.connectionActionDocs.splice(idx, 1);
+
+    // Select last document in the list of as the new selected document.
+    const currNumDocs = this.connectionActionDocs.length;
+    this.selectedActionDocState = currNumDocs > 0 ? this.connectionActionDocs[currNumDocs - 1] : null;
+    this.actionDocSubject.next(this.selectedActionDocState);
   }
 
   private createResourceItems(actionDoc: ApiActionDoc): SelectionItem[] {

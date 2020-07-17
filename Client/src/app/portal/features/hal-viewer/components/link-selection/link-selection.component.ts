@@ -34,15 +34,19 @@ export class LinkSelectionComponent  implements OnChanges {
     @Output('linkSelected')
     public linkSelected: EventEmitter<PopulatedLink>;
 
+    @Output('displayLinkDocs')
+    public displayLinkDocs: EventEmitter<PopulatedLink>;
+
     public constructor() {
 
         this.linkPopulating = new EventEmitter<LinkViewModel>();
         this.linkSelected = new EventEmitter<PopulatedLink>();
+        this.displayLinkDocs = new EventEmitter<PopulatedLink>();
     }
 
     // The links contained on the resource used to make associated requests.
     public resourceLinks: LinkViewModel[];
-    public resourceLinkColumns = ['relName', 'method', 'resourceUrl'];
+    public resourceLinkColumns = ['relName', 'method', 'documentation', 'resourceUrl'];
 
     // An input group used to specify values for a URL containing template parameters.
     public paramNameColumns = ['name', 'input'];
@@ -133,6 +137,10 @@ export class LinkSelectionComponent  implements OnChanges {
         }
 
         this.linkSelected.emit(selectedResourceLink);
+    }
+
+    public onViewActionDoc(populatedLink: PopulatedLink) {
+      this.displayLinkDocs.emit(populatedLink);
     }
 
     // Creates an Angular input group and adds an input control for each template parameter.

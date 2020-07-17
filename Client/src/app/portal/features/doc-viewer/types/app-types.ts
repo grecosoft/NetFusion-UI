@@ -21,7 +21,8 @@ export class ActionDocState {
   // the link corresponds.
   public actionDoc: ApiActionDoc;
 
-  // Listing of the possible Api responses for selection.
+  // Listing of the possible Api responses for selection and
+  // the current selected response.
   public responseItems: SelectionItem[] = [];
   public currentResponseDoc: ApiResponseDoc;
 
@@ -41,7 +42,7 @@ export class ActionDocState {
 
   // Set the current Api Response Document that is being viewed.  Any child
   // navigated to Resource Documents are cleared and the Resource Document
-  // of the select response becomes the current.
+  // of the selected response becomes the current.
   public setCurrentResponseDoc(responseDoc: ApiResponseDoc) {
     this.visitedResourceDocs.length = 0;
     this.currentResponseDoc = responseDoc;
