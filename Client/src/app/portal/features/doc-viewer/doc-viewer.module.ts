@@ -9,6 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {DocApplication} from './services/DocApplication';
 import {ResourceDocComponent} from './components/resource-doc/resource-doc.component';
 import {ParamDocComponent} from './components/param-doc/param-doc.component';
+import {CodeDialogComponent} from './components/code-dialog/code-dialog.component';
 
 const areaRoutes: Routes = [
   { path: 'action-doc', component: ActionDocComponent }
@@ -26,7 +27,8 @@ const areaRoutes: Routes = [
   declarations: [
     ActionDocComponent,
     ParamDocComponent,
-    ResourceDocComponent
+    ResourceDocComponent,
+    CodeDialogComponent
   ],
   providers: [
     DocApplication,

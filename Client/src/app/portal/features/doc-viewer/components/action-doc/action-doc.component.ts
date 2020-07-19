@@ -4,11 +4,13 @@ import {Subscription} from 'rxjs';
 
 import {DocApplication} from '../../services/DocApplication';
 import {ApiActionDoc, ApiRelationDoc, ApiResourceDoc, ApiResponseDoc} from '../../types/doc-types';
-import {ActionDocNavInfo, ActionDocState} from '../../types/app-types';
+import {ActionDocNavInfo, ActionDocState, CodeDialogData} from '../../types/app-types';
 import {Link} from '../../../../../common/client/Resource';
 import {ApiConnection} from '../../../../../types/connection-types';
 import {ConfirmResponseTypes, ConfirmSettings} from '../../../../../common/dialogs/confirmation/types';
 import {ConfirmationService} from '../../../../../common/dialogs/confirmation/ConfirmationService';
+import {MatDialog} from '@angular/material/dialog';
+import {CodeDialogComponent} from '../code-dialog/code-dialog.component';
 
 // The main component navigated to display documentation associated
 // with a given resource.  When this component is navigated, the
@@ -36,7 +38,8 @@ export class ActionDocComponent implements OnInit, OnDestroy{
   constructor(
     private router: Router,
     public application: DocApplication,
-    private confirmation: ConfirmationService) {
+    private confirmation: ConfirmationService,
+    public dialog: MatDialog) {
 
     this.subscribeToActionDocLoaded();
 
@@ -63,8 +66,10 @@ export class ActionDocComponent implements OnInit, OnDestroy{
     });
 
     this.codeResourceSubscription = this.application.whenResourceCodeReady
-      .subscribe(code => {
-        console.log(code);
+      .subscribe(sourceCode => {
+
+        const dialogData: CodeDialogData = { code: sourceCode };
+        this.dialog.open(CodeDialogComponent, { data: dialogData });
       })
   }
 

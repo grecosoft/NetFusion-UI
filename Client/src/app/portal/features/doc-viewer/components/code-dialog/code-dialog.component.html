@@ -1,0 +1,13 @@
+<div class="dialog-title" mat-dialog-title color>
+  <mat-icon svgIcon="question_answer"></mat-icon>
+  <span class="caption-text">Resource Typescript</span>
+</div>
+<div mat-dialog-content>
+  <pre class="typescript-code">{{data.code}}</pre>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="onCopy()" tabindex="-1">Copy to Clipboard</button>
+</div>
+
+
+

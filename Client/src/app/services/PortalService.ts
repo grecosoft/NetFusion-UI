@@ -17,7 +17,7 @@ export class PortalService {
 
     constructor(
         private router: Router,
-        private  connectionService: ConnectionService,
+        private connectionService: ConnectionService,
         _: AlertService) {
 
         this.selectedAreaUpdated = new Subject<PortalArea>();

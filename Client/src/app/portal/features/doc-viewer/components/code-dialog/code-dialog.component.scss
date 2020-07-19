@@ -1,0 +1,30 @@
+.dialog-title {
+  margin-left: -24px;
+  margin-right:  -24px;
+  color: white;
+  font-size: 14px;
+
+  .mat-icon {
+    padding-top: 5px;
+    padding-left: 4px;
+  }
+
+  .caption-text {
+    padding-top: 0;
+    padding-left: 8px;
+  }
+}
+
+.typescript-code {
+  border: 2px solid #4db6ac;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+::ng-deep .mat-dialog-container {
+  padding-top: 0;
+
+  .mat-dialog-actions {
+    padding: 0;
+  }
+}

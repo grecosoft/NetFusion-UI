@@ -6,6 +6,7 @@ import { PortalService } from './PortalService';
 import { PortalSettingsService } from './PortalSettingsService';
 import { PortalApplication } from './PortalApplication';
 import {ConnectionService} from './ConnectionService';
+import {ClipboardService} from './ClipboardService';
 
 @NgModule({
     providers: [
@@ -15,7 +16,8 @@ import {ConnectionService} from './ConnectionService';
         LocalStorageService,
         PortalService,
         PortalSettingsService,
-        ConnectionService
+        ConnectionService,
+        ClipboardService
     ]
 })
 export class ServicesModule {

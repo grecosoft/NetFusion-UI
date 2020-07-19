@@ -71,3 +71,8 @@ export class ActionDocNavInfo {
   connection: ApiConnection;
   populatedLink: PopulatedLink;
 }
+
+
+export class CodeDialogData {
+  code: string;
+}
