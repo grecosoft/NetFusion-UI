@@ -26,6 +26,16 @@
       <mat-icon svgIcon="close"></mat-icon>
     </a>
 
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [disabled]="isCloseAllDisabled" (click)="onCloseAllDocuments()">
+        <mat-icon svgIcon="clear_all"></mat-icon>
+        <span>Close All...</span>
+      </button>
+    </mat-menu>
+
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -110,7 +120,8 @@
               <div fxLayout="column" fxFill>
                 <app-resource-doc [resourceDoc]="currentActionDocState.currentResourceDoc"
                       (onChildResourceSelected)="onChildResourceSelected($event)"
-                      (onRelationSelected)="onNavToActionDoc($event)">
+                      (onRelationSelected)="onNavToActionDoc($event)"
+                      (onShowResourceCode)="onLoadResourceCode($event)">
                 </app-resource-doc>
               </div>
             </div>

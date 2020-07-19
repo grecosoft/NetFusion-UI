@@ -81,7 +81,7 @@ export class ResourcesComponent {
       'Close all Resources',
       `Are you sure you want to close all resources?`);
 
-    confirmation.confirmText = 'Close';
+    confirmation.confirmText = 'Yes';
 
     this.confirmation.verifyAction(confirmation).subscribe((answer) => {
       if (answer === ConfirmResponseTypes.ActionConfirmed) {

@@ -8,12 +8,15 @@ import {Link} from '../../../../common/client/Resource';
 import {ApiActionDoc} from '../types/doc-types';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+
 
 
 @Injectable()
 export class ApiActionDocService {
 
   constructor(
+    private httpClient: HttpClient,
     private clientFactory: RequestClientFactory) {
 
   }
@@ -32,5 +35,11 @@ export class ApiActionDocService {
     return client.send<ApiActionDoc>(request).pipe(
       map(resp => resp.content)
     );
+  }
+
+  public LoadResourceCode(connection: ApiConnection, resourceName: string): Observable<string> {
+
+    return this.httpClient.get(`http://localhost:6400/api/net-fusion/rest?resource=${resourceName}`,
+      { responseType: 'text'});
   }
 }

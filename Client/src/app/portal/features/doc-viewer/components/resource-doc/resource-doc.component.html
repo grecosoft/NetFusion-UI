@@ -5,7 +5,15 @@
     <dd>
       <dl class="portal-value-list">
         <dt>Resource Name</dt>
-        <dd>{{resourceDoc.resourceName}}</dd>
+        <dd>
+          <div fxLayout="row">
+            <div fxFlex fxFlexAlign="center">{{resourceDoc.resourceName}}</div>
+            <mat-icon class="icon-button" (click)="onGetResourceCode()"
+                matTooltip="View Api Docs"
+                svgIcon="gen_code">
+            </mat-icon>
+          </div>
+        </dd>
         <dt>Description</dt>
         <dd>{{resourceDoc.description}}</dd>
       </dl>

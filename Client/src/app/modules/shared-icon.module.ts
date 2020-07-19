@@ -23,6 +23,7 @@ export class SharedIconModule {
               'edit',
               'delete_forever',
               'find_in_page',
+              'gen_code',
               'language',
               'link_help',
               'account_tree',

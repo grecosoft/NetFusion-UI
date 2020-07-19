@@ -8,7 +8,7 @@ export class ApiConnection {
     public address: string;
     public entryPath: string;
     public logPath: string;
-    public docPath = 'ttp://localhost:6400/api/net-fusion/rest';
+    public docPath: string;
     public succeeded?: boolean;
 
     public static AppendAddressToPath(connection: ApiConnection, path: string) {

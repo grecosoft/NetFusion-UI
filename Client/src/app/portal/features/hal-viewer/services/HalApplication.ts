@@ -246,7 +246,7 @@ export class HalApplication {
 
     this.router.navigateByUrl('areas/doc/action-doc', { state: {
       connection: this.selectedConnection,
-      populatedLink: this.selectedRootResource.link
+      populatedLink: this.currentResource.link
       }}).then();
 
   }

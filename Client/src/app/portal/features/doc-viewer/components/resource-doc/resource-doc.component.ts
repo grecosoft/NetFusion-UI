@@ -17,6 +17,9 @@ export class ResourceDocComponent {
   @Output('onRelationSelected')
   public onChildRelationSelected = new EventEmitter<ApiRelationDoc>();
 
+  @Output('onShowResourceCode')
+  public onShowResourceCode = new EventEmitter<ApiResourceDoc>();
+
   public propColumns = ['name', 'type', 'array', 'required', 'description'];
   public relationColumns = ['name', 'method', 'href', 'description'];
   public embeddedColumns = ['embeddedName', 'isCollection', 'resourceDoc'];
@@ -29,4 +32,7 @@ export class ResourceDocComponent {
     this.onChildRelationSelected.emit(relationDoc);
   }
 
+  public onGetResourceCode() {
+    this.onShowResourceCode.emit(this.resourceDoc);
+  }
 }

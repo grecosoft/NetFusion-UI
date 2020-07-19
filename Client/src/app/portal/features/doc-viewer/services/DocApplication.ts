@@ -7,7 +7,7 @@ import {Observable, Subject} from 'rxjs';
 import {ApiActionDocService} from './ApiActionDocService';
 import {ActionDocState} from '../types/app-types';
 import {ApiConnection} from '../../../../types/connection-types';
-import {ApiActionDoc} from '../types/doc-types';
+import {ApiActionDoc, ApiResourceDoc} from '../types/doc-types';
 import {SelectionItem} from '../../../../types/common-types';
 import {Link} from '../../../../common/client/Resource';
 import {ConnectionService} from '../../../../services/ConnectionService';
@@ -25,7 +25,9 @@ export class DocApplication {
   public selectedActionDocState: ActionDocState = null;
   private connectionActionDocs: ActionDocState[] = [];
 
+  // Subjects:
   private actionDocSubject = new Subject<ActionDocState>();
+  private resourceCodeSubject  = new Subject<string>();
 
   constructor(
     private docService: ApiActionDocService,
@@ -36,6 +38,10 @@ export class DocApplication {
   // document is to be displayed.
   public get whenActionDocReady(): Observable<ActionDocState> {
     return this.actionDocSubject.asObservable();
+  }
+
+  public  get whenResourceCodeReady(): Observable<string> {
+    return this.resourceCodeSubject.asObservable();
   }
 
   // The currently configured connections.
@@ -132,6 +138,15 @@ export class DocApplication {
     }
   }
 
+  public loadResourceCode(resourceDoc: ApiResourceDoc) {
+    this.docService.LoadResourceCode(this.selectedConnection, resourceDoc.resourceName).pipe(
+      take(1),
+      map(code => {
+        this.resourceCodeSubject.next(code);
+      })
+    ).subscribe();
+  }
+
   public closeCurrentActionDoc() {
     if (!this.selectedActionDocState) {
       return;
@@ -145,6 +160,14 @@ export class DocApplication {
     const currNumDocs = this.connectionActionDocs.length;
     this.selectedActionDocState = currNumDocs > 0 ? this.connectionActionDocs[currNumDocs - 1] : null;
     this.actionDocSubject.next(this.selectedActionDocState);
+  }
+
+  public closeAllActionDocs() {
+    if (this.selectedActionDocState && this.connectionActionDocs) {
+      this.connectionActionDocs.length = 0;
+      this.selectedActionDocState = null;
+      this.actionDocSubject.next(this.selectedActionDocState);
+    }
   }
 
   private createResourceItems(actionDoc: ApiActionDoc): SelectionItem[] {
