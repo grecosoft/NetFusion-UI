@@ -107,8 +107,8 @@ export class DocApplication {
     this.docService.LoadApiActionDoc(connection, link).pipe(
       take(1),
       map(actionDoc => {
-        this.selectedActionDocState = new ActionDocState(connection, link);
-        this.selectedActionDocState.setReceivedDocInfo(actionDoc, this.createResourceItems(actionDoc));
+        this.selectedActionDocState = new ActionDocState();
+        this.selectedActionDocState.setReceivedDocInfo(link, actionDoc, this.createResourceItems(actionDoc));
 
         this.connectionActionDocs.push(this.selectedActionDocState);
         this.actionDocSubject.next(this.selectedActionDocState);

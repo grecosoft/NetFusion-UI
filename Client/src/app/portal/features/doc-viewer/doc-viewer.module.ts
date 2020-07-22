@@ -10,6 +10,7 @@ import {DocApplication} from './services/DocApplication';
 import {ResourceDocComponent} from './components/resource-doc/resource-doc.component';
 import {ParamDocComponent} from './components/param-doc/param-doc.component';
 import {CodeDialogComponent} from './components/code-dialog/code-dialog.component';
+import {ResourceNavComponent} from './components/resource-nav/resource-nav.component';
 
 const areaRoutes: Routes = [
   { path: 'action-doc', component: ActionDocComponent }
@@ -28,6 +29,7 @@ const areaRoutes: Routes = [
     ActionDocComponent,
     ParamDocComponent,
     ResourceDocComponent,
+    ResourceNavComponent,
     CodeDialogComponent
   ],
   providers: [

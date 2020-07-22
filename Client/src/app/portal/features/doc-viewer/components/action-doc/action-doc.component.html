@@ -80,6 +80,13 @@
       </dd>
     </ng-container>
 
+    <ng-container *ngIf="actionDoc.bodyParams.length > 0">
+      <td>Action Body</td>
+      <dd>
+        <app-resource-nav [actionDocState]="bodyActionDocState"></app-resource-nav>
+      </dd>
+    </ng-container>
+
     <mat-divider class="divider"></mat-divider>
 
     <ng-container *ngIf="actionDoc.responseDocs.length > 0">
@@ -107,22 +114,10 @@
 
                 <!-- Selected Resource Path -->
                 <div fxLayout="row" class="resource-path">
-                  <ng-container *ngFor="let resource of currentActionDocState.visitedResourceDocs">
-                    <span>&#047;</span>
-                    <span><a href="javascript: void(0)" (click)="onVisitedResourceSelected(resource)">{{resource.resourceName}}</a></span>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
+                  <app-resource-nav [actionDocState]="currentActionDocState">
 
-            <!--Resource Details-->
-            <div fxLayout="row" fxFill>
-              <div fxLayout="column" fxFill>
-                <app-resource-doc [resourceDoc]="currentActionDocState.currentResourceDoc"
-                      (onChildResourceSelected)="onChildResourceSelected($event)"
-                      (onRelationSelected)="onNavToActionDoc($event)"
-                      (onShowResourceCode)="onLoadResourceCode($event)">
-                </app-resource-doc>
+                  </app-resource-nav>
+                </div>
               </div>
             </div>
           </div>

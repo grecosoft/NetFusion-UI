@@ -5,6 +5,7 @@ export class ApiActionDoc {
   routeParams: ApiParameterDoc[];
   queryParams: ApiParameterDoc[];
   headerParams: ApiParameterDoc[];
+  bodyParams: ApiParameterDoc[];
   responseDocs: ApiResponseDoc[];
 }
 
@@ -20,6 +21,7 @@ export class ApiParameterDoc {
   defaultValue: string;
   isOptional: boolean;
   description: string;
+  resourceDoc: ApiResourceDoc;
 }
 
 export class ApiPropertyDoc {

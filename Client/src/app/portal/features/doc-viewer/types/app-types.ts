@@ -10,12 +10,7 @@ import {Link} from '../../../../common/client/Resource';
 // state of their navigations restored.
 export class ActionDocState {
 
-  constructor(
-    // The link for which documentation is to be retrieved and the
-    // connection of the corresponding WebApi.
-    public connection: ApiConnection,
-    public link: Link) {
-  }
+  public link: Link;
 
   // The documentation associated with WebApi action to which the
   // the link corresponds.
@@ -30,7 +25,8 @@ export class ActionDocState {
   // the following records the hierarchy transversed.
   public visitedResourceDocs: ApiResourceDoc[] = [];
 
-  public setReceivedDocInfo(actionDoc: ApiActionDoc, responseItems: SelectionItem[]) {
+  public setReceivedDocInfo(link: Link, actionDoc: ApiActionDoc, responseItems: SelectionItem[]) {
+    this.link = link;
     this.actionDoc = actionDoc;
     this.responseItems = responseItems;
 

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
 import {DocApplication} from '../../services/DocApplication';
-import {ApiActionDoc, ApiRelationDoc, ApiResourceDoc, ApiResponseDoc} from '../../types/doc-types';
+import {ApiActionDoc, ApiResourceDoc, ApiResponseDoc} from '../../types/doc-types';
 import {ActionDocNavInfo, ActionDocState, CodeDialogData} from '../../types/app-types';
 import {Link} from '../../../../../common/client/Resource';
 import {ApiConnection} from '../../../../../types/connection-types';
@@ -31,6 +31,8 @@ export class ActionDocComponent implements OnInit, OnDestroy{
   // response document.
   public currentActionDocState: ActionDocState;
   public selectedResponseDoc: ApiResponseDoc;
+
+  public bodyActionDocState: ActionDocState;
 
   private actionDocReadySubscription: Subscription = null;
   private codeResourceSubscription: Subscription = null;
@@ -61,8 +63,18 @@ export class ActionDocComponent implements OnInit, OnDestroy{
   private subscribeToActionDocLoaded() {
 
     this.actionDocReadySubscription = this.application.whenActionDocReady.subscribe(actionDocState => {
+      if (actionDocState === null) {
+        return;
+      }
+
       this.currentActionDocState = actionDocState;
-      this.selectedResponseDoc = actionDocState?.currentResponseDoc;
+      this.selectedResponseDoc = actionDocState.currentResponseDoc;
+
+      // Create state management for optional resource posted to action body.
+      if (actionDocState.actionDoc.bodyParams.length > 0) {
+        this.bodyActionDocState = new ActionDocState();
+        this.bodyActionDocState.recordVisitedResourceDoc(actionDocState.actionDoc.bodyParams[0].resourceDoc);
+      }
     });
 
     this.codeResourceSubscription = this.application.whenResourceCodeReady
@@ -87,10 +99,6 @@ export class ActionDocComponent implements OnInit, OnDestroy{
 
   public onActionResponseSelected() {
     this.currentActionDocState.setCurrentResponseDoc(this.selectedResponseDoc);
-  }
-
-  public onChildResourceSelected(resourceDoc: ApiResourceDoc) {
-    this.currentActionDocState.recordVisitedResourceDoc(resourceDoc);
   }
 
   public get isCloseDisabled(): boolean {
@@ -118,30 +126,6 @@ export class ActionDocComponent implements OnInit, OnDestroy{
         this.application.closeAllActionDocs();
       }
     });
-  }
-
-  // Called when a document is to be loaded for a selected link
-  // associated when a resource of the current document.
-  public onNavToActionDoc(relationDoc: ApiRelationDoc) {
-
-    const link: Link = {
-      docQuery: relationDoc.hRef,
-      href: relationDoc.hRef,
-      name: relationDoc.name,
-      methods: [relationDoc.method],
-      templated: true
-    };
-
-    this.application.loadRelatedActionDoc(link);
-  }
-
-  public onLoadResourceCode(resourceDoc: ApiResourceDoc) {
-    this.application.loadResourceCode(resourceDoc);
-  }
-
-  // Called when the user moves back to a parent loaded resource document.
-  public onVisitedResourceSelected(resourceDoc: ApiResourceDoc) {
-    this.currentActionDocState.setCurrentVisitedResourceDoc(resourceDoc);
   }
 
   public ngOnDestroy(): void {
