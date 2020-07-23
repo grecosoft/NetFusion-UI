@@ -1,0 +1,14 @@
+.resource-path {
+  margin-left: 50px;
+  a {
+    color: black;
+    text-decoration: none;
+    :visited {
+      text-decoration: none;
+    }
+    :link {
+      text-decoration: none;
+      color: black;
+    }
+  }
+}

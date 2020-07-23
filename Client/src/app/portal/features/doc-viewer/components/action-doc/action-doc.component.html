@@ -93,34 +93,19 @@
       <dt class="response-docs">Responses</dt>
       <dd style="margin-inline-start: 0">
 
-        <div fxLayout="row" fxFill>
-          <div fxLayout="column" fxFill>
+        <div>
+          <mat-form-field class="response-list">
+            <mat-select [(value)]="selectedResponseDoc" (selectionChange)="onActionResponseSelected()">
+              <mat-option *ngFor="let item of currentActionDocState.responseItems" [value]="item.objKey">
+                {{item.displayValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-            <!--  Navigation-->
-            <div fxLayout="row" fxFill>
+          <app-resource-nav [actionDocState]="currentActionDocState">
 
-              <div fxLayout="column" fxFlex>
+          </app-resource-nav>
 
-                <!-- Response Resource Selection -->
-                <div fxLayout="row">
-                  <mat-form-field class="response-list">
-                    <mat-select [(value)]="selectedResponseDoc" (selectionChange)="onActionResponseSelected()">
-                      <mat-option *ngFor="let item of currentActionDocState.responseItems" [value]="item.objKey">
-                        {{item.displayValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-
-                <!-- Selected Resource Path -->
-                <div fxLayout="row" class="resource-path">
-                  <app-resource-nav [actionDocState]="currentActionDocState">
-
-                  </app-resource-nav>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </dd>
     </ng-container>

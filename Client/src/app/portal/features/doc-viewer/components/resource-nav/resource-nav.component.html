@@ -1,10 +1,10 @@
-<div fxLayout="row" class="resource-path">
+<div class="resource-path">
   <ng-container *ngFor="let resource of actionDocState.visitedResourceDocs">
     <span>&#047;</span>
     <span><a href="javascript: void(0)" (click)="onVisitedResourceSelected(resource)">{{resource.resourceName}}</a></span>
   </ng-container>
 </div>
-<div fxLayout="row" fxFill>
+<div>
   <app-resource-doc [resourceDoc]="actionDocState.currentResourceDoc"
         (onChildResourceSelected)="onChildResourceSelected($event)"
         (onRelationSelected)="onNavToActionDoc($event)"
