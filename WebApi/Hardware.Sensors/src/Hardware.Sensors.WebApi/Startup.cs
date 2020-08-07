@@ -11,6 +11,7 @@ using Hardware.Sensors.Domain.Plugin;
 using Hardware.Sensors.Infra.Plugin;
 using Hardware.Sensors.WebApi.NetFusion.Messaging;
 using Hardware.Sensors.WebApi.Plugin;
+using NetFusion.Rest.CodeGen.Plugin;
 using NetFusion.Rest.Docs.Plugin;
 
 namespace Hardware.Sensors.WebApi
@@ -33,7 +34,8 @@ namespace Hardware.Sensors.WebApi
                 .AddMessaging()
                 .AddRest()
                 .AddRestDocs()
- 
+                .AddRestCodeGen()
+
                 .AddPlugin<InfraPlugin>()
                 .AddPlugin<AppPlugin>()
                 .AddPlugin<DomainPlugin>()
@@ -62,7 +64,8 @@ namespace Hardware.Sensors.WebApi
             app.UseRouting();
             app.UseAuthorization();
             app.UseRestDocs();
-
+            app.UseRestCodeGen();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

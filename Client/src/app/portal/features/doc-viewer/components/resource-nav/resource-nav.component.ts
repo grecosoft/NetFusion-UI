@@ -30,7 +30,7 @@ export class ResourceNavComponent {
       docQuery: relationDoc.hRef,
       href: relationDoc.hRef,
       name: relationDoc.name,
-      methods: [relationDoc.method],
+      method: relationDoc.method,
       templated: true
     };
 

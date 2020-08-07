@@ -11,17 +11,18 @@
     <ProjectReference Include="..\Components\Hardware.Sensors.Infra\Hardware.Sensors.Infra.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NetFusion.Common" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Base" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Bootstrap" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Builder" Version="9.9.29" />
+    <PackageReference Include="NetFusion.Common" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Base" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Bootstrap" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Builder" Version="9.9.41" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NetFusion.Rest.Docs" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Web.Mvc" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Rest.Common" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Rest.Resources" Version="9.9.29" />
-    <PackageReference Include="NetFusion.Rest.Server" Version="9.9.29" />
+    <PackageReference Include="NetFusion.Rest.CodeGen" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Rest.Docs" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Web.Mvc" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Rest.Common" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Rest.Resources" Version="9.9.41" />
+    <PackageReference Include="NetFusion.Rest.Server" Version="9.9.41" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -30,5 +31,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="HalComments.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 </Project>

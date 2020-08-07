@@ -1,13 +1,13 @@
-using System.Threading.Tasks;
 using Hardware.Sensors.App.Repositories;
-using Hardware.Sensors.Domain.Commands;
 using Hardware.Sensors.Domain.Entities;
 using Hardware.Sensors.WebApi.Models;
+using Hardware.Sensors.WebApi.Models.Management;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetFusion.Messaging;
 using NetFusion.Rest.Common;
-using NetFusion.Rest.Resources.Hal;
+using NetFusion.Rest.Docs;
+using NetFusion.Rest.Resources;
 using NetFusion.Rest.Server.Hal;
 
 namespace Hardware.Sensors.WebApi.Controllers
@@ -38,7 +38,10 @@ namespace Hardware.Sensors.WebApi.Controllers
         /// <param name="id">The identity value of the company resource.</param>
         /// <returns>Company resource model.</returns>
         [HttpGet("{id}"), 
-         ProducesResponseType(typeof(CompanyModel), StatusCodes.Status200OK)]
+            ProducesResponseType(typeof(CompanyModel), StatusCodes.Status200OK),
+            ProducesResponseType(typeof(LocationModel), StatusCodes.Status202Accepted),
+            EmbeddedResource(typeof(CompanyModel), typeof(LocationModel), "current-address"),
+            EmbeddedResource(typeof(CompanyModel), typeof(SensorModel), "active-sensors", true)]
         public IActionResult GetCompany(string id)
         {
             Company company = _companyRepo.ReadCompany(id);
@@ -51,13 +54,20 @@ namespace Hardware.Sensors.WebApi.Controllers
             return Ok(companyRes);
         }
 
+        /// <summary>
+        /// Registers new company.
+        /// </summary>
+        /// <param name="company">Object containing the data.</param>
+        /// <returns></returns>
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterCompany([FromBody]RegisterCompanyCommand command)
+        public IActionResult RegisterCompany([FromBody]CompanyModel company)
         {
-            Company company = await _messaging.SendAsync(command);
-            
-            HalResource<CompanyModel> companyRes = BuildCompanyResource(company);
-            return Ok(companyRes);
+            // Company company = await _messaging.SendAsync(command);
+            //
+            // HalResource<CompanyModel> companyRes = BuildCompanyResource(company);
+            // return Ok(companyRes);
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]

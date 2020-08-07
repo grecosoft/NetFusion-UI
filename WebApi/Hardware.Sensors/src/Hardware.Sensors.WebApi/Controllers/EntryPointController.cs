@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-using Hardware.Sensors.Domain.Commands;
+﻿using Hardware.Sensors.WebApi.Models;
 using Hardware.Sensors.WebApi.Models.EntryPoint;
 using Microsoft.AspNetCore.Mvc;
 using NetFusion.Rest.Resources;
-using NetFusion.Rest.Resources.Hal;
 using NetFusion.Rest.Server.Hal;
 
 namespace Hardware.Sensors.WebApi.Controllers
@@ -38,7 +36,7 @@ namespace Hardware.Sensors.WebApi.Controllers
                     {
                         meta.UrlTemplate<IActionResult>("all-ids", c => c.GetContactIds);
                         meta.UrlTemplate<string, IActionResult>("companies", c => c.GetCompany);
-                        meta.UrlTemplate<RegisterCompanyCommand, Task<IActionResult>>("register-company", c => c.RegisterCompany);
+                        meta.UrlTemplate<CompanyModel, IActionResult>("register-company", c => c.RegisterCompany);
                     });
             }
         }

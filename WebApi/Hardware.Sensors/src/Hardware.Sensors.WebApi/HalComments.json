@@ -1,0 +1,12 @@
+{
+  "embeddedComments": [
+    {
+      "embeddedName":  "active-sensors", "parentResourceName":  "CompanyRes", "childResourceName":  "SensorResource", 
+      "comments":  "These are the sensors that are currently enabled and running."
+    }
+  ],
+  
+  "relationComments": [
+    
+  ]
+}

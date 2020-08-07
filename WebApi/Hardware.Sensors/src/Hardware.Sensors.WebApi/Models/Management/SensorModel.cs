@@ -1,5 +1,8 @@
-﻿namespace Hardware.Sensors.WebApi.Models.Management
+﻿using NetFusion.Rest.Resources;
+
+namespace Hardware.Sensors.WebApi.Models.Management
 {
+    [Resource("SensorRes")]
     public class SensorModel
     {
         public string SensorId { get; set; }

@@ -14,7 +14,7 @@
       <mat-label>Action Documents</mat-label>
       <mat-select (selectionChange)="onActionLinkSelected($event.value)" [value]="currentActionDocState?.link">
         <mat-option *ngFor="let actionDocLink of application.connectionActionDocLinks" [value]="actionDocLink">
-          ({{actionDocLink.methods[0]}}) {{actionDocLink.docQuery}}
+          ({{actionDocLink.method}}) {{actionDocLink.docQuery}}
         </mat-option>
       </mat-select>
     </mat-form-field>

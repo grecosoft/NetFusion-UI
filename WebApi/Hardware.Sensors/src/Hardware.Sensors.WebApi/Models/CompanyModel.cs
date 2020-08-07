@@ -8,7 +8,7 @@ namespace Hardware.Sensors.WebApi.Models
     /// Company resource containing information about the company
     /// having registered devices for monitoring.
     /// </summary>
-    [ExposedName("company-resource")]
+    [Resource("CompanyRes")]
     public class CompanyModel
     {
         /// <summary>
@@ -46,6 +46,8 @@ namespace Hardware.Sensors.WebApi.Models
         /// The date the company started doing business.
         /// </summary>
         public string DateEstablished { get; private set; }
+        
+        public LocationModel ChildTest { get; private set; }
 
         public static CompanyModel FromEntity(Company entity)
         {
