@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetFusion.Messaging;
 using NetFusion.Rest.Common;
 using NetFusion.Rest.Docs;
-using NetFusion.Rest.Resources.Hal;
+using NetFusion.Rest.Resources;
 using NetFusion.Rest.Server.Hal;
 #pragma warning disable 4014
 

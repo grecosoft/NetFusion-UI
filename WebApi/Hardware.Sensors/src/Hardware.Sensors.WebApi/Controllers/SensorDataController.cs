@@ -1,7 +1,7 @@
 using System;
 using Hardware.Sensors.WebApi.Models.Management;
 using Microsoft.AspNetCore.Mvc;
-using NetFusion.Rest.Resources.Hal;
+using NetFusion.Rest.Server.Hal;
 
 namespace Hardware.Sensors.WebApi.Controllers
 {

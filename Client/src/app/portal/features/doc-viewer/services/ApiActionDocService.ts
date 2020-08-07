@@ -27,7 +27,7 @@ export class ApiActionDocService {
 
     const request = ApiRequest.get(connection.docPath, config => {
       config.settings = RequestSettings.create(s => {
-          s.queryString.addParam('method', link.methods[0]);
+          s.queryString.addParam('method', link.method);
           s.queryString.addParam('doc', link.docQuery);
       });
     });

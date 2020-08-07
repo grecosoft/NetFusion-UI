@@ -92,7 +92,7 @@ export class ApiRequest {
      * @returns The created ApiRequest instance.
      */
     public static fromLink(link: Link, config?: (request: ApiRequest) => void): ApiRequest {
-        return ApiRequest.create(link.href, link.methods[0], config);
+        return ApiRequest.create(link.href, link.method, config);
     }
 
     private static isTemplateUrl(url: string): boolean {

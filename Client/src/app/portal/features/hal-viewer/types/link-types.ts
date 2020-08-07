@@ -22,7 +22,7 @@ export class LinkViewModel {
      }
 
      public get method(): string {
-         return this.link.methods[0];
+         return this.link.method;
      }
 
      public get associatedLink(): Link {
@@ -30,7 +30,7 @@ export class LinkViewModel {
      }
 
      public get hasContentBody(): boolean {
-         return this.link.methods[0] === 'POST' || this.link.methods[0] === 'PUT';
+         return this.link.method === 'POST' || this.link.method === 'PUT';
      }
 }
 
@@ -52,7 +52,7 @@ export class PopulatedLink {
   }
 
   public get method(): string {
-    return this.link.methods[0];
+    return this.link.method;
   }
 
   public get modifiesResourceState(): boolean {

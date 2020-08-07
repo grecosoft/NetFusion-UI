@@ -95,7 +95,7 @@ export class DocApplication {
     this.setCurrentConn(connection);
 
     this.selectedActionDocState = _.find(this.connectionActionDocs,
-        ads => ads.link.methods[0] === link.methods[0] && ads.link.docQuery === link.docQuery);
+        ads => ads.link.method === link.method && ads.link.docQuery === link.docQuery);
 
     // If the action document has already been loaded, notify subscribes.
     if (this.selectedActionDocState) {

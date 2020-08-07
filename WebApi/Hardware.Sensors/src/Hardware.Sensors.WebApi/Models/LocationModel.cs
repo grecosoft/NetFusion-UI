@@ -1,4 +1,5 @@
     using Hardware.Sensors.Domain.Entities;
+    using Hardware.Sensors.WebApi.Models.Management;
     using NetFusion.Rest.Resources;
 
     namespace Hardware.Sensors.WebApi.Models
@@ -7,7 +8,7 @@
     /// Represents a company's location specified when the
     /// company was registered.
     /// </summary>
-    [ExposedName("company-location")]
+    [Resource("LocationRes")]
     public class LocationModel
     {
         /// <summary>
@@ -34,6 +35,9 @@
         /// The zip code for the company.
         /// </summary>
         public string ZipCode { get; private set; }
+        
+        
+        public SensorModel Test2 { get; set; }
 
         public static LocationModel FromEntity(Location entity)
         {

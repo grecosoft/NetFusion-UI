@@ -6,7 +6,7 @@ import * as _ from 'lodash';
  */
 export class Link {
     href: string;
-    methods: string[];
+    method: string;
     templated: boolean;
     name?: string;
     title?: string;
