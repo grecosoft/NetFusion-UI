@@ -18,7 +18,7 @@ import {ConfirmResponseTypes, ConfirmSettings} from '../../../../../common/dialo
 })
 export class EntryViewComponent implements OnInit {
 
-  // The currently selected connection and root entry resource  of the service API.
+  // The currently selected connection and root entry resource of the service API.
   private rootEntry: IHalEntryPointResource;
   private entryResourceMap = new Map<string, IHalResource>();
 
